@@ -1,0 +1,393 @@
+{
+  "capacity": [
+    {
+      "bands": "B3",
+      "capacity_mbps": "50.40947520000000000",
+      "users_no_ca": 6,
+      "users_ca": 6,
+      "online_sectors": 53,
+      "final_legacy_sectors": 3,
+      "final_one_pool_sectors": 3
+    },
+    {
+      "bands": "B1",
+      "capacity_mbps": "37.80710640000000000",
+      "users_no_ca": 4,
+      "users_ca": 4,
+      "online_sectors": 80,
+      "final_legacy_sectors": 4,
+      "final_one_pool_sectors": 4
+    },
+    {
+      "bands": "B7",
+      "capacity_mbps": "25.20473760000000000",
+      "users_no_ca": 3,
+      "users_ca": 3,
+      "online_sectors": 106,
+      "final_legacy_sectors": 5,
+      "final_one_pool_sectors": 5
+    },
+    {
+      "bands": "B3+B1",
+      "capacity_mbps": "88.21658160000000000",
+      "users_no_ca": 10,
+      "users_ca": 11,
+      "online_sectors": 32,
+      "final_legacy_sectors": 2,
+      "final_one_pool_sectors": 2
+    },
+    {
+      "bands": "B3+B7",
+      "capacity_mbps": "75.61421280000000000",
+      "users_no_ca": 9,
+      "users_ca": 9,
+      "online_sectors": 36,
+      "final_legacy_sectors": 2,
+      "final_one_pool_sectors": 2
+    },
+    {
+      "bands": "B1+B7",
+      "capacity_mbps": "63.01184400000000000",
+      "users_no_ca": 7,
+      "users_ca": 7,
+      "online_sectors": 46,
+      "final_legacy_sectors": 3,
+      "final_one_pool_sectors": 3
+    },
+    {
+      "bands": "B3+B1+B7",
+      "capacity_mbps": "113.42131920000000000",
+      "users_no_ca": 13,
+      "users_ca": 14,
+      "online_sectors": 25,
+      "final_legacy_sectors": 2,
+      "final_one_pool_sectors": 1
+    }
+  ],
+  "reference_points": [
+    {
+      "frequency_mhz": 1800,
+      "horizontal_m": 5,
+      "spatial_m": 7.433034373659253,
+      "exponent": 2,
+      "crs_re_dbm": -0.010299956639812535,
+      "propagation_db": 54.9787729256376,
+      "rsrp_zero_feed_zero_wall_dbm": -51.98907288227741
+    },
+    {
+      "frequency_mhz": 1800,
+      "horizontal_m": 5,
+      "spatial_m": 7.433034373659253,
+      "exponent": 2.5,
+      "crs_re_dbm": -0.010299956639812535,
+      "propagation_db": 59.33460363153047,
+      "rsrp_zero_feed_zero_wall_dbm": -56.34490358817028
+    },
+    {
+      "frequency_mhz": 1800,
+      "horizontal_m": 5,
+      "spatial_m": 7.433034373659253,
+      "exponent": 3,
+      "crs_re_dbm": -0.010299956639812535,
+      "propagation_db": 63.69043433742334,
+      "rsrp_zero_feed_zero_wall_dbm": -60.70073429406315
+    },
+    {
+      "frequency_mhz": 1800,
+      "horizontal_m": 10,
+      "spatial_m": 11.412712210513327,
+      "exponent": 2,
+      "crs_re_dbm": -0.010299956639812535,
+      "propagation_db": 58.70322742178174,
+      "rsrp_zero_feed_zero_wall_dbm": -55.71352737842155
+    },
+    {
+      "frequency_mhz": 1800,
+      "horizontal_m": 10,
+      "spatial_m": 11.412712210513327,
+      "exponent": 2.5,
+      "crs_re_dbm": -0.010299956639812535,
+      "propagation_db": 63.99017175171065,
+      "rsrp_zero_feed_zero_wall_dbm": -61.00047170835046
+    },
+    {
+      "frequency_mhz": 1800,
+      "horizontal_m": 10,
+      "spatial_m": 11.412712210513327,
+      "exponent": 3,
+      "crs_re_dbm": -0.010299956639812535,
+      "propagation_db": 69.27711608163955,
+      "rsrp_zero_feed_zero_wall_dbm": -66.28741603827936
+    },
+    {
+      "frequency_mhz": 1800,
+      "horizontal_m": 15,
+      "spatial_m": 15.976545308670458,
+      "exponent": 2,
+      "crs_re_dbm": -0.010299956639812535,
+      "propagation_db": 61.6251076096556,
+      "rsrp_zero_feed_zero_wall_dbm": -58.63540756629541
+    },
+    {
+      "frequency_mhz": 1800,
+      "horizontal_m": 15,
+      "spatial_m": 15.976545308670458,
+      "exponent": 2.5,
+      "crs_re_dbm": -0.010299956639812535,
+      "propagation_db": 67.64252198655296,
+      "rsrp_zero_feed_zero_wall_dbm": -64.65282194319278
+    },
+    {
+      "frequency_mhz": 1800,
+      "horizontal_m": 15,
+      "spatial_m": 15.976545308670458,
+      "exponent": 3,
+      "crs_re_dbm": -0.010299956639812535,
+      "propagation_db": 73.65993636345033,
+      "rsrp_zero_feed_zero_wall_dbm": -70.67023632009014
+    },
+    {
+      "frequency_mhz": 1800,
+      "horizontal_m": 20,
+      "spatial_m": 20.74246851269154,
+      "exponent": 2,
+      "crs_re_dbm": -0.010299956639812535,
+      "propagation_db": 63.892658892062094,
+      "rsrp_zero_feed_zero_wall_dbm": -60.90295884870191
+    },
+    {
+      "frequency_mhz": 1800,
+      "horizontal_m": 20,
+      "spatial_m": 20.74246851269154,
+      "exponent": 2.5,
+      "crs_re_dbm": -0.010299956639812535,
+      "propagation_db": 70.47696108956109,
+      "rsrp_zero_feed_zero_wall_dbm": -67.4872610462009
+    },
+    {
+      "frequency_mhz": 1800,
+      "horizontal_m": 20,
+      "spatial_m": 20.74246851269154,
+      "exponent": 3,
+      "crs_re_dbm": -0.010299956639812535,
+      "propagation_db": 77.06126328706009,
+      "rsrp_zero_feed_zero_wall_dbm": -74.0715632436999
+    },
+    {
+      "frequency_mhz": 2100,
+      "horizontal_m": 5,
+      "spatial_m": 7.433034373659253,
+      "exponent": 2,
+      "crs_re_dbm": 1.2390874094431865,
+      "propagation_db": 56.31770871824986,
+      "rsrp_zero_feed_zero_wall_dbm": -52.078621308806675
+    },
+    {
+      "frequency_mhz": 2100,
+      "horizontal_m": 5,
+      "spatial_m": 7.433034373659253,
+      "exponent": 2.5,
+      "crs_re_dbm": 1.2390874094431865,
+      "propagation_db": 60.67353942414273,
+      "rsrp_zero_feed_zero_wall_dbm": -56.434452014699545
+    },
+    {
+      "frequency_mhz": 2100,
+      "horizontal_m": 5,
+      "spatial_m": 7.433034373659253,
+      "exponent": 3,
+      "crs_re_dbm": 1.2390874094431865,
+      "propagation_db": 65.0293701300356,
+      "rsrp_zero_feed_zero_wall_dbm": -60.790282720592415
+    },
+    {
+      "frequency_mhz": 2100,
+      "horizontal_m": 10,
+      "spatial_m": 11.412712210513327,
+      "exponent": 2,
+      "crs_re_dbm": 1.2390874094431865,
+      "propagation_db": 60.042163214394,
+      "rsrp_zero_feed_zero_wall_dbm": -55.803075804950815
+    },
+    {
+      "frequency_mhz": 2100,
+      "horizontal_m": 10,
+      "spatial_m": 11.412712210513327,
+      "exponent": 2.5,
+      "crs_re_dbm": 1.2390874094431865,
+      "propagation_db": 65.32910754432291,
+      "rsrp_zero_feed_zero_wall_dbm": -61.09002013487972
+    },
+    {
+      "frequency_mhz": 2100,
+      "horizontal_m": 10,
+      "spatial_m": 11.412712210513327,
+      "exponent": 3,
+      "crs_re_dbm": 1.2390874094431865,
+      "propagation_db": 70.61605187425181,
+      "rsrp_zero_feed_zero_wall_dbm": -66.37696446480862
+    },
+    {
+      "frequency_mhz": 2100,
+      "horizontal_m": 15,
+      "spatial_m": 15.976545308670458,
+      "exponent": 2,
+      "crs_re_dbm": 1.2390874094431865,
+      "propagation_db": 62.96404340226786,
+      "rsrp_zero_feed_zero_wall_dbm": -58.724955992824675
+    },
+    {
+      "frequency_mhz": 2100,
+      "horizontal_m": 15,
+      "spatial_m": 15.976545308670458,
+      "exponent": 2.5,
+      "crs_re_dbm": 1.2390874094431865,
+      "propagation_db": 68.98145777916523,
+      "rsrp_zero_feed_zero_wall_dbm": -64.74237036972204
+    },
+    {
+      "frequency_mhz": 2100,
+      "horizontal_m": 15,
+      "spatial_m": 15.976545308670458,
+      "exponent": 3,
+      "crs_re_dbm": 1.2390874094431865,
+      "propagation_db": 74.99887215606259,
+      "rsrp_zero_feed_zero_wall_dbm": -70.7597847466194
+    },
+    {
+      "frequency_mhz": 2100,
+      "horizontal_m": 20,
+      "spatial_m": 20.74246851269154,
+      "exponent": 2,
+      "crs_re_dbm": 1.2390874094431865,
+      "propagation_db": 65.23159468467435,
+      "rsrp_zero_feed_zero_wall_dbm": -60.99250727523116
+    },
+    {
+      "frequency_mhz": 2100,
+      "horizontal_m": 20,
+      "spatial_m": 20.74246851269154,
+      "exponent": 2.5,
+      "crs_re_dbm": 1.2390874094431865,
+      "propagation_db": 71.81589688217335,
+      "rsrp_zero_feed_zero_wall_dbm": -67.57680947273016
+    },
+    {
+      "frequency_mhz": 2100,
+      "horizontal_m": 20,
+      "spatial_m": 20.74246851269154,
+      "exponent": 3,
+      "crs_re_dbm": 1.2390874094431865,
+      "propagation_db": 78.40019907967235,
+      "rsrp_zero_feed_zero_wall_dbm": -74.16111167022916
+    },
+    {
+      "frequency_mhz": 2600,
+      "horizontal_m": 5,
+      "spatial_m": 7.433034373659253,
+      "exponent": 2,
+      "crs_re_dbm": 3.0,
+      "propagation_db": 58.172789782987834,
+      "rsrp_zero_feed_zero_wall_dbm": -52.172789782987834
+    },
+    {
+      "frequency_mhz": 2600,
+      "horizontal_m": 5,
+      "spatial_m": 7.433034373659253,
+      "exponent": 2.5,
+      "crs_re_dbm": 3.0,
+      "propagation_db": 62.528620488880705,
+      "rsrp_zero_feed_zero_wall_dbm": -56.528620488880705
+    },
+    {
+      "frequency_mhz": 2600,
+      "horizontal_m": 5,
+      "spatial_m": 7.433034373659253,
+      "exponent": 3,
+      "crs_re_dbm": 3.0,
+      "propagation_db": 66.88445119477358,
+      "rsrp_zero_feed_zero_wall_dbm": -60.884451194773575
+    },
+    {
+      "frequency_mhz": 2600,
+      "horizontal_m": 10,
+      "spatial_m": 11.412712210513327,
+      "exponent": 2,
+      "crs_re_dbm": 3.0,
+      "propagation_db": 61.897244279131975,
+      "rsrp_zero_feed_zero_wall_dbm": -55.897244279131975
+    },
+    {
+      "frequency_mhz": 2600,
+      "horizontal_m": 10,
+      "spatial_m": 11.412712210513327,
+      "exponent": 2.5,
+      "crs_re_dbm": 3.0,
+      "propagation_db": 67.18418860906088,
+      "rsrp_zero_feed_zero_wall_dbm": -61.18418860906088
+    },
+    {
+      "frequency_mhz": 2600,
+      "horizontal_m": 10,
+      "spatial_m": 11.412712210513327,
+      "exponent": 3,
+      "crs_re_dbm": 3.0,
+      "propagation_db": 72.47113293898978,
+      "rsrp_zero_feed_zero_wall_dbm": -66.47113293898978
+    },
+    {
+      "frequency_mhz": 2600,
+      "horizontal_m": 15,
+      "spatial_m": 15.976545308670458,
+      "exponent": 2,
+      "crs_re_dbm": 3.0,
+      "propagation_db": 64.81912446700584,
+      "rsrp_zero_feed_zero_wall_dbm": -58.819124467005835
+    },
+    {
+      "frequency_mhz": 2600,
+      "horizontal_m": 15,
+      "spatial_m": 15.976545308670458,
+      "exponent": 2.5,
+      "crs_re_dbm": 3.0,
+      "propagation_db": 70.8365388439032,
+      "rsrp_zero_feed_zero_wall_dbm": -64.8365388439032
+    },
+    {
+      "frequency_mhz": 2600,
+      "horizontal_m": 15,
+      "spatial_m": 15.976545308670458,
+      "exponent": 3,
+      "crs_re_dbm": 3.0,
+      "propagation_db": 76.85395322080058,
+      "rsrp_zero_feed_zero_wall_dbm": -70.85395322080058
+    },
+    {
+      "frequency_mhz": 2600,
+      "horizontal_m": 20,
+      "spatial_m": 20.74246851269154,
+      "exponent": 2,
+      "crs_re_dbm": 3.0,
+      "propagation_db": 67.08667574941234,
+      "rsrp_zero_feed_zero_wall_dbm": -61.086675749412336
+    },
+    {
+      "frequency_mhz": 2600,
+      "horizontal_m": 20,
+      "spatial_m": 20.74246851269154,
+      "exponent": 2.5,
+      "crs_re_dbm": 3.0,
+      "propagation_db": 73.67097794691134,
+      "rsrp_zero_feed_zero_wall_dbm": -67.67097794691134
+    },
+    {
+      "frequency_mhz": 2600,
+      "horizontal_m": 20,
+      "spatial_m": 20.74246851269154,
+      "exponent": 3,
+      "crs_re_dbm": 3.0,
+      "propagation_db": 80.25528014441032,
+      "rsrp_zero_feed_zero_wall_dbm": -74.25528014441032
+    }
+  ]
+}
