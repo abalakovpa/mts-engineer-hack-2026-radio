@@ -85,14 +85,15 @@ def style(ws,widths):
         ws.row_dimensions[row[0].row].height=max(21,line_count*15+6)
 
 def local_groups(ids,ants,zone):
-    # Choose three 4-antenna groups by actual tray-route length, not label order.
+    # Partition each zone into 4-antenna groups by actual tray-route length.
+    count=len(ids);assert count%4==0
     points=[(ants[i]['x'],ants[i]['y']) for i in ids]
     hubs=[zone]+[min((projection(p,V[a],V[b]) for a,b in EDGES),key=lambda v:v[2])[0]
                  for p in points]
     costs=[[route(h,p)[0] for p in points] for h in hubs]
     feeds=[route(zone,h)[0] for h in hubs]
     best_group={}
-    for subset in combinations(range(12),4):
+    for subset in combinations(range(count),4):
         h=min(range(len(hubs)),key=lambda j:feeds[j]+sum(costs[j][i] for i in subset))
         mask=sum(1<<i for i in subset)
         best_group[mask]=(feeds[h]+sum(costs[h][i] for i in subset),h)
@@ -100,15 +101,15 @@ def local_groups(ids,ants,zone):
     def solve(mask):
         if mask==0:return 0,()
         first=(mask & -mask).bit_length()-1
-        rest=[i for i in range(first+1,12) if mask&(1<<i)]
+        rest=[i for i in range(first+1,count) if mask&(1<<i)]
         options=[]
         for peers in combinations(rest,3):
             sub=(1<<first)+sum(1<<i for i in peers)
             cost,tail=solve(mask^sub)
             options.append((best_group[sub][0]+cost,(sub,)+tail))
         return min(options)
-    _,partition=solve((1<<12)-1)
-    return [([ids[i] for i in range(12) if mask&(1<<i)],hubs[best_group[mask][1]]) for mask in partition]
+    _,partition=solve((1<<count)-1)
+    return [([ids[i] for i in range(count) if mask&(1<<i)],hubs[best_group[mask][1]]) for mask in partition]
 
 def main():
     for p in (DESIGN,EQUIP,PRES):p.mkdir(parents=True,exist_ok=True)
@@ -125,21 +126,29 @@ def main():
     # Additional proposed antennas for the large public zone (490.62 m²).
     ants.extend(dict(room='101',x=x,y=y,basis='Дополнительная проектная точка общественной зоны')
                 for x,y in ((10,58),(25,58),(10,40)))
-    assert len(ants)==48
-    # Balanced grouping: 4 trunk groups × 3 subgroups × 4 antennas = 48.
-    available=set(range(len(ants)));groups=[[] for _ in range(4)]
-    for z in range(4):
-        take=sorted(available,key=lambda i:distance((ants[i]['x'],ants[i]['y']),ZONES[z]))[:12]
-        groups[z]=take;available.difference_update(take)
-    assert not available
+    head=V[0];input_file=DESIGN/'project-input.json'
+    if input_file.exists():
+        project_input=json.loads(input_file.read_text())
+        ants=project_input['antennas'];head=tuple(project_input['head'])
+        assert len(ants) in (32,48)
+        groups=[[i for i,a in enumerate(ants) if a['zone']==z] for z in range(1,5)]
+        assert all(len(g)==len(ants)//4 for g in groups)
+    else:
+        assert len(ants)==48
+        available=set(range(len(ants)));groups=[[] for _ in range(4)]
+        for z in range(4):
+            take=sorted(available,key=lambda i:distance((ants[i]['x'],ants[i]['y']),ZONES[z]))[:12]
+            groups[z]=take;available.difference_update(take)
+        assert not available
+    count=len(ants);per_zone=count//4;subgroups=per_zone//4
     trunk=[];subfeeds=[];drops=[]
     for z,ids in enumerate(groups):
-        length,points=route(V[0],ZONES[z]);trunk.append(dict(id=f'T{z+1}',length=length,points=points))
+        length,points=route(head,ZONES[z]);trunk.append(dict(id=f'T{z+1}',length=length,points=points))
         for g,(subset,hub) in enumerate(local_groups(ids,ants,ZONES[z])):
             length,points=route(ZONES[z],hub)
             subfeeds.append(dict(id=f'F{z+1}-{g+1}',length=length,points=points))
             for slot,i in enumerate(subset):
-                a=ants[i];a['id']=f'A{z*12+g*4+slot+1:02d}';a['zone']=z+1
+                a=ants[i];a['id']=f'A{z*per_zone+g*4+slot+1:02d}';a['zone']=z+1
                 a['subgroup']=g+1;a['hub']=hub
                 length,points=route(hub,(a['x'],a['y']))
                 a['length78_m']=trunk[-1]['length']
@@ -160,10 +169,10 @@ def main():
     alpha12={1800:10.09,2100:10.99,2600:11.84+(12.66-11.84)*2/3}
     alpha78={1800:5.21,2100:5.67,2600:6.39}
     # Numeric component losses are explicit estimates, not absent datasheet values.
-    fixed=6+1+10*math.log10(12)+1+0.8+1
-    # All 4 PC221 outputs serve the four zones: its 6 dB already include
-    # the first 4-way division. Do not add log10(4) again. Per-zone tree:
-    # 3-way + 4-way = 12 antennas, excess loss .5 per stage (assumed).
+    fixed=6+1+10*math.log10(per_zone)+1+0.8+1
+    # All 4 PC221 outputs serve the four zones: 6 dB include the first division.
+    # Per-zone tree: 2-way + 4-way for 32, 3-way + 4-way for baseline 48.
+    # Excess loss .5 per stage is assumed, not a supplied datasheet value.
     rf=[]
     for a in ants:
         for f in (1800,2100,2600):
@@ -176,14 +185,15 @@ def main():
                 rf.append(dict(antenna=a['id'],frequency_mhz=f,d_horizontal_m=d,
                                cable_loss_db=cable,total_loss_db=loss,
                                rsrp_dbm=p-loss+3-pl))
-    data=dict(status='Рабочий сценарий; ВК, крепления, потери компонентов и KPI не согласованы',
+    data=dict(status='Проектное решение с явно заданными допущениями; фактические KPI не установлены',
+              head=list(head),topology=dict(zones=4,per_zone=per_zone,subgroups=subgroups,leaf_outputs=4),
               antennas=ants,trunks=trunk,subfeeds=subfeeds,drops=drops,
               fixed_loss_db=fixed,rf_points=rf,
               cable78_installed=2*sum(t['length'] for t in allroutes if t['cable']=='7/8'),
               cable12_installed=2*sum(t['length'] for t in allroutes if t['cable']=='1/2'))
     (DESIGN/'candidate.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
     with (DESIGN/'antenna-schedule.csv').open('w',newline='') as stream:
-        writer=csv.writer(stream,lineterminator='\n');writer.writerow(['ID','room','zone','x_m','y_m','trunk78_m','path12_m'])
+        writer=csv.writer(stream,lineterminator='\n');writer.writerow(['ID','room','zone','x_m','y_m','path78_m','path12_m'])
         for a in ants:writer.writerow([a['id'],a['room'],a['zone'],a['x'],a['y'],a['length78_m'],a['length12_m']])
 
     fig,ax=plt.subplots(figsize=(10,16))
@@ -197,11 +207,11 @@ def main():
         ax.scatter(a['x'],a['y'],s=30,color=color,zorder=5)
         ax.text(a['x']+.25,a['y']+.3,a['id'],fontsize=6,color=color)
     for i,p in enumerate(ZONES):
-        ax.scatter(*p,marker='s',s=65,c=colors[i]);ax.text(p[0]+.4,p[1],f'Z{i+1}: 12 антенн',fontsize=7)
-    ax.scatter(*V[0],marker='*',s=160,c='#14293e');ax.text(V[0][0]-5,V[0][1]+1,'Ввод: предложение',fontsize=8)
+        ax.scatter(*p,marker='s',s=65,c=colors[i]);ax.text(p[0]+.4,p[1],f'Z{i+1}: {per_zone} антенн',fontsize=7)
+    ax.scatter(*head,marker='*',s=160,c='#14293e');ax.text(head[0]-5,head[1]+1,'Проектная ВК',fontsize=8)
     ax.set_xlim(-3,40);ax.set_ylim(-3,66);ax.set_aspect('equal');ax.grid(alpha=.12)
     ax.set_xlabel('CAD X, м');ax.set_ylabel('CAD Y, м')
-    ax.set_title('Кандидат: 1 LTE-пул + 1 DCS-пул, 48 In06\nЧетыре группы фидеров — не четыре LTE-сектора',fontsize=11)
+    ax.set_title(f'Проект: 1 LTE-пул + 1 DCS-пул, {count} In06\nЧетыре группы фидеров — не четыре LTE-сектора',fontsize=11)
     fig.savefig(DESIGN/'candidate-layout.png',dpi=180,bbox_inches='tight')
     fig.savefig(DESIGN/'candidate-layout.pdf',bbox_inches='tight');plt.close(fig)
 
@@ -223,10 +233,11 @@ def main():
 
     wb=Workbook();ws=wb.active;ws.title='Спецификация'
     ws.append(['Категория оборудования','Наименование / модель','Основные характеристики','Количество','Единица измерения'])
-    quantities={5:48,6:0,7:8,8:6,9:1,10:8,11:24,12:0,13:0,14:0,15:0,
+    quantities={5:count,6:0,7:8,8:6,9:1+(8 if subgroups==2 else 0),
+                10:8 if subgroups==3 else 0,11:8*subgroups,12:0,13:0,14:0,15:0,
                 16:math.ceil(data['cable12_installed']*1.1),17:math.ceil(data['cable78_installed']*1.1),
                 19:4*sum(t['cable']=='1/2' for t in allroutes),
-                20:4*sum(t['cable']=='7/8' for t in allroutes),23:141}
+                20:4*sum(t['cable']=='7/8' for t in allroutes),23:45+2*count}
     characteristics={
         5:'Потолочная omni, MIMO; 800–2700 МГц; G=3 dBi; H=360°. Вертикальная диаграмма не предоставлена.',
         7:'Триплексер 1710–1880 / 1920–2170 / 2500–2690 МГц, одинарный; 4.3-10F; IP67. Insertion loss не дано.',
@@ -249,18 +260,18 @@ def main():
     status=wb.create_sheet('Статус');status.append(['Позиция','Обоснование / ограничение'])
     for row in [
         ('Проект','Рабочий кандидат, не закупочная спецификация и не подтверждённый проект'),
-        ('48 антенн','45 найденных меток помещений + 3 точки общественной зоны. Метки не являются центроидами; крепления требуют проверки. Помещение 89 не локализовано.'),
-        ('Дерево на одну MIMO-ветвь','Для каждого диапазона PC221 выдаёт 4 выхода → 4 PC211 → 4 зоны. В каждой зоне PC251 3-way → 3 PC252 4-way → 12 антенн. Две ветви → 8 PC251 + 24 PC252. Отдельного головного 4-way после гибрида нет.'),
+        (f'{count} антенн','Проектные точки выбраны из CAD-привязок и сравнения покрытия. Координаты, распределение и исходные IDs — в project-input.json. Помещение 89 не локализовано.'),
+        ('Дерево на одну MIMO-ветвь',f'PC221: 4 выхода → 4 PC211 → 4 зоны. В каждой зоне {subgroups}-way делитель → {subgroups} PC252 4-way → {per_zone} антенн. Отдельного головного 4-way после гибрида нет.'),
         ('PC221','6: 3 диапазона × 2 MIMO-ветви. По три входа для операторов; четвёртый B3 для GSM МТС. Все четыре выхода используются. Неизвестные мощности других операторов не подставлены.'),
-        ('PC250','1: деление одного DCS-пула на два гибрида B3. DCS не становится MIMO; GSM-потери дополнительно включают это 2-way деление.'),
+        ('PC250',f'{quantities[9]}: один делит DCS-пул на два гибрида B3'+('; восемь делят четыре зоны двух MIMO-ветвей на две подгруппы.' if subgroups==2 else '.')),
         ('PC211','8: 4 группы × 2 MIMO-ветви, по одному объединению B3/B1/B7 на каждый головной фидер'),
         ('Фидеры','7/8 — все головные и подгрупповые участки и оконечные длиннее 15 м; 1/2 — короткие оконечные. Метраж схемы ×2 MIMO, затем +10% отдельного закупочного резерва. Правило 15 м — проектное решение, джамперы отдельно.'),
         ('Разъёмы','По два на каждый изготовляемый участок фидера; антенны/устройства/джамперы — 4.3-10, интерфейсы БС не подтверждены'),
-        ('141 джампер','18 входов LTE (3 оператора × 3 диапазона × 2 ветви) + 1 вход GSM к PC250 + 2 связи PC250 к B3-гибридам + 24 связи гибридов с триплексерами + 96 антенных джамперов. Для МТС без подключения остальных операторов используются 129, 12 зарезервированы. Порты БС и пригодность длины 3 м не подтверждены.'),
+        (f'{45+2*count} джамперов',f'18 входов LTE + 1 вход GSM + 2 связи после PC250 + 24 связи PC221→PC211 + {2*count} антенных. При подключённом только МТС 12 входных связей зарезервированы. Порты БС и пригодность длины 3 м не подтверждены.'),
         ('Неиспользуемые порты','У B1/B7 гибридов остаются 4 незадействованных входа, а до подключения других операторов ещё 12. Нужны согласованные 50-омные нагрузки: их нет в разрешённом перечне; это открытое несоответствие, не выдуманная позиция спецификации.'),
         ('Потери компонентов','Кроме 6 дБ PC221 и идеального деления паспортные потери не заданы. Использованы сценарные оценки, см. RF-лист.'),
         ('Пожарное исполнение','XLSX требует огнестойкую безгалогеновую оболочку; PDF описывают PE-варианты. Нужна допустимая модификация.'),
-        ('ВК','В исходном DWG не найдена; ввод в районе 118 — предложение. Пользователь подтвердил отсутствие уточнения.'),
+        ('ВК',f'Проектная координата {head}; существующая ВК в DWG не найдена. Выделение части 104.2 под аппаратную — собственное решение, не исходное назначение комнаты.' if input_file.exists() else 'Ввод в районе 118 — предложение, существующая ВК не установлена.'),
         ('Удалённое управление','В перечне нет подходящих управляемых модулей. Пассивная схема не подтверждает требование регулировки на удалённых модулях.'),
     ]:status.append(row)
     style(status,{'A':28,'B':120})
@@ -302,9 +313,9 @@ def main():
         'Распределение антенн не создаёт новые секторы'],notes='45 секунд. Объяснить изменение k(1)=1: пространственный перекос внутри одного пула не повышает суммарный спрос. Не заявлять запас на временные пики.')
     slide('Проект на фактической CAD-подложке',[
         '46 помещений, итог экспликации 2097,06 м²',
-        '48 In06: рабочий вариант для проверки',
+        f'{count} In06: схема после расчётного сравнения',
         '4 группы фидеров, 2 независимые MIMO-ветви',
-        'ВК не найдена: точка ввода требует согласования',
+        'Проектная ВК: часть 104.2; собственное допущение',
         'Помещение 89 ещё не локализовано'],DESIGN/'candidate-layout.png',notes='50 секунд. План — кандидат, а не утверждённое размещение. Точки привязаны к меткам помещений. Ограничения проговорить.')
     worst=max(rf,key=lambda r:r['total_loss_db'])
     slide('RSRP: расчёт и существенные ограничения',[
@@ -312,10 +323,10 @@ def main():
         'Пилот 23 дБм: несколько возможных нормировок',
         f'Худшая ветвь кандидата: {worst["total_loss_db"]:.1f} дБ RF-потерь',
         'Потери стен: 15 дБ; колонн и фасада: 30 дБ',
-        'KPI площади и SINR ещё не подтверждены'],notes='45 секунд. P1 — условное суммирование мощности 2N_PRB CRS-поднесущих на одном порту; отсутствует определение в задании. Расчёт n=2.5 без калибровки. Не выдавать уровни за измерения.')
+        'Покрытие со стенами: отдельный сценарный отчёт'],notes='45 секунд. P1 — условное суммирование мощности 2N_PRB CRS-поднесущих на одном порту; отсутствует определение в задании. Расчёт n=2.5 без калибровки. Не выдавать уровни за измерения.')
     slide('Спецификация связана с деревом DAS',[
         'Только позиции из предоставленного перечня',
-        '48 антенн; 24 PC252; 8 PC251; 8 PC211; 6 PC221; 1 PC250',
+        f'{count} антенн; {quantities[11]} PC252; {quantities[10]} PC251; 8 PC211; 6 PC221; {quantities[9]} PC250',
         f'Фидеры без резерва: 1/2 — {data["cable12_installed"]:.1f} м; 7/8 — {data["cable78_installed"]:.1f} м',
         'В закупочный метраж добавлено 10% отдельно',
         'Пожарная модификация и component losses требуют уточнения'],notes='40 секунд. Количества проекта условны; PASсивная схема не выполняет буквальное требование управляемых удалённых модулей. Не считать комплект закупочным.')
