@@ -4,3 +4,4 @@ python-pptx==1.0.2
 matplotlib==3.10.8
 numpy==2.3.5
 shapely==2.1.2
+reportlab==4.4.9

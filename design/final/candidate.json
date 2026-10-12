@@ -48,7 +48,8 @@
           14.91956208510882,
           49.024382262815244
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "101",
@@ -83,7 +84,8 @@
           10,
           58
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "101",
@@ -118,7 +120,8 @@
           17.81482442176836,
           57.42404058032748
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "112",
@@ -153,7 +156,8 @@
           4.091118794241845,
           58.494609554527095
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "103",
@@ -188,7 +192,8 @@
           6.9194094003639695,
           49.00438226281524
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "135",
@@ -223,7 +228,8 @@
           6.9194094003639695,
           46.020576426022615
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "109",
@@ -258,7 +264,8 @@
           13.061395275043987,
           43.21100027232224
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "131",
@@ -309,7 +316,8 @@
           21.155670906650155,
           43.21100027232223
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "107",
@@ -344,7 +352,8 @@
           29.193730864642962,
           50.39514233149479
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0.2
     },
     {
       "room": "107.1",
@@ -379,7 +388,8 @@
           28.714980864642968,
           45.08240239668498
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0.2
     },
     {
       "room": "113",
@@ -418,7 +428,8 @@
           31.372080689327696,
           58.70952398557016
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0.2
     },
     {
       "room": "106",
@@ -461,7 +472,8 @@
           32.328950913868226,
           32.12879322850282
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0.2
     },
     {
       "room": "140",
@@ -504,7 +516,8 @@
           33.07601869054855,
           47.28251056928649
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "118",
@@ -547,7 +560,8 @@
           35.523684720742985,
           46.835541241309706
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "119",
@@ -582,7 +596,8 @@
           31.41208068932767,
           40.62021820570461
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "106.1",
@@ -621,7 +636,8 @@
           29.089880864642968,
           36.82850186609248
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "115",
@@ -660,7 +676,8 @@
           14.470459024280268,
           28.04576712019808
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0.2
     },
     {
       "room": "133",
@@ -699,7 +716,8 @@
           17.763288764976327,
           28.04576712019808
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0.2
     },
     {
       "room": "134",
@@ -742,7 +760,8 @@
           17.756288764976322,
           23.568115539160956
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0.2
     },
     {
       "room": "136",
@@ -785,7 +804,8 @@
           6.5044289064680765,
           24.688384798821954
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0.2
     },
     {
       "room": "123",
@@ -824,7 +844,8 @@
           3.5903142584323495,
           30.792355587748002
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "137",
@@ -859,7 +880,8 @@
           0.37571848345147957,
           32.217890080370594
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "124",
@@ -898,7 +920,8 @@
           2.7811365578409477,
           25.121170836526307
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "127",
@@ -937,7 +960,8 @@
           1.0346187404400407,
           27.93276712019818
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "117",
@@ -976,7 +1000,8 @@
           2.98386788680957,
           3.6670978930035836
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0.2
     },
     {
       "room": "106.4",
@@ -1015,7 +1040,8 @@
           25.947944736089912,
           13.43621536943447
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0.2
     },
     {
       "room": "128",
@@ -1050,7 +1076,8 @@
           3.0437388823635234,
           15.14188377635066
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0.2
     },
     {
       "room": "106.3",
@@ -1109,7 +1136,8 @@
           33.49358964038934,
           21.878771178012208
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0.2
     },
     {
       "room": "126",
@@ -1144,7 +1172,8 @@
           26.026560513148873,
           3.8396055956845174
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "114.1",
@@ -1179,7 +1208,8 @@
           27.77381178875924,
           2.132269541326413
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "114.2",
@@ -1218,7 +1248,8 @@
           32.56868381663132,
           2.111169541326414
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     },
     {
       "room": "121",
@@ -1257,7 +1288,8 @@
           34.76515714743073,
           5.653403907351852
         ]
-      ]
+      ],
+      "additional_jumper_loss_db": 0
     }
   ],
   "trunks": [
@@ -1474,7 +1506,9 @@
           49.0
         ]
       ],
-      "cable": "7/8"
+      "cable": "jumper",
+      "jumper_length_m": 3,
+      "assumed_loss_db": 0.2
     },
     {
       "id": "F2-2",
@@ -1532,7 +1566,9 @@
           30.542096
         ]
       ],
-      "cable": "7/8"
+      "cable": "jumper",
+      "jumper_length_m": 3,
+      "assumed_loss_db": 0.2
     },
     {
       "id": "F3-2",
@@ -1598,7 +1634,9 @@
           12.0
         ]
       ],
-      "cable": "7/8"
+      "cable": "jumper",
+      "jumper_length_m": 3,
+      "assumed_loss_db": 0.2
     },
     {
       "id": "F4-2",
@@ -3269,384 +3307,384 @@
       "frequency_mhz": 1800,
       "d_horizontal_m": 5,
       "cable_loss_db": 2.3714625454902984,
-      "total_loss_db": 21.202362415409738,
-      "rsrp_dbm": -77.54726600358002
+      "total_loss_db": 21.402362415409737,
+      "rsrp_dbm": -77.74726600358002
     },
     {
       "antenna": "A09",
       "frequency_mhz": 1800,
       "d_horizontal_m": 10,
       "cable_loss_db": 2.3714625454902984,
-      "total_loss_db": 21.202362415409738,
-      "rsrp_dbm": -82.2028341237602
+      "total_loss_db": 21.402362415409737,
+      "rsrp_dbm": -82.4028341237602
     },
     {
       "antenna": "A09",
       "frequency_mhz": 1800,
       "d_horizontal_m": 15,
       "cable_loss_db": 2.3714625454902984,
-      "total_loss_db": 21.202362415409738,
-      "rsrp_dbm": -85.85518435860251
+      "total_loss_db": 21.402362415409737,
+      "rsrp_dbm": -86.05518435860252
     },
     {
       "antenna": "A09",
       "frequency_mhz": 1800,
       "d_horizontal_m": 20,
       "cable_loss_db": 2.3714625454902984,
-      "total_loss_db": 21.202362415409738,
-      "rsrp_dbm": -88.68962346161064
+      "total_loss_db": 21.402362415409737,
+      "rsrp_dbm": -88.88962346161064
     },
     {
       "antenna": "A09",
       "frequency_mhz": 2100,
       "d_horizontal_m": 5,
       "cable_loss_db": 2.5812634902555387,
-      "total_loss_db": 21.412163360174976,
-      "rsrp_dbm": -77.84661537487452
+      "total_loss_db": 21.612163360174975,
+      "rsrp_dbm": -78.04661537487452
     },
     {
       "antenna": "A09",
       "frequency_mhz": 2100,
       "d_horizontal_m": 10,
       "cable_loss_db": 2.5812634902555387,
-      "total_loss_db": 21.412163360174976,
-      "rsrp_dbm": -82.5021834950547
+      "total_loss_db": 21.612163360174975,
+      "rsrp_dbm": -82.7021834950547
     },
     {
       "antenna": "A09",
       "frequency_mhz": 2100,
       "d_horizontal_m": 15,
       "cable_loss_db": 2.5812634902555387,
-      "total_loss_db": 21.412163360174976,
-      "rsrp_dbm": -86.15453372989701
+      "total_loss_db": 21.612163360174975,
+      "rsrp_dbm": -86.35453372989701
     },
     {
       "antenna": "A09",
       "frequency_mhz": 2100,
       "d_horizontal_m": 20,
       "cable_loss_db": 2.5812634902555387,
-      "total_loss_db": 21.412163360174976,
-      "rsrp_dbm": -88.98897283290513
+      "total_loss_db": 21.612163360174975,
+      "rsrp_dbm": -89.18897283290514
     },
     {
       "antenna": "A09",
       "frequency_mhz": 2600,
       "d_horizontal_m": 5,
       "cable_loss_db": 2.9090941050615955,
-      "total_loss_db": 21.739993974981033,
-      "rsrp_dbm": -78.26861446386174
+      "total_loss_db": 21.939993974981032,
+      "rsrp_dbm": -78.46861446386174
     },
     {
       "antenna": "A09",
       "frequency_mhz": 2600,
       "d_horizontal_m": 10,
       "cable_loss_db": 2.9090941050615955,
-      "total_loss_db": 21.739993974981033,
-      "rsrp_dbm": -82.92418258404192
+      "total_loss_db": 21.939993974981032,
+      "rsrp_dbm": -83.12418258404192
     },
     {
       "antenna": "A09",
       "frequency_mhz": 2600,
       "d_horizontal_m": 15,
       "cable_loss_db": 2.9090941050615955,
-      "total_loss_db": 21.739993974981033,
-      "rsrp_dbm": -86.57653281888423
+      "total_loss_db": 21.939993974981032,
+      "rsrp_dbm": -86.77653281888423
     },
     {
       "antenna": "A09",
       "frequency_mhz": 2600,
       "d_horizontal_m": 20,
       "cable_loss_db": 2.9090941050615955,
-      "total_loss_db": 21.739993974981033,
-      "rsrp_dbm": -89.41097192189237
+      "total_loss_db": 21.939993974981032,
+      "rsrp_dbm": -89.61097192189237
     },
     {
       "antenna": "A10",
       "frequency_mhz": 1800,
       "d_horizontal_m": 5,
       "cable_loss_db": 2.577672407416961,
-      "total_loss_db": 21.4085722773364,
-      "rsrp_dbm": -77.75347586550669
+      "total_loss_db": 21.6085722773364,
+      "rsrp_dbm": -77.95347586550668
     },
     {
       "antenna": "A10",
       "frequency_mhz": 1800,
       "d_horizontal_m": 10,
       "cable_loss_db": 2.577672407416961,
-      "total_loss_db": 21.4085722773364,
-      "rsrp_dbm": -82.40904398568686
+      "total_loss_db": 21.6085722773364,
+      "rsrp_dbm": -82.60904398568687
     },
     {
       "antenna": "A10",
       "frequency_mhz": 1800,
       "d_horizontal_m": 15,
       "cable_loss_db": 2.577672407416961,
-      "total_loss_db": 21.4085722773364,
-      "rsrp_dbm": -86.06139422052918
+      "total_loss_db": 21.6085722773364,
+      "rsrp_dbm": -86.26139422052918
     },
     {
       "antenna": "A10",
       "frequency_mhz": 1800,
       "d_horizontal_m": 20,
       "cable_loss_db": 2.577672407416961,
-      "total_loss_db": 21.4085722773364,
-      "rsrp_dbm": -88.8958333235373
+      "total_loss_db": 21.6085722773364,
+      "rsrp_dbm": -89.0958333235373
     },
     {
       "antenna": "A10",
       "frequency_mhz": 2100,
       "d_horizontal_m": 5,
       "cable_loss_db": 2.805866699628583,
-      "total_loss_db": 21.636766569548023,
-      "rsrp_dbm": -78.07121858424756
+      "total_loss_db": 21.836766569548022,
+      "rsrp_dbm": -78.27121858424756
     },
     {
       "antenna": "A10",
       "frequency_mhz": 2100,
       "d_horizontal_m": 10,
       "cable_loss_db": 2.805866699628583,
-      "total_loss_db": 21.636766569548023,
-      "rsrp_dbm": -82.72678670442775
+      "total_loss_db": 21.836766569548022,
+      "rsrp_dbm": -82.92678670442774
     },
     {
       "antenna": "A10",
       "frequency_mhz": 2100,
       "d_horizontal_m": 15,
       "cable_loss_db": 2.805866699628583,
-      "total_loss_db": 21.636766569548023,
-      "rsrp_dbm": -86.37913693927007
+      "total_loss_db": 21.836766569548022,
+      "rsrp_dbm": -86.57913693927006
     },
     {
       "antenna": "A10",
       "frequency_mhz": 2100,
       "d_horizontal_m": 20,
       "cable_loss_db": 2.805866699628583,
-      "total_loss_db": 21.636766569548023,
-      "rsrp_dbm": -89.21357604227819
+      "total_loss_db": 21.836766569548022,
+      "rsrp_dbm": -89.41357604227818
     },
     {
       "antenna": "A10",
       "frequency_mhz": 2600,
       "d_horizontal_m": 5,
       "cable_loss_db": 3.1622410647310626,
-      "total_loss_db": 21.9931409346505,
-      "rsrp_dbm": -78.5217614235312
+      "total_loss_db": 22.1931409346505,
+      "rsrp_dbm": -78.7217614235312
     },
     {
       "antenna": "A10",
       "frequency_mhz": 2600,
       "d_horizontal_m": 10,
       "cable_loss_db": 3.1622410647310626,
-      "total_loss_db": 21.9931409346505,
-      "rsrp_dbm": -83.17732954371138
+      "total_loss_db": 22.1931409346505,
+      "rsrp_dbm": -83.37732954371138
     },
     {
       "antenna": "A10",
       "frequency_mhz": 2600,
       "d_horizontal_m": 15,
       "cable_loss_db": 3.1622410647310626,
-      "total_loss_db": 21.9931409346505,
-      "rsrp_dbm": -86.8296797785537
+      "total_loss_db": 22.1931409346505,
+      "rsrp_dbm": -87.0296797785537
     },
     {
       "antenna": "A10",
       "frequency_mhz": 2600,
       "d_horizontal_m": 20,
       "cable_loss_db": 3.1622410647310626,
-      "total_loss_db": 21.9931409346505,
-      "rsrp_dbm": -89.66411888156183
+      "total_loss_db": 22.1931409346505,
+      "rsrp_dbm": -89.86411888156184
     },
     {
       "antenna": "A11",
       "frequency_mhz": 1800,
       "d_horizontal_m": 5,
       "cable_loss_db": 3.141736217028593,
-      "total_loss_db": 21.972636086948032,
-      "rsrp_dbm": -78.31753967511831
+      "total_loss_db": 22.17263608694803,
+      "rsrp_dbm": -78.51753967511831
     },
     {
       "antenna": "A11",
       "frequency_mhz": 1800,
       "d_horizontal_m": 10,
       "cable_loss_db": 3.141736217028593,
-      "total_loss_db": 21.972636086948032,
-      "rsrp_dbm": -82.97310779529849
+      "total_loss_db": 22.17263608694803,
+      "rsrp_dbm": -83.17310779529849
     },
     {
       "antenna": "A11",
       "frequency_mhz": 1800,
       "d_horizontal_m": 15,
       "cable_loss_db": 3.141736217028593,
-      "total_loss_db": 21.972636086948032,
-      "rsrp_dbm": -86.6254580301408
+      "total_loss_db": 22.17263608694803,
+      "rsrp_dbm": -86.82545803014081
     },
     {
       "antenna": "A11",
       "frequency_mhz": 1800,
       "d_horizontal_m": 20,
       "cable_loss_db": 3.141736217028593,
-      "total_loss_db": 21.972636086948032,
-      "rsrp_dbm": -89.45989713314893
+      "total_loss_db": 22.17263608694803,
+      "rsrp_dbm": -89.65989713314893
     },
     {
       "antenna": "A11",
       "frequency_mhz": 2100,
       "d_horizontal_m": 5,
       "cable_loss_db": 3.4202434357665252,
-      "total_loss_db": 22.251143305685964,
-      "rsrp_dbm": -78.68559532038552
+      "total_loss_db": 22.451143305685964,
+      "rsrp_dbm": -78.8855953203855
     },
     {
       "antenna": "A11",
       "frequency_mhz": 2100,
       "d_horizontal_m": 10,
       "cable_loss_db": 3.4202434357665252,
-      "total_loss_db": 22.251143305685964,
-      "rsrp_dbm": -83.34116344056568
+      "total_loss_db": 22.451143305685964,
+      "rsrp_dbm": -83.54116344056568
     },
     {
       "antenna": "A11",
       "frequency_mhz": 2100,
       "d_horizontal_m": 15,
       "cable_loss_db": 3.4202434357665252,
-      "total_loss_db": 22.251143305685964,
-      "rsrp_dbm": -86.993513675408
+      "total_loss_db": 22.451143305685964,
+      "rsrp_dbm": -87.193513675408
     },
     {
       "antenna": "A11",
       "frequency_mhz": 2100,
       "d_horizontal_m": 20,
       "cable_loss_db": 3.4202434357665252,
-      "total_loss_db": 22.251143305685964,
-      "rsrp_dbm": -89.82795277841612
+      "total_loss_db": 22.451143305685964,
+      "rsrp_dbm": -90.02795277841612
     },
     {
       "antenna": "A11",
       "frequency_mhz": 2600,
       "d_horizontal_m": 5,
       "cable_loss_db": 3.854696009070945,
-      "total_loss_db": 22.685595878990384,
-      "rsrp_dbm": -79.21421636787109
+      "total_loss_db": 22.885595878990383,
+      "rsrp_dbm": -79.41421636787109
     },
     {
       "antenna": "A11",
       "frequency_mhz": 2600,
       "d_horizontal_m": 10,
       "cable_loss_db": 3.854696009070945,
-      "total_loss_db": 22.685595878990384,
-      "rsrp_dbm": -83.86978448805127
+      "total_loss_db": 22.885595878990383,
+      "rsrp_dbm": -84.06978448805127
     },
     {
       "antenna": "A11",
       "frequency_mhz": 2600,
       "d_horizontal_m": 15,
       "cable_loss_db": 3.854696009070945,
-      "total_loss_db": 22.685595878990384,
-      "rsrp_dbm": -87.52213472289358
+      "total_loss_db": 22.885595878990383,
+      "rsrp_dbm": -87.72213472289359
     },
     {
       "antenna": "A11",
       "frequency_mhz": 2600,
       "d_horizontal_m": 20,
       "cable_loss_db": 3.854696009070945,
-      "total_loss_db": 22.685595878990384,
-      "rsrp_dbm": -90.35657382590172
+      "total_loss_db": 22.885595878990383,
+      "rsrp_dbm": -90.55657382590172
     },
     {
       "antenna": "A12",
       "frequency_mhz": 1800,
       "d_horizontal_m": 5,
       "cable_loss_db": 3.281907798617531,
-      "total_loss_db": 22.11280766853697,
-      "rsrp_dbm": -78.45771125670726
+      "total_loss_db": 22.31280766853697,
+      "rsrp_dbm": -78.65771125670724
     },
     {
       "antenna": "A12",
       "frequency_mhz": 1800,
       "d_horizontal_m": 10,
       "cable_loss_db": 3.281907798617531,
-      "total_loss_db": 22.11280766853697,
-      "rsrp_dbm": -83.11327937688743
+      "total_loss_db": 22.31280766853697,
+      "rsrp_dbm": -83.31327937688744
     },
     {
       "antenna": "A12",
       "frequency_mhz": 1800,
       "d_horizontal_m": 15,
       "cable_loss_db": 3.281907798617531,
-      "total_loss_db": 22.11280766853697,
-      "rsrp_dbm": -86.76562961172975
+      "total_loss_db": 22.31280766853697,
+      "rsrp_dbm": -86.96562961172975
     },
     {
       "antenna": "A12",
       "frequency_mhz": 1800,
       "d_horizontal_m": 20,
       "cable_loss_db": 3.281907798617531,
-      "total_loss_db": 22.11280766853697,
-      "rsrp_dbm": -89.60006871473787
+      "total_loss_db": 22.31280766853697,
+      "rsrp_dbm": -89.80006871473788
     },
     {
       "antenna": "A12",
       "frequency_mhz": 2100,
       "d_horizontal_m": 5,
       "cable_loss_db": 3.571673170472438,
-      "total_loss_db": 22.402573040391875,
-      "rsrp_dbm": -78.83702505509142
+      "total_loss_db": 22.602573040391874,
+      "rsrp_dbm": -79.03702505509142
     },
     {
       "antenna": "A12",
       "frequency_mhz": 2100,
       "d_horizontal_m": 10,
       "cable_loss_db": 3.571673170472438,
-      "total_loss_db": 22.402573040391875,
-      "rsrp_dbm": -83.4925931752716
+      "total_loss_db": 22.602573040391874,
+      "rsrp_dbm": -83.6925931752716
     },
     {
       "antenna": "A12",
       "frequency_mhz": 2100,
       "d_horizontal_m": 15,
       "cable_loss_db": 3.571673170472438,
-      "total_loss_db": 22.402573040391875,
-      "rsrp_dbm": -87.14494341011391
+      "total_loss_db": 22.602573040391874,
+      "rsrp_dbm": -87.34494341011391
     },
     {
       "antenna": "A12",
       "frequency_mhz": 2100,
       "d_horizontal_m": 20,
       "cable_loss_db": 3.571673170472438,
-      "total_loss_db": 22.402573040391875,
-      "rsrp_dbm": -89.97938251312203
+      "total_loss_db": 22.602573040391874,
+      "rsrp_dbm": -90.17938251312204
     },
     {
       "antenna": "A12",
       "frequency_mhz": 2600,
       "d_horizontal_m": 5,
       "cable_loss_db": 4.02521896989751,
-      "total_loss_db": 22.856118839816947,
-      "rsrp_dbm": -79.38473932869765
+      "total_loss_db": 23.056118839816946,
+      "rsrp_dbm": -79.58473932869765
     },
     {
       "antenna": "A12",
       "frequency_mhz": 2600,
       "d_horizontal_m": 10,
       "cable_loss_db": 4.02521896989751,
-      "total_loss_db": 22.856118839816947,
-      "rsrp_dbm": -84.04030744887783
+      "total_loss_db": 23.056118839816946,
+      "rsrp_dbm": -84.24030744887783
     },
     {
       "antenna": "A12",
       "frequency_mhz": 2600,
       "d_horizontal_m": 15,
       "cable_loss_db": 4.02521896989751,
-      "total_loss_db": 22.856118839816947,
-      "rsrp_dbm": -87.69265768372014
+      "total_loss_db": 23.056118839816946,
+      "rsrp_dbm": -87.89265768372015
     },
     {
       "antenna": "A12",
       "frequency_mhz": 2600,
       "d_horizontal_m": 20,
       "cable_loss_db": 4.02521896989751,
-      "total_loss_db": 22.856118839816947,
-      "rsrp_dbm": -90.52709678672828
+      "total_loss_db": 23.056118839816946,
+      "rsrp_dbm": -90.72709678672828
     },
     {
       "antenna": "A13",
@@ -4037,384 +4075,384 @@
       "frequency_mhz": 1800,
       "d_horizontal_m": 5,
       "cable_loss_db": 0.6891492731218927,
-      "total_loss_db": 19.52004914304133,
-      "rsrp_dbm": -75.86495273121162
+      "total_loss_db": 19.72004914304133,
+      "rsrp_dbm": -76.0649527312116
     },
     {
       "antenna": "A17",
       "frequency_mhz": 1800,
       "d_horizontal_m": 10,
       "cable_loss_db": 0.6891492731218927,
-      "total_loss_db": 19.52004914304133,
-      "rsrp_dbm": -80.5205208513918
+      "total_loss_db": 19.72004914304133,
+      "rsrp_dbm": -80.7205208513918
     },
     {
       "antenna": "A17",
       "frequency_mhz": 1800,
       "d_horizontal_m": 15,
       "cable_loss_db": 0.6891492731218927,
-      "total_loss_db": 19.52004914304133,
-      "rsrp_dbm": -84.17287108623411
+      "total_loss_db": 19.72004914304133,
+      "rsrp_dbm": -84.37287108623411
     },
     {
       "antenna": "A17",
       "frequency_mhz": 1800,
       "d_horizontal_m": 20,
       "cable_loss_db": 0.6891492731218927,
-      "total_loss_db": 19.52004914304133,
-      "rsrp_dbm": -87.00731018924223
+      "total_loss_db": 19.72004914304133,
+      "rsrp_dbm": -87.20731018924224
     },
     {
       "antenna": "A17",
       "frequency_mhz": 2100,
       "d_horizontal_m": 5,
       "cable_loss_db": 0.7504639302586325,
-      "total_loss_db": 19.58136380017807,
-      "rsrp_dbm": -76.01581581487761
+      "total_loss_db": 19.78136380017807,
+      "rsrp_dbm": -76.21581581487762
     },
     {
       "antenna": "A17",
       "frequency_mhz": 2100,
       "d_horizontal_m": 10,
       "cable_loss_db": 0.7504639302586325,
-      "total_loss_db": 19.58136380017807,
-      "rsrp_dbm": -80.67138393505779
+      "total_loss_db": 19.78136380017807,
+      "rsrp_dbm": -80.87138393505779
     },
     {
       "antenna": "A17",
       "frequency_mhz": 2100,
       "d_horizontal_m": 15,
       "cable_loss_db": 0.7504639302586325,
-      "total_loss_db": 19.58136380017807,
-      "rsrp_dbm": -84.3237341699001
+      "total_loss_db": 19.78136380017807,
+      "rsrp_dbm": -84.52373416990011
     },
     {
       "antenna": "A17",
       "frequency_mhz": 2100,
       "d_horizontal_m": 20,
       "cable_loss_db": 0.7504639302586325,
-      "total_loss_db": 19.58136380017807,
-      "rsrp_dbm": -87.15817327290823
+      "total_loss_db": 19.78136380017807,
+      "rsrp_dbm": -87.35817327290823
     },
     {
       "antenna": "A17",
       "frequency_mhz": 2600,
       "d_horizontal_m": 5,
       "cable_loss_db": 0.8458179096856471,
-      "total_loss_db": 19.676717779605085,
-      "rsrp_dbm": -76.20533826848579
+      "total_loss_db": 19.876717779605084,
+      "rsrp_dbm": -76.40533826848579
     },
     {
       "antenna": "A17",
       "frequency_mhz": 2600,
       "d_horizontal_m": 10,
       "cable_loss_db": 0.8458179096856471,
-      "total_loss_db": 19.676717779605085,
-      "rsrp_dbm": -80.86090638866597
+      "total_loss_db": 19.876717779605084,
+      "rsrp_dbm": -81.06090638866597
     },
     {
       "antenna": "A17",
       "frequency_mhz": 2600,
       "d_horizontal_m": 15,
       "cable_loss_db": 0.8458179096856471,
-      "total_loss_db": 19.676717779605085,
-      "rsrp_dbm": -84.51325662350828
+      "total_loss_db": 19.876717779605084,
+      "rsrp_dbm": -84.71325662350829
     },
     {
       "antenna": "A17",
       "frequency_mhz": 2600,
       "d_horizontal_m": 20,
       "cable_loss_db": 0.8458179096856471,
-      "total_loss_db": 19.676717779605085,
-      "rsrp_dbm": -87.34769572651642
+      "total_loss_db": 19.876717779605084,
+      "rsrp_dbm": -87.54769572651642
     },
     {
       "antenna": "A18",
       "frequency_mhz": 1800,
       "d_horizontal_m": 5,
       "cable_loss_db": 1.0213957939581253,
-      "total_loss_db": 19.852295663877563,
-      "rsrp_dbm": -76.19719925204785
+      "total_loss_db": 20.052295663877562,
+      "rsrp_dbm": -76.39719925204784
     },
     {
       "antenna": "A18",
       "frequency_mhz": 1800,
       "d_horizontal_m": 10,
       "cable_loss_db": 1.0213957939581253,
-      "total_loss_db": 19.852295663877563,
-      "rsrp_dbm": -80.85276737222802
+      "total_loss_db": 20.052295663877562,
+      "rsrp_dbm": -81.05276737222802
     },
     {
       "antenna": "A18",
       "frequency_mhz": 1800,
       "d_horizontal_m": 15,
       "cable_loss_db": 1.0213957939581253,
-      "total_loss_db": 19.852295663877563,
-      "rsrp_dbm": -84.50511760707033
+      "total_loss_db": 20.052295663877562,
+      "rsrp_dbm": -84.70511760707033
     },
     {
       "antenna": "A18",
       "frequency_mhz": 1800,
       "d_horizontal_m": 20,
       "cable_loss_db": 1.0213957939581253,
-      "total_loss_db": 19.852295663877563,
-      "rsrp_dbm": -87.33955671007845
+      "total_loss_db": 20.052295663877562,
+      "rsrp_dbm": -87.53955671007846
     },
     {
       "antenna": "A18",
       "frequency_mhz": 2100,
       "d_horizontal_m": 5,
       "cable_loss_db": 1.1123459187611295,
-      "total_loss_db": 19.943245788680567,
-      "rsrp_dbm": -76.37769780338012
+      "total_loss_db": 20.143245788680566,
+      "rsrp_dbm": -76.57769780338012
     },
     {
       "antenna": "A18",
       "frequency_mhz": 2100,
       "d_horizontal_m": 10,
       "cable_loss_db": 1.1123459187611295,
-      "total_loss_db": 19.943245788680567,
-      "rsrp_dbm": -81.0332659235603
+      "total_loss_db": 20.143245788680566,
+      "rsrp_dbm": -81.23326592356028
     },
     {
       "antenna": "A18",
       "frequency_mhz": 2100,
       "d_horizontal_m": 15,
       "cable_loss_db": 1.1123459187611295,
-      "total_loss_db": 19.943245788680567,
-      "rsrp_dbm": -84.68561615840261
+      "total_loss_db": 20.143245788680566,
+      "rsrp_dbm": -84.8856161584026
     },
     {
       "antenna": "A18",
       "frequency_mhz": 2100,
       "d_horizontal_m": 20,
       "cable_loss_db": 1.1123459187611295,
-      "total_loss_db": 19.943245788680567,
-      "rsrp_dbm": -87.52005526141073
+      "total_loss_db": 20.143245788680566,
+      "rsrp_dbm": -87.72005526141072
     },
     {
       "antenna": "A18",
       "frequency_mhz": 2600,
       "d_horizontal_m": 5,
       "cable_loss_db": 1.2536897535665323,
-      "total_loss_db": 20.08458962348597,
-      "rsrp_dbm": -76.61321011236667
+      "total_loss_db": 20.28458962348597,
+      "rsrp_dbm": -76.81321011236668
     },
     {
       "antenna": "A18",
       "frequency_mhz": 2600,
       "d_horizontal_m": 10,
       "cable_loss_db": 1.2536897535665323,
-      "total_loss_db": 20.08458962348597,
-      "rsrp_dbm": -81.26877823254685
+      "total_loss_db": 20.28458962348597,
+      "rsrp_dbm": -81.46877823254685
     },
     {
       "antenna": "A18",
       "frequency_mhz": 2600,
       "d_horizontal_m": 15,
       "cable_loss_db": 1.2536897535665323,
-      "total_loss_db": 20.08458962348597,
-      "rsrp_dbm": -84.92112846738917
+      "total_loss_db": 20.28458962348597,
+      "rsrp_dbm": -85.12112846738917
     },
     {
       "antenna": "A18",
       "frequency_mhz": 2600,
       "d_horizontal_m": 20,
       "cable_loss_db": 1.2536897535665323,
-      "total_loss_db": 20.08458962348597,
-      "rsrp_dbm": -87.7555675703973
+      "total_loss_db": 20.28458962348597,
+      "rsrp_dbm": -87.9555675703973
     },
     {
       "antenna": "A19",
       "frequency_mhz": 1800,
       "d_horizontal_m": 5,
       "cable_loss_db": 1.2467101487427188,
-      "total_loss_db": 20.077610018662156,
-      "rsrp_dbm": -76.42251360683244
+      "total_loss_db": 20.277610018662156,
+      "rsrp_dbm": -76.62251360683244
     },
     {
       "antenna": "A19",
       "frequency_mhz": 1800,
       "d_horizontal_m": 10,
       "cable_loss_db": 1.2467101487427188,
-      "total_loss_db": 20.077610018662156,
-      "rsrp_dbm": -81.07808172701262
+      "total_loss_db": 20.277610018662156,
+      "rsrp_dbm": -81.27808172701262
     },
     {
       "antenna": "A19",
       "frequency_mhz": 1800,
       "d_horizontal_m": 15,
       "cable_loss_db": 1.2467101487427188,
-      "total_loss_db": 20.077610018662156,
-      "rsrp_dbm": -84.73043196185493
+      "total_loss_db": 20.277610018662156,
+      "rsrp_dbm": -84.93043196185494
     },
     {
       "antenna": "A19",
       "frequency_mhz": 1800,
       "d_horizontal_m": 20,
       "cable_loss_db": 1.2467101487427188,
-      "total_loss_db": 20.077610018662156,
-      "rsrp_dbm": -87.56487106486306
+      "total_loss_db": 20.277610018662156,
+      "rsrp_dbm": -87.76487106486306
     },
     {
       "antenna": "A19",
       "frequency_mhz": 2100,
       "d_horizontal_m": 5,
       "cable_loss_db": 1.3577576887395917,
-      "total_loss_db": 20.18865755865903,
-      "rsrp_dbm": -76.62310957335858
+      "total_loss_db": 20.38865755865903,
+      "rsrp_dbm": -76.82310957335858
     },
     {
       "antenna": "A19",
       "frequency_mhz": 2100,
       "d_horizontal_m": 10,
       "cable_loss_db": 1.3577576887395917,
-      "total_loss_db": 20.18865755865903,
-      "rsrp_dbm": -81.27867769353875
+      "total_loss_db": 20.38865755865903,
+      "rsrp_dbm": -81.47867769353876
     },
     {
       "antenna": "A19",
       "frequency_mhz": 2100,
       "d_horizontal_m": 15,
       "cable_loss_db": 1.3577576887395917,
-      "total_loss_db": 20.18865755865903,
-      "rsrp_dbm": -84.93102792838107
+      "total_loss_db": 20.38865755865903,
+      "rsrp_dbm": -85.13102792838107
     },
     {
       "antenna": "A19",
       "frequency_mhz": 2100,
       "d_horizontal_m": 20,
       "cable_loss_db": 1.3577576887395917,
-      "total_loss_db": 20.18865755865903,
-      "rsrp_dbm": -87.76546703138919
+      "total_loss_db": 20.38865755865903,
+      "rsrp_dbm": -87.9654670313892
     },
     {
       "antenna": "A19",
       "frequency_mhz": 2600,
       "d_horizontal_m": 5,
       "cable_loss_db": 1.5302897345310351,
-      "total_loss_db": 20.361189604450473,
-      "rsrp_dbm": -76.88981009333118
+      "total_loss_db": 20.561189604450473,
+      "rsrp_dbm": -77.08981009333118
     },
     {
       "antenna": "A19",
       "frequency_mhz": 2600,
       "d_horizontal_m": 10,
       "cable_loss_db": 1.5302897345310351,
-      "total_loss_db": 20.361189604450473,
-      "rsrp_dbm": -81.54537821351136
+      "total_loss_db": 20.561189604450473,
+      "rsrp_dbm": -81.74537821351136
     },
     {
       "antenna": "A19",
       "frequency_mhz": 2600,
       "d_horizontal_m": 15,
       "cable_loss_db": 1.5302897345310351,
-      "total_loss_db": 20.361189604450473,
-      "rsrp_dbm": -85.19772844835367
+      "total_loss_db": 20.561189604450473,
+      "rsrp_dbm": -85.39772844835367
     },
     {
       "antenna": "A19",
       "frequency_mhz": 2600,
       "d_horizontal_m": 20,
       "cable_loss_db": 1.5302897345310351,
-      "total_loss_db": 20.361189604450473,
-      "rsrp_dbm": -88.03216755136181
+      "total_loss_db": 20.561189604450473,
+      "rsrp_dbm": -88.23216755136181
     },
     {
       "antenna": "A20",
       "frequency_mhz": 1800,
       "d_horizontal_m": 5,
       "cable_loss_db": 1.3007078449362361,
-      "total_loss_db": 20.131607714855676,
-      "rsrp_dbm": -76.47651130302596
+      "total_loss_db": 20.331607714855675,
+      "rsrp_dbm": -76.67651130302596
     },
     {
       "antenna": "A20",
       "frequency_mhz": 1800,
       "d_horizontal_m": 10,
       "cable_loss_db": 1.3007078449362361,
-      "total_loss_db": 20.131607714855676,
-      "rsrp_dbm": -81.13207942320614
+      "total_loss_db": 20.331607714855675,
+      "rsrp_dbm": -81.33207942320614
     },
     {
       "antenna": "A20",
       "frequency_mhz": 1800,
       "d_horizontal_m": 15,
       "cable_loss_db": 1.3007078449362361,
-      "total_loss_db": 20.131607714855676,
-      "rsrp_dbm": -84.78442965804845
+      "total_loss_db": 20.331607714855675,
+      "rsrp_dbm": -84.98442965804846
     },
     {
       "antenna": "A20",
       "frequency_mhz": 1800,
       "d_horizontal_m": 20,
       "cable_loss_db": 1.3007078449362361,
-      "total_loss_db": 20.131607714855676,
-      "rsrp_dbm": -87.61886876105658
+      "total_loss_db": 20.331607714855675,
+      "rsrp_dbm": -87.81886876105658
     },
     {
       "antenna": "A20",
       "frequency_mhz": 2100,
       "d_horizontal_m": 5,
       "cable_loss_db": 1.4165718295886258,
-      "total_loss_db": 20.247471699508065,
-      "rsrp_dbm": -76.68192371420761
+      "total_loss_db": 20.447471699508064,
+      "rsrp_dbm": -76.8819237142076
     },
     {
       "antenna": "A20",
       "frequency_mhz": 2100,
       "d_horizontal_m": 10,
       "cable_loss_db": 1.4165718295886258,
-      "total_loss_db": 20.247471699508065,
-      "rsrp_dbm": -81.33749183438779
+      "total_loss_db": 20.447471699508064,
+      "rsrp_dbm": -81.5374918343878
     },
     {
       "antenna": "A20",
       "frequency_mhz": 2100,
       "d_horizontal_m": 15,
       "cable_loss_db": 1.4165718295886258,
-      "total_loss_db": 20.247471699508065,
-      "rsrp_dbm": -84.98984206923011
+      "total_loss_db": 20.447471699508064,
+      "rsrp_dbm": -85.18984206923011
     },
     {
       "antenna": "A20",
       "frequency_mhz": 2100,
       "d_horizontal_m": 20,
       "cable_loss_db": 1.4165718295886258,
-      "total_loss_db": 20.247471699508065,
-      "rsrp_dbm": -87.82428117223823
+      "total_loss_db": 20.447471699508064,
+      "rsrp_dbm": -88.02428117223823
     },
     {
       "antenna": "A20",
       "frequency_mhz": 2600,
       "d_horizontal_m": 5,
       "cable_loss_db": 1.5965782839380749,
-      "total_loss_db": 20.427478153857514,
-      "rsrp_dbm": -76.95609864273823
+      "total_loss_db": 20.627478153857513,
+      "rsrp_dbm": -77.15609864273821
     },
     {
       "antenna": "A20",
       "frequency_mhz": 2600,
       "d_horizontal_m": 10,
       "cable_loss_db": 1.5965782839380749,
-      "total_loss_db": 20.427478153857514,
-      "rsrp_dbm": -81.61166676291839
+      "total_loss_db": 20.627478153857513,
+      "rsrp_dbm": -81.81166676291839
     },
     {
       "antenna": "A20",
       "frequency_mhz": 2600,
       "d_horizontal_m": 15,
       "cable_loss_db": 1.5965782839380749,
-      "total_loss_db": 20.427478153857514,
-      "rsrp_dbm": -85.2640169977607
+      "total_loss_db": 20.627478153857513,
+      "rsrp_dbm": -85.46401699776071
     },
     {
       "antenna": "A20",
       "frequency_mhz": 2600,
       "d_horizontal_m": 20,
       "cable_loss_db": 1.5965782839380749,
-      "total_loss_db": 20.427478153857514,
-      "rsrp_dbm": -88.09845610076886
+      "total_loss_db": 20.627478153857513,
+      "rsrp_dbm": -88.29845610076885
     },
     {
       "antenna": "A21",
@@ -4805,384 +4843,384 @@
       "frequency_mhz": 1800,
       "d_horizontal_m": 5,
       "cable_loss_db": 2.865079335175025,
-      "total_loss_db": 21.695979205094464,
-      "rsrp_dbm": -78.04088279326474
+      "total_loss_db": 21.895979205094463,
+      "rsrp_dbm": -78.24088279326475
     },
     {
       "antenna": "A25",
       "frequency_mhz": 1800,
       "d_horizontal_m": 10,
       "cable_loss_db": 2.865079335175025,
-      "total_loss_db": 21.695979205094464,
-      "rsrp_dbm": -82.69645091344492
+      "total_loss_db": 21.895979205094463,
+      "rsrp_dbm": -82.89645091344492
     },
     {
       "antenna": "A25",
       "frequency_mhz": 1800,
       "d_horizontal_m": 15,
       "cable_loss_db": 2.865079335175025,
-      "total_loss_db": 21.695979205094464,
-      "rsrp_dbm": -86.34880114828724
+      "total_loss_db": 21.895979205094463,
+      "rsrp_dbm": -86.54880114828724
     },
     {
       "antenna": "A25",
       "frequency_mhz": 1800,
       "d_horizontal_m": 20,
       "cable_loss_db": 2.865079335175025,
-      "total_loss_db": 21.695979205094464,
-      "rsrp_dbm": -89.18324025129536
+      "total_loss_db": 21.895979205094463,
+      "rsrp_dbm": -89.38324025129536
     },
     {
       "antenna": "A25",
       "frequency_mhz": 2100,
       "d_horizontal_m": 5,
       "cable_loss_db": 3.1189559555192794,
-      "total_loss_db": 21.949855825438718,
-      "rsrp_dbm": -78.38430784013826
+      "total_loss_db": 22.149855825438717,
+      "rsrp_dbm": -78.58430784013827
     },
     {
       "antenna": "A25",
       "frequency_mhz": 2100,
       "d_horizontal_m": 10,
       "cable_loss_db": 3.1189559555192794,
-      "total_loss_db": 21.949855825438718,
-      "rsrp_dbm": -83.03987596031844
+      "total_loss_db": 22.149855825438717,
+      "rsrp_dbm": -83.23987596031844
     },
     {
       "antenna": "A25",
       "frequency_mhz": 2100,
       "d_horizontal_m": 15,
       "cable_loss_db": 3.1189559555192794,
-      "total_loss_db": 21.949855825438718,
-      "rsrp_dbm": -86.69222619516076
+      "total_loss_db": 22.149855825438717,
+      "rsrp_dbm": -86.89222619516076
     },
     {
       "antenna": "A25",
       "frequency_mhz": 2100,
       "d_horizontal_m": 20,
       "cable_loss_db": 3.1189559555192794,
-      "total_loss_db": 21.949855825438718,
-      "rsrp_dbm": -89.52666529816888
+      "total_loss_db": 22.149855825438717,
+      "rsrp_dbm": -89.72666529816888
     },
     {
       "antenna": "A25",
       "frequency_mhz": 2600,
       "d_horizontal_m": 5,
       "cable_loss_db": 3.5151249820327695,
-      "total_loss_db": 22.346024851952208,
-      "rsrp_dbm": -78.87464534083291
+      "total_loss_db": 22.546024851952208,
+      "rsrp_dbm": -79.07464534083292
     },
     {
       "antenna": "A25",
       "frequency_mhz": 2600,
       "d_horizontal_m": 10,
       "cable_loss_db": 3.5151249820327695,
-      "total_loss_db": 22.346024851952208,
-      "rsrp_dbm": -83.53021346101309
+      "total_loss_db": 22.546024851952208,
+      "rsrp_dbm": -83.7302134610131
     },
     {
       "antenna": "A25",
       "frequency_mhz": 2600,
       "d_horizontal_m": 15,
       "cable_loss_db": 3.5151249820327695,
-      "total_loss_db": 22.346024851952208,
-      "rsrp_dbm": -87.1825636958554
+      "total_loss_db": 22.546024851952208,
+      "rsrp_dbm": -87.38256369585541
     },
     {
       "antenna": "A25",
       "frequency_mhz": 2600,
       "d_horizontal_m": 20,
       "cable_loss_db": 3.5151249820327695,
-      "total_loss_db": 22.346024851952208,
-      "rsrp_dbm": -90.01700279886354
+      "total_loss_db": 22.546024851952208,
+      "rsrp_dbm": -90.21700279886355
     },
     {
       "antenna": "A26",
       "frequency_mhz": 1800,
       "d_horizontal_m": 5,
       "cable_loss_db": 3.986793808897821,
-      "total_loss_db": 22.81769367881726,
-      "rsrp_dbm": -79.16259726698755
+      "total_loss_db": 23.01769367881726,
+      "rsrp_dbm": -79.36259726698754
     },
     {
       "antenna": "A26",
       "frequency_mhz": 1800,
       "d_horizontal_m": 10,
       "cable_loss_db": 3.986793808897821,
-      "total_loss_db": 22.81769367881726,
-      "rsrp_dbm": -83.81816538716772
+      "total_loss_db": 23.01769367881726,
+      "rsrp_dbm": -84.01816538716773
     },
     {
       "antenna": "A26",
       "frequency_mhz": 1800,
       "d_horizontal_m": 15,
       "cable_loss_db": 3.986793808897821,
-      "total_loss_db": 22.81769367881726,
-      "rsrp_dbm": -87.47051562201004
+      "total_loss_db": 23.01769367881726,
+      "rsrp_dbm": -87.67051562201004
     },
     {
       "antenna": "A26",
       "frequency_mhz": 1800,
       "d_horizontal_m": 20,
       "cable_loss_db": 3.986793808897821,
-      "total_loss_db": 22.81769367881726,
-      "rsrp_dbm": -90.30495472501816
+      "total_loss_db": 23.01769367881726,
+      "rsrp_dbm": -90.50495472501817
     },
     {
       "antenna": "A26",
       "frequency_mhz": 2100,
       "d_horizontal_m": 5,
       "cable_loss_db": 4.338794797783233,
-      "total_loss_db": 23.16969466770267,
-      "rsrp_dbm": -79.60414668240222
+      "total_loss_db": 23.36969466770267,
+      "rsrp_dbm": -79.80414668240222
     },
     {
       "antenna": "A26",
       "frequency_mhz": 2100,
       "d_horizontal_m": 10,
       "cable_loss_db": 4.338794797783233,
-      "total_loss_db": 23.16969466770267,
-      "rsrp_dbm": -84.2597148025824
+      "total_loss_db": 23.36969466770267,
+      "rsrp_dbm": -84.4597148025824
     },
     {
       "antenna": "A26",
       "frequency_mhz": 2100,
       "d_horizontal_m": 15,
       "cable_loss_db": 4.338794797783233,
-      "total_loss_db": 23.16969466770267,
-      "rsrp_dbm": -87.91206503742471
+      "total_loss_db": 23.36969466770267,
+      "rsrp_dbm": -88.11206503742471
     },
     {
       "antenna": "A26",
       "frequency_mhz": 2100,
       "d_horizontal_m": 20,
       "cable_loss_db": 4.338794797783233,
-      "total_loss_db": 23.16969466770267,
-      "rsrp_dbm": -90.74650414043283
+      "total_loss_db": 23.36969466770267,
+      "rsrp_dbm": -90.94650414043284
     },
     {
       "antenna": "A26",
       "frequency_mhz": 2600,
       "d_horizontal_m": 5,
       "cable_loss_db": 4.889752867343009,
-      "total_loss_db": 23.720652737262448,
-      "rsrp_dbm": -80.24927322614315
+      "total_loss_db": 23.920652737262447,
+      "rsrp_dbm": -80.44927322614315
     },
     {
       "antenna": "A26",
       "frequency_mhz": 2600,
       "d_horizontal_m": 10,
       "cable_loss_db": 4.889752867343009,
-      "total_loss_db": 23.720652737262448,
-      "rsrp_dbm": -84.90484134632334
+      "total_loss_db": 23.920652737262447,
+      "rsrp_dbm": -85.10484134632333
     },
     {
       "antenna": "A26",
       "frequency_mhz": 2600,
       "d_horizontal_m": 15,
       "cable_loss_db": 4.889752867343009,
-      "total_loss_db": 23.720652737262448,
-      "rsrp_dbm": -88.55719158116565
+      "total_loss_db": 23.920652737262447,
+      "rsrp_dbm": -88.75719158116564
     },
     {
       "antenna": "A26",
       "frequency_mhz": 2600,
       "d_horizontal_m": 20,
       "cable_loss_db": 4.889752867343009,
-      "total_loss_db": 23.720652737262448,
-      "rsrp_dbm": -91.39163068417378
+      "total_loss_db": 23.920652737262447,
+      "rsrp_dbm": -91.59163068417378
     },
     {
       "antenna": "A27",
       "frequency_mhz": 1800,
       "d_horizontal_m": 5,
       "cable_loss_db": 2.3473465690642614,
-      "total_loss_db": 21.1782464389837,
-      "rsrp_dbm": -77.52315002715397
+      "total_loss_db": 21.378246438983698,
+      "rsrp_dbm": -77.72315002715398
     },
     {
       "antenna": "A27",
       "frequency_mhz": 1800,
       "d_horizontal_m": 10,
       "cable_loss_db": 2.3473465690642614,
-      "total_loss_db": 21.1782464389837,
-      "rsrp_dbm": -82.17871814733417
+      "total_loss_db": 21.378246438983698,
+      "rsrp_dbm": -82.37871814733415
     },
     {
       "antenna": "A27",
       "frequency_mhz": 1800,
       "d_horizontal_m": 15,
       "cable_loss_db": 2.3473465690642614,
-      "total_loss_db": 21.1782464389837,
-      "rsrp_dbm": -85.83106838217648
+      "total_loss_db": 21.378246438983698,
+      "rsrp_dbm": -86.03106838217647
     },
     {
       "antenna": "A27",
       "frequency_mhz": 1800,
       "d_horizontal_m": 20,
       "cable_loss_db": 2.3473465690642614,
-      "total_loss_db": 21.1782464389837,
-      "rsrp_dbm": -88.6655074851846
+      "total_loss_db": 21.378246438983698,
+      "rsrp_dbm": -88.8655074851846
     },
     {
       "antenna": "A27",
       "frequency_mhz": 2100,
       "d_horizontal_m": 5,
       "cable_loss_db": 2.5550428633926896,
-      "total_loss_db": 21.385942733312127,
-      "rsrp_dbm": -77.82039474801167
+      "total_loss_db": 21.585942733312127,
+      "rsrp_dbm": -78.02039474801167
     },
     {
       "antenna": "A27",
       "frequency_mhz": 2100,
       "d_horizontal_m": 10,
       "cable_loss_db": 2.5550428633926896,
-      "total_loss_db": 21.385942733312127,
-      "rsrp_dbm": -82.47596286819186
+      "total_loss_db": 21.585942733312127,
+      "rsrp_dbm": -82.67596286819185
     },
     {
       "antenna": "A27",
       "frequency_mhz": 2100,
       "d_horizontal_m": 15,
       "cable_loss_db": 2.5550428633926896,
-      "total_loss_db": 21.385942733312127,
-      "rsrp_dbm": -86.12831310303417
+      "total_loss_db": 21.585942733312127,
+      "rsrp_dbm": -86.32831310303416
     },
     {
       "antenna": "A27",
       "frequency_mhz": 2100,
       "d_horizontal_m": 20,
       "cable_loss_db": 2.5550428633926896,
-      "total_loss_db": 21.385942733312127,
-      "rsrp_dbm": -88.9627522060423
+      "total_loss_db": 21.585942733312127,
+      "rsrp_dbm": -89.16275220604228
     },
     {
       "antenna": "A27",
       "frequency_mhz": 2600,
       "d_horizontal_m": 5,
       "cable_loss_db": 2.8795468654593974,
-      "total_loss_db": 21.710446735378834,
-      "rsrp_dbm": -78.23906722425954
+      "total_loss_db": 21.910446735378834,
+      "rsrp_dbm": -78.43906722425953
     },
     {
       "antenna": "A27",
       "frequency_mhz": 2600,
       "d_horizontal_m": 10,
       "cable_loss_db": 2.8795468654593974,
-      "total_loss_db": 21.710446735378834,
-      "rsrp_dbm": -82.89463534443972
+      "total_loss_db": 21.910446735378834,
+      "rsrp_dbm": -83.09463534443972
     },
     {
       "antenna": "A27",
       "frequency_mhz": 2600,
       "d_horizontal_m": 15,
       "cable_loss_db": 2.8795468654593974,
-      "total_loss_db": 21.710446735378834,
-      "rsrp_dbm": -86.54698557928204
+      "total_loss_db": 21.910446735378834,
+      "rsrp_dbm": -86.74698557928204
     },
     {
       "antenna": "A27",
       "frequency_mhz": 2600,
       "d_horizontal_m": 20,
       "cable_loss_db": 2.8795468654593974,
-      "total_loss_db": 21.710446735378834,
-      "rsrp_dbm": -89.38142468229017
+      "total_loss_db": 21.910446735378834,
+      "rsrp_dbm": -89.58142468229016
     },
     {
       "antenna": "A28",
       "frequency_mhz": 1800,
       "d_horizontal_m": 5,
       "cable_loss_db": 4.880901911498252,
-      "total_loss_db": 23.71180178141769,
-      "rsrp_dbm": -80.05670536958797
+      "total_loss_db": 23.91180178141769,
+      "rsrp_dbm": -80.25670536958798
     },
     {
       "antenna": "A28",
       "frequency_mhz": 1800,
       "d_horizontal_m": 10,
       "cable_loss_db": 4.880901911498252,
-      "total_loss_db": 23.71180178141769,
-      "rsrp_dbm": -84.71227348976815
+      "total_loss_db": 23.91180178141769,
+      "rsrp_dbm": -84.91227348976815
     },
     {
       "antenna": "A28",
       "frequency_mhz": 1800,
       "d_horizontal_m": 15,
       "cable_loss_db": 4.880901911498252,
-      "total_loss_db": 23.71180178141769,
-      "rsrp_dbm": -88.36462372461047
+      "total_loss_db": 23.91180178141769,
+      "rsrp_dbm": -88.56462372461047
     },
     {
       "antenna": "A28",
       "frequency_mhz": 1800,
       "d_horizontal_m": 20,
       "cable_loss_db": 4.880901911498252,
-      "total_loss_db": 23.71180178141769,
-      "rsrp_dbm": -91.19906282761859
+      "total_loss_db": 23.91180178141769,
+      "rsrp_dbm": -91.3990628276186
     },
     {
       "antenna": "A28",
       "frequency_mhz": 2100,
       "d_horizontal_m": 5,
       "cable_loss_db": 5.311845266448193,
-      "total_loss_db": 24.14274513636763,
-      "rsrp_dbm": -80.57719715106717
+      "total_loss_db": 24.34274513636763,
+      "rsrp_dbm": -80.77719715106717
     },
     {
       "antenna": "A28",
       "frequency_mhz": 2100,
       "d_horizontal_m": 10,
       "cable_loss_db": 5.311845266448193,
-      "total_loss_db": 24.14274513636763,
-      "rsrp_dbm": -85.23276527124736
+      "total_loss_db": 24.34274513636763,
+      "rsrp_dbm": -85.43276527124735
     },
     {
       "antenna": "A28",
       "frequency_mhz": 2100,
       "d_horizontal_m": 15,
       "cable_loss_db": 5.311845266448193,
-      "total_loss_db": 24.14274513636763,
-      "rsrp_dbm": -88.88511550608968
+      "total_loss_db": 24.34274513636763,
+      "rsrp_dbm": -89.08511550608966
     },
     {
       "antenna": "A28",
       "frequency_mhz": 2100,
       "d_horizontal_m": 20,
       "cable_loss_db": 5.311845266448193,
-      "total_loss_db": 24.14274513636763,
-      "rsrp_dbm": -91.7195546090978
+      "total_loss_db": 24.34274513636763,
+      "rsrp_dbm": -91.91955460909779
     },
     {
       "antenna": "A28",
       "frequency_mhz": 2600,
       "d_horizontal_m": 5,
       "cable_loss_db": 5.986365300282883,
-      "total_loss_db": 24.817265170202322,
-      "rsrp_dbm": -81.34588565908302
+      "total_loss_db": 25.01726517020232,
+      "rsrp_dbm": -81.54588565908303
     },
     {
       "antenna": "A28",
       "frequency_mhz": 2600,
       "d_horizontal_m": 10,
       "cable_loss_db": 5.986365300282883,
-      "total_loss_db": 24.817265170202322,
-      "rsrp_dbm": -86.0014537792632
+      "total_loss_db": 25.01726517020232,
+      "rsrp_dbm": -86.2014537792632
     },
     {
       "antenna": "A28",
       "frequency_mhz": 2600,
       "d_horizontal_m": 15,
       "cable_loss_db": 5.986365300282883,
-      "total_loss_db": 24.817265170202322,
-      "rsrp_dbm": -89.65380401410552
+      "total_loss_db": 25.01726517020232,
+      "rsrp_dbm": -89.85380401410552
     },
     {
       "antenna": "A28",
       "frequency_mhz": 2600,
       "d_horizontal_m": 20,
       "cable_loss_db": 5.986365300282883,
-      "total_loss_db": 24.817265170202322,
-      "rsrp_dbm": -92.48824311711365
+      "total_loss_db": 25.01726517020232,
+      "rsrp_dbm": -92.68824311711366
     },
     {
       "antenna": "A29",
@@ -5569,6 +5607,7 @@
       "rsrp_dbm": -91.82316828857304
     }
   ],
+  "local_jumper_count": 6,
   "cable78_installed": 721.5296122485008,
   "cable12_installed": 362.6730029683596
 }

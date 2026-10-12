@@ -159,12 +159,19 @@ def main():
     ants.sort(key=lambda a:a['id'])
     for t in trunk+subfeeds:t['cable']='7/8'
     for t in drops:t['cable']='7/8' if t['length']>15 else '1/2'
+    # Co-located devices require a physical connection; zero-length feeder is
+    # not a purchasable item. Use the supplied 3 m factory jumper, per branch.
+    for t in trunk+subfeeds+drops:
+        if t['length']<1e-6:
+            t['cable']='jumper';t['jumper_length_m']=3
+            t['assumed_loss_db']=0.2  # additional loss, not a datasheet value
     # Supported improvement: lower attenuation cable for subfeeds and long drops.
     for a in ants:
         sub=next(t for t in subfeeds if t['id']==f'F{a["zone"]}-{a["subgroup"]}')
         drop=next(t for t in drops if t['id']==a['id'])
         a['length78_m']=trunk[a['zone']-1]['length']+sub['length']+(drop['length'] if drop['cable']=='7/8' else 0)
         a['length12_m']=drop['length'] if drop['cable']=='1/2' else 0
+        a['additional_jumper_loss_db']=sum(t.get('assumed_loss_db',0) for t in (trunk[a['zone']-1],sub,drop))
     allroutes=trunk+subfeeds+drops
     alpha12={1800:10.09,2100:10.99,2600:11.84+(12.66-11.84)*2/3}
     alpha78={1800:5.21,2100:5.67,2600:6.39}
@@ -177,7 +184,7 @@ def main():
     for a in ants:
         for f in (1800,2100,2600):
             cable=a['length78_m']*alpha78[f]/100+a['length12_m']*alpha12[f]/100
-            loss=cable+fixed
+            loss=cable+fixed+a['additional_jumper_loss_db']
             prb={1800:100,2100:75,2600:50}[f]
             p=23-10*math.log10(2*prb)
             for d in (5,10,15,20):
@@ -189,6 +196,7 @@ def main():
               head=list(head),topology=dict(zones=4,per_zone=per_zone,subgroups=subgroups,leaf_outputs=4),
               antennas=ants,trunks=trunk,subfeeds=subfeeds,drops=drops,
               fixed_loss_db=fixed,rf_points=rf,
+              local_jumper_count=2*sum(t['cable']=='jumper' for t in allroutes),
               cable78_installed=2*sum(t['length'] for t in allroutes if t['cable']=='7/8'),
               cable12_installed=2*sum(t['length'] for t in allroutes if t['cable']=='1/2'))
     (DESIGN/'candidate.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
@@ -237,7 +245,7 @@ def main():
                 10:8 if subgroups==3 else 0,11:8*subgroups,12:0,13:0,14:0,15:0,
                 16:math.ceil(data['cable12_installed']*1.1),17:math.ceil(data['cable78_installed']*1.1),
                 19:4*sum(t['cable']=='1/2' for t in allroutes),
-                20:4*sum(t['cable']=='7/8' for t in allroutes),23:45+2*count}
+                20:4*sum(t['cable']=='7/8' for t in allroutes),23:45+2*count+data['local_jumper_count']}
     characteristics={
         5:'Потолочная omni, MIMO; 800–2700 МГц; G=3 dBi; H=360°. Вертикальная диаграмма не предоставлена.',
         7:'Триплексер 1710–1880 / 1920–2170 / 2500–2690 МГц, одинарный; 4.3-10F; IP67. Insertion loss не дано.',
@@ -259,15 +267,17 @@ def main():
     style(catalogws,{'A':10,'B':15,'C':90,'D':10})
     status=wb.create_sheet('Статус');status.append(['Позиция','Обоснование / ограничение'])
     for row in [
-        ('Проект','Рабочий кандидат, не закупочная спецификация и не подтверждённый проект'),
+        ('Проект','Расчётный вариант финала с явно указанными ограничениями; не комплект для закупки без проверки паспортов и условий монтажа'),
         (f'{count} антенн','Проектные точки выбраны из CAD-привязок и сравнения покрытия. Координаты, распределение и исходные IDs — в project-input.json. Помещение 89 не локализовано.'),
         ('Дерево на одну MIMO-ветвь',f'PC221: 4 выхода → 4 PC211 → 4 зоны. В каждой зоне {subgroups}-way делитель → {subgroups} PC252 4-way → {per_zone} антенн. Отдельного головного 4-way после гибрида нет.'),
         ('PC221','6: 3 диапазона × 2 MIMO-ветви. По три входа для операторов; четвёртый B3 для GSM МТС. Все четыре выхода используются. Неизвестные мощности других операторов не подставлены.'),
         ('PC250',f'{quantities[9]}: один делит DCS-пул на два гибрида B3'+('; восемь делят четыре зоны двух MIMO-ветвей на две подгруппы.' if subgroups==2 else '.')),
         ('PC211','8: 4 группы × 2 MIMO-ветви, по одному объединению B3/B1/B7 на каждый головной фидер'),
         ('Фидеры','7/8 — все головные и подгрупповые участки и оконечные длиннее 15 м; 1/2 — короткие оконечные. Метраж схемы ×2 MIMO, затем +10% отдельного закупочного резерва. Правило 15 м — проектное решение, джамперы отдельно.'),
-        ('Разъёмы','По два на каждый изготовляемый участок фидера; антенны/устройства/джамперы — 4.3-10, интерфейсы БС не подтверждены'),
-        (f'{45+2*count} джамперов',f'18 входов LTE + 1 вход GSM + 2 связи после PC250 + 24 связи PC221→PC211 + {2*count} антенных. При подключённом только МТС 12 входных связей зарезервированы. Порты БС и пригодность длины 3 м не подтверждены.'),
+        ('Разъёмы','По два на каждый ненулевой изготовляемый участок фидера. Для связи с male/male джампером оконечный разъём фидера должен быть female; у делителя — male. Пол разъёмов 1/2 и 7/8 в перечне не задан, доступность модификаций не подтверждена. Интерфейсы БС и In06 также не указаны.'),
+        (f'{45+2*count+data["local_jumper_count"]} джамперов',f'18 входов LTE + 1 вход GSM + 2 связи после PC250 + 24 связи PC221→PC211 + {2*count} антенных + {data["local_jumper_count"]} местных связей PC250→PC252. При подключённом только МТС 12 входных связей зарезервированы. Порты БС и пригодность длины 3 м не подтверждены.'),
+        ('Местные связи','F2-1/F3-1/F4-1: геометрическая длина 0 м означает соседние устройства; соединение выполнено джампером 3 м, по два на ID для MIMO. Добавлено 0,2 дБ на путь, собственное допущение. Монтажных фидеров и отдельных разъёмов для этих шести связей нет.'),
+        ('GSM-интерфейс','Один общий RF-выход GSM с двумя TRX принят условно: объединение передатчиков внутри БС не подтверждено. При раздельных RF-выходах требуется дополнительное решение объединения, отсутствующее в исходных данных. Отдельные входы DCS двух других операторов не выделены.'),
         ('Неиспользуемые порты','У B1/B7 гибридов остаются 4 незадействованных входа, а до подключения других операторов ещё 12. Нужны согласованные 50-омные нагрузки: их нет в разрешённом перечне; это открытое несоответствие, не выдуманная позиция спецификации.'),
         ('Потери компонентов','Кроме 6 дБ PC221 и идеального деления паспортные потери не заданы. Использованы сценарные оценки, см. RF-лист.'),
         ('Пожарное исполнение','XLSX требует огнестойкую безгалогеновую оболочку; PDF описывают PE-варианты. Нужна допустимая модификация.'),
@@ -278,7 +288,8 @@ def main():
     routes=wb.create_sheet('Трассы');routes.append(['Участок','Тип кабеля','Ветвей','Геометрическая длина, м','Длина двух ветвей, м','Источник'])
     for series in (trunk,subfeeds,drops):
         for t in series:
-            routes.append([t['id'],t['cable'],2,round(t['length'],4),round(2*t['length'],4),'Проектная аппроксимация CAD-лотков; без запаса'])
+            routes.append([t['id'],t['cable'],2,round(t['length'],4),round(2*t['length'],4),
+                           'Соседние устройства: два заводских джампера по 3 м; не нулевой фидер' if t['cable']=='jumper' else 'Проектная аппроксимация CAD-лотков; без запаса'])
     style(routes,{'A':16,'B':18,'C':12,'D':25,'E':28,'F':80})
     radio=wb.create_sheet('RF и RSRP');radio.append(['Антенна','Частота МГц','Расстояние по горизонтали м','Потери кабеля дБ','Полные RF-потери дБ','RSRP P1 n=2.5 без стен дБм'])
     for row in rf:radio.append(list(row.values()))

@@ -2,7 +2,7 @@
 
 Инженерное решение кейса «Радио» МТС Engineer Hack 2026: расчёт ёмкости DCS-1800 и LTE FDD, проектирование распределённой антенной системы для ТРК «Эльбрус» и подготовка материалов финального этапа.
 
-**Автор:** [Павел Абалаков](https://github.com/abalakovpa). **Статус:** выход в финал; решение онлайн-этапа подготовлено, работа над финальным заданием продолжается.
+**Автор:** [Павел Абалаков](https://github.com/abalakovpa). **Статус:** подготовлен [пакет из пяти артефактов](submission/README.md), расчётный проект проверен в выбранных сценариях; перед отправкой требуется дополнить личные сведения в презентации. Полное соответствие техническому заданию не подтверждено.
 
 ## Задача
 
@@ -49,14 +49,16 @@
 | Скорректированный ёмкостный расчёт и описание изменений | [Рабочая версия](docs/final/capacity-revision.md): 1 общий пул как кандидат; 2 при прежнем правиле перекоса |
 | План первого этажа с секторами, антеннами и элементами системы | [Проект](docs/final/design-project.md), 32 In06; собственная зона ВК в части 104.2 |
 | Расчёт RSRP на расстояниях 5, 10, 15 и 20 м | [384 RF-точки](docs/final/rsrp-calculation.md), [карты со стенами и чувствительность](docs/final/coverage-review.md): номинальный P1 проходит 95%, фактические KPI не установлены |
-| Спецификация оборудования XLS/XLSX | [Черновик](equipment/bill-of-materials-draft.xlsx), количества из проектной структуры |
-| Презентация для защиты | [Черновик PPTX](presentation/defense-draft.pptx), требуется шаблон и дополнение самопрезентации |
+| Спецификация оборудования XLS/XLSX | [XLSX](submission/final/04-equipment.xlsx), 115 джамперов, 112/52 разъёма; портовый план и комплектность |
+| Презентация для защиты | [PPTX](presentation/defense.pptx), 6 слайдов; личные сведения ещё нужно дополнить |
+
+[Архив сдачи](submission/mts-radio-final.zip) содержит три PDF, XLSX и PPTX. [Инженерная проверка](docs/final/engineering-review.md) фиксирует исправления местных соединений, условный DCS и границы RSRQ/SINR/UL. [Текст защиты](presentation/speaker-script.md) и [ответы жюри](presentation/jury-questions.md) находятся вне архива. Точные размеры и контрольные суммы — в [манифесте](submission/manifest.json).
 
 Для проектирования кейс задаёт высоту потолка 7 м, затухание внутренних перегородок 15 дБ, внешней стены и железобетонных колонн 30 дБ. Максимальные мощности GSM/LTE — 40/43 дБм; мощность пилот-сигнала на выходе БС — 23 дБм. Выбор антенн и материалов ограничен предоставленным организаторами перечнем оборудования.
 
 ## Структура репозитория
 
-Планируемая структура; каталоги финальных результатов заполняются по мере выполнения работы.
+Актуальные расчёты и производные материалы отделены от исходников.
 
 ```text
 README.md
@@ -68,17 +70,29 @@ docs/
     equipment-selection.docx
   final/
     capacity-revision.md
-    assumptions.md
+    design-project.md
+    engineering-review.md
     rsrp-calculation.md
+    coverage-review.md
+    assumptions.md
     kpi-checklist.md
+    source-materials/
+    deliverables/
 design/
-  sectorization/
-  rf-schematics/
-  coverage/
+  final/
+    coverage/
+    verification/
 equipment/
-  bill-of-materials.xlsx
+  bill-of-materials-draft.xlsx
 presentation/
   defense.pptx
+  speaker-script.md
+  jury-questions.md
+scripts/final/
+submission/
+  final/
+  mts-radio-final.zip
+  manifest.json
 ```
 
 ## Инженерные вопросы

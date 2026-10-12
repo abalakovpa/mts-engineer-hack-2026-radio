@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-13",
+  "files": [
+    {
+      "name": "01-capacity.pdf",
+      "bytes": 65944,
+      "sha256": "0e750e1adbf80b60d76904d3b76307e4708e830cd52933c08393c84e88b0efa4",
+      "pages": 5
+    },
+    {
+      "name": "02-floor-design.pdf",
+      "bytes": 1914924,
+      "sha256": "80ddd0218d15777f9faf3aa6429e994f54f933e22cb0edfbf95de41b3fd298c9",
+      "pages": 19
+    },
+    {
+      "name": "03-rsrp.pdf",
+      "bytes": 73849,
+      "sha256": "b466da4ddeb47c2cba68132559e125df5d6b7d61b175ef6bfb8b79e7fc82d464",
+      "pages": 9
+    },
+    {
+      "name": "04-equipment.xlsx",
+      "bytes": 51219,
+      "sha256": "742fe68f03aa83028fc82126f0e8a6bd643e149fcbaedcfd243ffc68962881d2"
+    },
+    {
+      "name": "05-defense.pptx",
+      "bytes": 589806,
+      "sha256": "28836723ecf1ba4dea810aa9d07da6250b9e7b3806f60318b556a06028dac14d"
+    }
+  ],
+  "archive": {
+    "name": "mts-radio-final.zip",
+    "bytes": 2553714,
+    "sha256": "c3b401eb4d7470ea7c03b9902ccbafc8c17ed81b5bb9bc237bf19ad7d38e5cd2"
+  },
+  "design_fingerprint": "71b95286b00d83292322b0532712d42b766c2e83e6c602fb65b09108dbefd364",
+  "technical_export_checked": true,
+  "full_kpi_compliance": false,
+  "uploaded_to_competition": false,
+  "pending_profile_fields": [
+    "role",
+    "contribution",
+    "interests",
+    "course_confirmed"
+  ],
+  "official_template_available": false,
+  "personal_rehearsal_done": false
+}
