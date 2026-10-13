@@ -238,7 +238,7 @@ def finish_pdf(path, name, title):
             c.setFillColor(HexColor(MUTED))
             c.setFont('ReportSans', 8)
             c.drawString(margin, 11 * mm, SHORT_TITLES[name])
-            c.drawCentredString(width / 2, 11 * mm, '14.10.2026 · Оформление v2')
+            c.drawCentredString(width / 2, 11 * mm, '14.10.2026')
             c.drawRightString(width - margin, 11 * mm, f'{i + 1} / {len(document)}')
             c.showPage()
             c.save()
@@ -264,7 +264,7 @@ def finish_pdf(path, name, title):
         document.set_metadata({'title': title, 'author': 'Павел Абалаков',
                                'subject': 'МТС Engineer Hack 2026 — финал, кейс Радио',
                                'creator': 'Pandoc / XeLaTeX / ReportLab',
-                               'keywords': 'Радио, DAS, финал, оформление v2'})
+                               'keywords': 'Радио, DAS, финал'})
         temporary = path.with_suffix('.styled.pdf')
         document.save(temporary, garbage=4, deflate=True)
     temporary.replace(path)

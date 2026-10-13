@@ -3,8 +3,8 @@
   "files": [
     {
       "name": "01-capacity.pdf",
-      "bytes": 111584,
-      "sha256": "44de003f61e8ca82ff2b55bb023dd440405d52e5987655102e15fbedb16d5209",
+      "bytes": 111058,
+      "sha256": "f412270f55479ec1f1286ac7aebb23a4dc951877add9bd1f92488633d0a3a5a2",
       "layout_checked": true,
       "a3_sheets": 0,
       "navigation_checked": true,
@@ -12,8 +12,8 @@
     },
     {
       "name": "02-floor-design.pdf",
-      "bytes": 4005877,
-      "sha256": "1416e7183b6c0398c2c972bf125f7c0492bcd6ac106ad8a6e82aaee4403ac7ed",
+      "bytes": 4004707,
+      "sha256": "1229b8349a80e561b31cf4239c172adcccbe517e2a125910f19f94025de424d9",
       "layout_checked": true,
       "a3_sheets": 14,
       "navigation_checked": true,
@@ -21,8 +21,8 @@
     },
     {
       "name": "03-rsrp.pdf",
-      "bytes": 125985,
-      "sha256": "087e0ae23fac4e9f2744cb0f529ef3ae16cfd1554024bcfaee3fa469128fd5f8",
+      "bytes": 125036,
+      "sha256": "a9f587caffa2b87ce1e9a09ed7d24f9e9cef947c6cc21d8c56bc7a1166b88e16",
       "layout_checked": true,
       "a3_sheets": 0,
       "navigation_checked": true,
@@ -30,8 +30,8 @@
     },
     {
       "name": "04-equipment.xlsx",
-      "bytes": 53886,
-      "sha256": "cad38d218dc318ecee6d51e782cbc146d4d8b53d145b75bbe1f2effb8873ca53"
+      "bytes": 53887,
+      "sha256": "e1f2dd7fb9cc1a1eb1a2e21de29ed241f228eb7709cf72b209885c517f38b25a"
     },
     {
       "name": "05-defense.pptx",
@@ -41,8 +41,8 @@
   ],
   "archive": {
     "name": "mts-radio-final.zip",
-    "bytes": 4479668,
-    "sha256": "13c2a601499ede361739e4e1356bf29224892eecca22d0b48bbb3d0911cedc19"
+    "bytes": 4477464,
+    "sha256": "ae0d363a91ecb9643390e26a1123b2151e8f087f9cec441a9a213ed577e43761"
   },
   "design_fingerprint": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
   "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69",
@@ -52,7 +52,6 @@
   "pending_profile_fields": [],
   "official_template_available": false,
   "personal_rehearsal_done": false,
-  "pdf_design_version": 2,
   "selected_revision": "n3",
   "n3_goal_verified": true
 }
