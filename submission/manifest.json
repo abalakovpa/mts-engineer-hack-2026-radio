@@ -3,8 +3,8 @@
   "files": [
     {
       "name": "01-capacity.pdf",
-      "bytes": 111276,
-      "sha256": "ba14d89b92f318cd77e866abab51836c3dac2162a8e7fb458a543aa1cf18c709",
+      "bytes": 111580,
+      "sha256": "7b4edd5cf7fa86dc696d93d877e56ad0d0955b3c8ae53bdfa8fbc812c3c9fd84",
       "layout_checked": true,
       "a3_sheets": 0,
       "navigation_checked": true,
@@ -12,8 +12,8 @@
     },
     {
       "name": "02-floor-design.pdf",
-      "bytes": 4010193,
-      "sha256": "b6d89ec3d93afeb938c141c477305724530ff6167d46ff24913919d6479e1e7b",
+      "bytes": 4006122,
+      "sha256": "f6d309e772788953c9b34bdb5cf8e1ac3fbd3e0e29557a0f6100a07d1ddc7274",
       "layout_checked": true,
       "a3_sheets": 14,
       "navigation_checked": true,
@@ -21,8 +21,8 @@
     },
     {
       "name": "03-rsrp.pdf",
-      "bytes": 126043,
-      "sha256": "14ea9b86a028b90257209473bcb6dd5742155a0732f28422b92d25d44c30feed",
+      "bytes": 126036,
+      "sha256": "9c4c6bc91d1095cfdf89c3d7828a5ff900a886de18173d4cd3390551faa11ff7",
       "layout_checked": true,
       "a3_sheets": 0,
       "navigation_checked": true,
@@ -30,31 +30,26 @@
     },
     {
       "name": "04-equipment.xlsx",
-      "bytes": 51631,
-      "sha256": "153299548597f487c1a3fa474116502c08930fc142671801aa6fde3095c01b01"
+      "bytes": 51632,
+      "sha256": "4343420ac9497355cf678f877d83d96fab689eef4f43f0f8a701a4c663bed0c2"
     },
     {
       "name": "05-defense.pptx",
-      "bytes": 627706,
-      "sha256": "83b98c63bf3d9b90c52f149cf35e25c9d34dacbc26e9da91e34b5f5e18a80d9b"
+      "bytes": 627893,
+      "sha256": "fd25fb03b82df3d64bf1db964a72b29b32165974580181510cb53b896d095356"
     }
   ],
   "archive": {
     "name": "mts-radio-final.zip",
-    "bytes": 4479167,
-    "sha256": "fdeb9de3b15a53c69e44d053770e148a8e6a3dfd04a929d1a836883e9e589c54"
+    "bytes": 4477151,
+    "sha256": "584bbaff4fde201f8f885044356514c6f48f78f066f7ecc682a4c6a1b6d9a995"
   },
   "design_fingerprint": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
   "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69",
   "technical_export_checked": true,
   "full_kpi_compliance": false,
   "uploaded_to_competition": false,
-  "pending_profile_fields": [
-    "role",
-    "contribution",
-    "interests",
-    "course_confirmed"
-  ],
+  "pending_profile_fields": [],
   "official_template_available": false,
   "personal_rehearsal_done": false,
   "pdf_design_version": 2,

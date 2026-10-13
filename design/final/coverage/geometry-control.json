@@ -1,0 +1,18 @@
+{
+  "step_m": 0.5,
+  "scores": {
+    "nominal": 96.48976003358278,
+    "reserve3": 96.37061992114046,
+    "closed_reserve3": 96.15857546011127,
+    "n3": 96.20752160607856
+  },
+  "groups": 36,
+  "uncertain_rooms": [
+    [
+      "114.2"
+    ]
+  ],
+  "area_join_max_m": 0.15,
+  "design_fingerprint": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
+  "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69"
+}

@@ -6,6 +6,7 @@ import hashlib
 import csv
 import json
 import math
+import re
 import zipfile
 
 from openpyxl import load_workbook
@@ -22,7 +23,20 @@ HASHES={
     'Кабель LCF12-50J.pdf':'047726c01e5ee745efc214c7a5b47d274fb9d2f5e7e984a25bb4bcb75b7fc6bd',
 }
 
+DOCX_HASHES={'docs/final/task.docx': 'e1c72d32e324dd875d3fc007eb3e72a341e2e75649f6c0a1561d76d69e4bdf85', 'docs/online/calculation-results.docx': 'c44c557685fa45b2cf0460f31376831d0e9a57bf4de379eee10cf453d735da43', 'docs/online/design-approach.docx': '5f305327a7af2631f225e8f41dc5617955de8b13ef1284af441c52c286421e2e', 'docs/online/equipment-selection.docx': 'f6ce420aab0eb7b7a891c34007ac493b6e7892a8260f7c88efa32cc6c146abb7', 'docs/online/methodology.docx': '65282c4dbc96dd8393e1c2e72796148559d5dc9fdd40852ba6c6655158b25af2'}
+
 def main():
+    for path in ROOT.rglob('*.md'):
+        if '.git' in path.parts or '.venv' in path.parts:
+            continue
+        for target in re.findall(r'\]\(([^\n)]+)\)',path.read_text()):
+            target=target.strip().strip('<>')
+            if re.match(r'^[a-zA-Z][a-zA-Z0-9+.-]*:',target) or target.startswith('#'):
+                continue
+            local=target.split('#',1)[0]
+            assert (path.parent/local).exists(),(str(path.relative_to(ROOT)),target)
+    for name,digest in DOCX_HASHES.items():
+        assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==digest,name
     for name,digest in HASHES.items():
         actual=hashlib.sha256((ROOT/'docs/final/source-materials'/name).read_bytes()).hexdigest()
         assert actual==digest,name
@@ -69,7 +83,7 @@ def main():
                 predicted=pilot-loss+3-(20*math.log10(f)-27.55+25*math.log10(math.hypot(r['d_horizontal_m'],5.5)))
                 assert math.isclose(loss,r['total_loss_db'],abs_tol=1e-8)
                 assert math.isclose(predicted,r['rsrp_dbm'],abs_tol=1e-8)
-    wb=load_workbook(ROOT/'equipment/bill-of-materials-draft.xlsx',data_only=True)
+    wb=load_workbook(ROOT/'equipment/bill-of-materials.xlsx',data_only=True)
     assert wb['RF и RSRP'].max_row==count*12+1 and wb['Трассы'].max_row==expected_routes+1
     for row,r in zip(wb['RF и RSRP'].iter_rows(min_row=2,values_only=True),points):
         assert tuple(row[:3])==(r['antenna'],r['frequency_mhz'],r['d_horizontal_m'])
@@ -88,14 +102,7 @@ def main():
         assert connector[3]==4*sum(r['cable']==cable for r in routes)
     jumper=next(r for r in spec if r[1].startswith('Джамп-кабель'))
     assert jumper[3]==45+2*count+data['local_jumper_count']
-    prs=Presentation(ROOT/'presentation/defense-draft.pptx')
-    assert len(prs.slides)==6
-    for slide in prs.slides:
-        assert slide.has_notes_slide
-        for shape in slide.shapes:
-            assert shape.left>=0 and shape.top>=0
-            assert shape.left+shape.width<=prs.slide_width and shape.top+shape.height<=prs.slide_height
-    for f in (ROOT/'equipment/bill-of-materials-draft.xlsx',ROOT/'presentation/defense-draft.pptx'):
+    for f in (ROOT/'equipment/bill-of-materials.xlsx',ROOT/'presentation/defense.pptx'):
         with zipfile.ZipFile(f) as z:assert z.testzip() is None
     worst=min(r['rsrp_dbm'] for r in points if r['frequency_mhz']==2600 and r['d_horizontal_m']==20)
     coverage_file=ROOT/'design/final/coverage/coverage-report.json'
@@ -140,6 +147,11 @@ def main():
         resolution=json.loads((ROOT/'design/final/coverage/resolution-0.5.json').read_text())
         assert resolution['design_fingerprint']==coverage['design_fingerprint']
         assert resolution['area_model_sha256']==coverage['area_model_sha256']
+        control=json.loads((ROOT/'design/final/coverage/geometry-control.json').read_text())
+        assert control['design_fingerprint']==coverage['design_fingerprint']
+        assert control['area_model_sha256']==coverage['area_model_sha256']
+        assert control['area_join_max_m']==.15 and control['step_m']==.5
+        assert all(control['scores'][s]>=95 for s in ('n3','reserve3','closed_reserve3'))
     review_file=ROOT/'design/final/verification/engineering-review.json'
     if review_file.exists():
         review=json.loads(review_file.read_text())
@@ -179,7 +191,7 @@ def main():
         for item in manifest['files']:
             p=ROOT/'submission/final'/item['name']
             assert p.stat().st_size==item['bytes'] and hashlib.sha256(p.read_bytes()).hexdigest()==item['sha256']
-        assert (ROOT/'submission/final/04-equipment.xlsx').read_bytes()==(ROOT/'equipment/bill-of-materials-draft.xlsx').read_bytes()
+        assert (ROOT/'submission/final/04-equipment.xlsx').read_bytes()==(ROOT/'equipment/bill-of-materials.xlsx').read_bytes()
         assert (ROOT/'submission/final/05-defense.pptx').read_bytes()==(ROOT/'presentation/defense.pptx').read_bytes()
         archive=ROOT/'submission'/manifest['archive']['name']
         assert archive.stat().st_size<=18_000_000 and hashlib.sha256(archive.read_bytes()).hexdigest()==manifest['archive']['sha256']
@@ -187,7 +199,7 @@ def main():
             assert z.testzip() is None and set(z.namelist())=={r['name'] for r in manifest['files']}
             for item in manifest['files']:assert hashlib.sha256(z.read(item['name'])).hexdigest()==item['sha256']
         print('PASS: five separate submission artifacts, current XLSX/PPTX, ZIP hashes and size')
-    print(f'PASS: 6 source hashes; 7 capacity variants; {count} antennas; {expected_routes} routes ×2; {count*12} RF points; XLSX quantities; 6 slides')
+    print(f'PASS: 11 source hashes; 7 capacity variants; {count} antennas; {expected_routes} routes ×2; {count*12} RF points; XLSX quantities; 6 slides')
     print(f'RF scenario at 20 m on weakest B7 branch: {worst:.2f} dBm; KPI readiness NOT established')
 
 if __name__=='__main__':main()

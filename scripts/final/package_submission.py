@@ -148,7 +148,7 @@ def main():
     with ThreadPoolExecutor(max_workers=3) as pool:list(pool.map(export_pdf,jobs))
     # MuPDF and ReportLab composition is sequential; XeLaTeX exports are independent.
     for name,title in jobs:finish_pdf(OUTPUT/(name+'.pdf'),name,title)
-    shutil.copyfile(ROOT/'equipment/bill-of-materials-draft.xlsx',OUTPUT/NAMES[3])
+    shutil.copyfile(ROOT/'equipment/bill-of-materials.xlsx',OUTPUT/NAMES[3])
     shutil.copyfile(ROOT/'presentation/defense.pptx',OUTPUT/NAMES[4])
     # Page count and Unicode text extraction check exported files, not just the sources.
     files=[]

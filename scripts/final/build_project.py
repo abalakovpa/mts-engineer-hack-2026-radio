@@ -8,22 +8,14 @@ from itertools import combinations
 from functools import lru_cache
 from pathlib import Path
 
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-from matplotlib.collections import LineCollection
 import numpy as np
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Alignment, Font, PatternFill
-from pptx import Presentation
-from pptx.util import Inches, Pt
-from pptx.dml.color import RGBColor
 
 ROOT=Path(__file__).resolve().parents[2]
 DESIGN=ROOT/'design/final'
 FINAL=ROOT/'docs/final'
 EQUIP=ROOT/'equipment'
-PRES=ROOT/'presentation'
 
 def distance(a,b):return math.dist(a,b)
 
@@ -112,7 +104,7 @@ def local_groups(ids,ants,zone):
     return [([ids[i] for i in range(count) if mask&(1<<i)],hubs[best_group[mask][1]]) for mask in partition]
 
 def main():
-    for p in (DESIGN,EQUIP,PRES):p.mkdir(parents=True,exist_ok=True)
+    for p in (DESIGN,EQUIP):p.mkdir(parents=True,exist_ok=True)
     geom=json.loads((DESIGN/'cad-geometry.json').read_text())
     rooms=list(csv.DictReader((DESIGN/'room-schedule.csv').open()))
     catalog=load_workbook(FINAL/'source-materials/Перечень вспомогательного оборудования.xlsx',data_only=True)
@@ -210,41 +202,6 @@ def main():
         writer=csv.writer(stream,lineterminator='\n');writer.writerow(['ID','room','zone','x_m','y_m','path78_m','path12_m'])
         for a in ants:writer.writerow([a['id'],a['room'],a['zone'],a['x'],a['y'],a['length78_m'],a['length12_m']])
 
-    fig,ax=plt.subplots(figsize=(10,16))
-    arch=[e['points'] for e in geom['lines'] if not any(v in e['layer'] for v in ('CABL','AREA'))]
-    ax.add_collection(LineCollection(arch,colors='#929292',linewidths=.45))
-    ax.add_collection(LineCollection([[V[a],V[b]] for a,b in EDGES],colors='#1676b5',linewidths=2))
-    colors=['#bc3f46','#22846d','#ad701e','#774b9d']
-    for a in ants:
-        color=colors[a['zone']-1]
-        ax.plot(*zip(*a['points']),color=color,lw=.7,alpha=.8)
-        ax.scatter(a['x'],a['y'],s=30,color=color,zorder=5)
-        ax.text(a['x']+.25,a['y']+.3,a['id'],fontsize=6,color=color)
-    for i,p in enumerate(t['points'][-1] for t in trunk):
-        ax.scatter(*p,marker='s',s=65,c=colors[i]);ax.text(p[0]+.4,p[1],f'Z{i+1}: {per_zone} антенн',fontsize=7)
-    ax.scatter(*head,marker='*',s=160,c='#14293e');ax.text(head[0]-5,head[1]+1,'Проектная ВК',fontsize=8)
-    ax.set_xlim(-3,40);ax.set_ylim(-3,66);ax.set_aspect('equal');ax.grid(alpha=.12)
-    ax.set_xlabel('CAD X, м');ax.set_ylabel('CAD Y, м')
-    ax.set_title(f'Проект: 1 LTE-пул + 1 DCS-пул, {count} In06\nЧетыре группы фидеров — не четыре LTE-сектора',fontsize=11)
-    fig.savefig(DESIGN/'candidate-layout.png',dpi=180,bbox_inches='tight')
-    fig.savefig(DESIGN/'candidate-layout.pdf',bbox_inches='tight');plt.close(fig)
-
-    # Diagnostic field only: no wall geometry, no area mask, no KPI percentage.
-    xs=np.arange(0,38,.5);ys=np.arange(0,64,.5);xx,yy=np.meshgrid(xs,ys)
-    best=np.full(xx.shape,-np.inf)
-    for a in ants:
-        loss=next(r['total_loss_db'] for r in rf if r['antenna']==a['id'] and r['frequency_mhz']==2600)
-        rr=np.sqrt((xx-a['x'])**2+(yy-a['y'])**2+5.5**2)
-        value=3-loss+3-(20*np.log10(2600)-27.55+25*np.log10(rr))
-        best=np.maximum(best,value)
-    fig,ax=plt.subplots(figsize=(9,13))
-    field=ax.pcolormesh(xx,yy,best,cmap='RdYlGn',vmin=-105,vmax=-70,shading='auto')
-    ax.add_collection(LineCollection(arch,colors='#222222',linewidths=.3))
-    ax.set_aspect('equal');ax.set_xlim(-1,38);ax.set_ylim(-1,64)
-    ax.set_title('Диагностическое поле B7, P1, n=2,5\nБез стен и маски площади; выполнение KPI не установлено',fontsize=11)
-    ax.set_xlabel('CAD X, м');ax.set_ylabel('CAD Y, м');fig.colorbar(field,ax=ax,label='RSRP от сильнейшей антенны, дБм')
-    fig.savefig(DESIGN/'rsrp-b7-no-walls.png',dpi=160,bbox_inches='tight');plt.close(fig)
-
     wb=Workbook();ws=wb.active;ws.title='Спецификация'
     ws.append(['Категория оборудования','Наименование / модель','Основные характеристики','Количество','Единица измерения'])
     quantities={5:count,6:0,7:8,8:6,9:1+(8 if subgroups==2 else 0),
@@ -300,60 +257,9 @@ def main():
     radio=wb.create_sheet('RF и RSRP');radio.append(['Антенна','Частота МГц','Расстояние по горизонтали м','Потери кабеля дБ','Полные RF-потери дБ','RSRP P1 n=2.5 без стен дБм'])
     for row in rf:radio.append(list(row.values()))
     style(radio,{'A':15,'B':20,'C':30,'D':25,'E':30,'F':45})
-    wb.save(EQUIP/'bill-of-materials-draft.xlsx')
+    wb.save(EQUIP/'bill-of-materials.xlsx')
 
-    prs=Presentation();prs.slide_width=Inches(13.333);prs.slide_height=Inches(7.5)
-    def slide(title,lines,image=None,notes=''):
-        s=prs.slides.add_slide(prs.slide_layouts[6])
-        bg=s.background.fill;bg.solid();bg.fore_color.rgb=RGBColor.from_string('F7F9FC')
-        box=s.shapes.add_textbox(Inches(.6),Inches(.35),Inches(12.1),Inches(.75)).text_frame
-        p=box.paragraphs[0];p.text=title;p.font.size=Pt(28);p.font.bold=True;p.font.color.rgb=RGBColor.from_string('17324D')
-        width=5.4 if image else 11.9
-        frame=s.shapes.add_textbox(Inches(.7),Inches(1.4),Inches(width),Inches(5.5)).text_frame
-        frame.word_wrap=True
-        for i,line in enumerate(lines):
-            p=frame.paragraphs[0] if i==0 else frame.add_paragraph();p.text=line;p.font.size=Pt(20);p.space_after=Pt(18)
-        if image:s.shapes.add_picture(str(image),Inches(7.4),Inches(1.15),height=Inches(5.95))
-        s.notes_slide.notes_text_frame.text=notes
-    slide('Павел Абалаков · Indoor Radio Design',[
-        'УрТИСИ · третий курс',
-        '11.03.02 «Инфокоммуникационные технологии и системы связи»',
-        'II место: Всероссийский хакатон связи, 2025',
-        'Проект: Svyaz Hack Payment OCR',
-        '[Дополнить: текущая роль и профессиональные интересы]'],
-        notes='Источник: https://github.com/abalakovpa/abalakovpa, прочитан 12.10.2026. Факты из профиля; актуальность третьего курса подтвердить. 25 секунд.')
-    slide('Новые вводные меняют модель спроса',[
-        '360 прогнозных 4G × 35% RRC × 10% buffer = 12,6 → 13 UE',
-        'DL: 13 × 8 = 104 Мбит/с вместо 2304',
-        'B3/B1/B7: 6 + 4 + 3 = 13 UE без CA',
-        'Один общий пул — кандидат; прежнее правило k=1,10 даёт два',
-        'Распределение антенн не создаёт новые секторы'],notes='45 секунд. Объяснить изменение k(1)=1: пространственный перекос внутри одного пула не повышает суммарный спрос. Не заявлять запас на временные пики.')
-    slide('Проект на фактической CAD-подложке',[
-        '46 помещений, итог экспликации 2097,06 м²',
-        f'{count} In06: схема после расчётного сравнения',
-        '4 группы фидеров, 2 независимые MIMO-ветви',
-        'Проектная ВК: часть 104.2; собственное допущение',
-        'Помещение 89 ещё не локализовано'],DESIGN/'candidate-layout.png',notes='50 секунд. План — кандидат, а не утверждённое размещение. Точки привязаны к меткам помещений. Ограничения проговорить.')
     worst=max(rf,key=lambda r:r['total_loss_db'])
-    slide('RSRP: расчёт и существенные ограничения',[
-        'Контрольные точки: 5 / 10 / 15 / 20 м',
-        'Пилот 23 дБм: несколько возможных нормировок',
-        f'Худшая ветвь кандидата: {worst["total_loss_db"]:.1f} дБ RF-потерь',
-        'Потери стен: 15 дБ; колонн и фасада: 30 дБ',
-        'Покрытие со стенами: отдельный сценарный отчёт'],notes='45 секунд. P1 — условное суммирование мощности 2N_PRB CRS-поднесущих на одном порту; отсутствует определение в задании. Расчёт n=2.5 без калибровки. Не выдавать уровни за измерения.')
-    slide('Спецификация связана с деревом DAS',[
-        'Только позиции из предоставленного перечня',
-        f'{count} антенн; {quantities[11]} PC252; {quantities[10]} PC251; 8 PC211; 6 PC221; {quantities[9]} PC250',
-        f'Фидеры без резерва: 1/2 — {data["cable12_installed"]:.1f} м; 7/8 — {data["cable78_installed"]:.1f} м',
-        'В закупочный метраж добавлено 10% отдельно',
-        'Пожарная модификация и component losses требуют уточнения'],notes='40 секунд. Количества проекта условны; PASсивная схема не выполняет буквальное требование управляемых удалённых модулей. Не считать комплект закупочным.')
-    slide('Три решения и контроль готовности',[
-        'Один общий LTE-пул: сохранение ёмкости без собственных межсекторных помех',
-        'Два раздельных MIMO-тракта до каждого In06',
-        'Трассы и спецификация рассчитываются из одной структуры',
-        'До сдачи: ВК, помещение 89, пилот, параметры компонентов, карты KPI',
-        'Рабочий проект. Полное соответствие ТЗ пока не заявляется.'],notes='35 секунд; суммарно 240 секунд. Это черновик защиты со статусом работ, не окончательная презентация выполненного проекта.')
-    prs.save(PRES/'defense-draft.pptx')
     summary=dict(antennas=len(ants),trunk78_m=data['cable78_installed'],feed12_m=data['cable12_installed'],
                  fixed_loss_db=fixed,min_rf_loss_db=min(r['total_loss_db'] for r in rf),
                  max_rf_loss_db=worst['total_loss_db'],worst_antenna=worst['antenna'],

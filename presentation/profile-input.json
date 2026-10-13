@@ -1,12 +1,26 @@
 {
   "name": "Павел Абалаков",
-  "education": "УрТИСИ · 11.03.02",
-  "profile_facts": "III курс по профилю GitHub; II место — хакатон связи, 2025",
-  "project": "Svyaz Hack Payment OCR",
-  "role": "",
-  "contribution": "",
-  "interests": "",
-  "course_confirmed": false,
+  "education": "УрТИСИ · III курс · 11.03.02",
+  "profile_facts": "II место — хакатон связи, 2025",
+  "project": "Payment OCR · Magistral Dispatcher MAX",
+  "role": "Студент; product manager в проектных командах",
+  "contribution": "Payment OCR: архитектура; оба проекта: задачи и командная коммуникация",
+  "interests": "Product management, управление проектами и командная коммуникация",
+  "course_confirmed": true,
   "source": "https://github.com/abalakovpa/abalakovpa",
-  "source_read_date": "2026-10-12"
+  "projects": [
+    {
+      "name": "Svyaz Hack Payment OCR",
+      "url": "https://github.com/abalakovpa/svyaz-hack-payment-ocr",
+      "contribution": "Выстраивал архитектуру, вёл коммуникацию в команде, распределял задачи; product manager."
+    },
+    {
+      "name": "Magistral Dispatcher MAX",
+      "url": "https://github.com/EEGRINO/magistral-dispatcher-max",
+      "contribution": "Вёл коммуникацию в команде, распределял задачи; product manager.",
+      "participation_status": "Участие продолжается; выход в финал не подтверждён."
+    }
+  ],
+  "personal_facts_source": "Образование, актуальный курс и проектные роли подтверждены автором.",
+  "self_introduction": "Меня зовут Павел Абалаков. Я студент третьего курса УрТИСИ, изучаю инфокоммуникационные технологии и системы связи. В командах Payment OCR и Magistral Dispatcher MAX выступал как product manager: распределял задачи и выстраивал коммуникацию. В Payment OCR также отвечал за архитектуру. Развиваюсь в product management и управлении проектами."
 }

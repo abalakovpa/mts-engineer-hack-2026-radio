@@ -1,0 +1,5 @@
+# Local environment and reproducible ray caches
+.venv/
+__pycache__/
+*.pyc
+design/final/coverage/propagation-*.npz

@@ -133,7 +133,7 @@ def main():
     np.savez_compressed(OUT/'validated-fields.npz',points=points,weights=weights,areas=areas,gid=gid,
                         **{f'rsrp_{f}':v for f,v in saved_fields.items()},**{f'rsrp_n3_{f}':v for f,v in n3_fields.items()})
     # Add results to the same workbook; quantities are still generated from routes.
-    wb=load_workbook(ROOT/'equipment/bill-of-materials-draft.xlsx')
+    wb=load_workbook(ROOT/'equipment/bill-of-materials.xlsx')
     for title in ('Покрытие сценарии','Покрытие помещения'):
         if title in wb:del wb[title]
     from build_project import style
@@ -143,26 +143,7 @@ def main():
     ws=wb.create_sheet('Покрытие помещения');ws.append(['Частота МГц','Группа','Помещения','Площадь экспликации м²','Покрыто по весам м²','Доля группы, %'])
     for r in room_rows:ws.append(list(r.values()))
     style(ws,{'A':20,'B':12,'C':55,'D':24,'E':28,'F':18})
-    wb.save(ROOT/'equipment/bill-of-materials-draft.xlsx')
-    from pptx import Presentation
-    from pptx.util import Pt
-    presentation_path=ROOT/'presentation/defense-draft.pptx'
-    prs=Presentation(presentation_path)
-    by_key={(r['scenario'],r['frequency_mhz']):r for r in rows}
-    nominal=[by_key[('P1_n2.5',f)]['reference_percent_2100'] for f in (1800,2100,2600)]
-    texts=[f'{len(indexes)*12} RF-точек и {len(points)} ячеек карты; шаг {args.step} м',
-           'P1, n=2,5, стены/колонны: B3/B1/B7 — '+ '/'.join(f'{p:.2f}%' for p in nominal),
-           f'B7 с дополнительными 3 дБ потерь: {by_key[("P1_extra_RF_3dB",2600)]["reference_percent_2100"]:.2f}%',
-           '45,52 м² помещения 89 считаются непокрытыми',
-           'Прогноз модели; SINR, RSRQ и фактические KPI не подтверждены']
-    frame=prs.slides[3].shapes[1].text_frame
-    frame.clear()
-    for i,t in enumerate(texts):
-        p=frame.paragraphs[0] if i==0 else frame.add_paragraph();p.text=t;p.font.size=Pt(20);p.space_after=Pt(18)
-    final_frame=prs.slides[5].shapes[1].text_frame
-    for p in final_frame.paragraphs:
-        if p.text.startswith('До сдачи:'):p.text='Приняты допущения: ВК в 104.2, нормировка пилота, параметры компонентов и модель стен'
-    prs.save(presentation_path)
+    wb.save(ROOT/'equipment/bill-of-materials.xlsx')
     for row in rows:print(row['scenario'],row['frequency_mhz'],round(row['reference_percent_2100'],3))
 
 if __name__=='__main__':main()

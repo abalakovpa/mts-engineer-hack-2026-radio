@@ -1,13 +1,8 @@
 {
   "slides": 6,
   "planned_seconds": 240,
-  "word_count": 501,
-  "pending_profile_fields": [
-    "role",
-    "contribution",
-    "interests",
-    "course_confirmed"
-  ],
+  "word_count": 506,
+  "pending_profile_fields": [],
   "official_template_available": false,
   "personal_rehearsal_done": false
 }

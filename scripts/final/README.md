@@ -1,49 +1,67 @@
-# Воспроизведение рабочих результатов
+# Пересборка и проверка решения
 
-Из корня репозитория, Python 3.12. В текущей облачной машине подготовлен virtualenv с доступом к установленным пакетам и Shapely:
-
-```sh
-source /workspace/radio-runtime/venv/bin/activate
-python3 scripts/final/calculate.py
-MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/prepare_coverage_model.py
-MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/build_project.py
-MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/evaluate_coverage.py --step 0.25
-MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/evaluate_coverage.py --step 0.5 --resolution-only
-```
-
-После этих команд подготовить инженерные дополнения, презентацию и пять отдельных артефактов:
+Из корня репозитория. Python 3.12; зависимости в requirements.txt.
+В новой среде создать virtualenv и установить пакеты:
 
 ```sh
-MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/final_engineering.py
-MPLCONFIGDIR=/tmp/radio-mpl OPENBLAS_NUM_THREADS=1 python3 scripts/final/compare_revision.py
-MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/write_reserve_docs.py
-MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/update_primary_status.py
-python3 scripts/final/final_presentation.py
-MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/update_primary_status.py
-MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/package_submission.py
-python3 scripts/final/validate.py
-MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/update_primary_status.py --finalize
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r scripts/final/requirements.txt
 ```
 
-Экспорт PDF: Pandoc + XeLaTeX и DejaVu Sans/Mono; ReportLab/PyMuPDF формируют листы A3 и согласованную нумерацию. Общий стиль — docs/final/deliverables/pdf-header.tex, таблицы — pdf-design.lua, обзоры и графические листы — pdf_design.py. Проверка PDF: pdfinfo/pdftotext и PyMuPDF, включая поля, переходы и 384 экспортированных значения RSRP. Презентация и PDF-предпросмотр формируются по общему макету, а не рендерингом в PowerPoint. Скрипт final_engineering.py добавляет листы портового плана, DCS и комплектности в XLSX; его выполнять после evaluate_coverage.py. Личные поля — presentation/profile-input.json. Архив, манифест и правила отправки — submission/README.md. Загрузка на платформу не автоматизирована.
+Для PDF требуются Pandoc, XeLaTeX, pdfinfo/pdftotext и шрифты DejaVu Sans/Mono.
+В подготовленной облачной среде virtualenv — `/workspace/radio-runtime/venv`.
+Конвертер DWG нужен только при повторном извлечении CAD; компактная геометрия
+уже сохранена. [Геометрия и единицы](../../design/final/README.md).
 
-Зависимости зафиксированы в requirements.txt. В новой среде создать virtualenv, активировать его и установить `python -m pip install -r scripts/final/requirements.txt`; путь активации заменить на путь нового virtualenv. Исходные DOCX/DWG/XLSX/PDF/PNG не редактируются.
-
-Для повторного извлечения CAD см. `design/final/README.md` и `extract_cad.py`. Генерация проекта использует уже сохранённый compact JSON и не требует конвертера при каждом запуске. Производные файлы перечислены в `docs/final/design-project.md`; их не следует редактировать вручную вместо входов генератора.
-
-`calculate.py` использует Decimal. `prepare_coverage_model.py` восстанавливает группы площади и препятствия. `build_project.py` читает явные входы design/final/project-input.json, пересчитывает топологию и создаёт схемы/XLSX/PPTX. `evaluate_coverage.py` добавляет карты, листы покрытия и численные результаты в презентацию. Поэтому после отдельного запуска build_project.py необходимо снова выполнить evaluate_coverage.py. Оценки компонентов не являются паспортными данными; карты — прогнозы выбранной модели.
-
-Для повторного исследования вариантов, без автоматического изменения принятого project-input.json: `MPLCONFIGDIR=/tmp/radio-mpl OPENBLAS_NUM_THREADS=1 python3 scripts/final/research_reserve.py --step 0.5 --passes 2`. Исходный 48-антенный вариант сохранён в coverage/baseline-candidate.json, предыдущий 32-антенный — revision/baseline-32-candidate.json. Исследование начинает с текущего набора точек и создаёт предложение; оно не утверждает глобальный оптимум и не меняет принятую конфигурацию автоматически. Полная конструкция неравномерного дерева — route_design.py. Ранние coverage.py/optimize_positions.py и их результаты сохраняются для истории; старый optimize_positions.py рассчитан на первоначальные точки и не применяется к новой конфигурации.
-
-compare_revision.py сравнивает прежнюю схему на новой геометрии/сетке 0,25 м и проверяет короткие стыки 0,15 м на сетке 0,5 м в отдельном временном кэше. write_reserve_docs.py обновляет пояснения из проверенных JSON. Валидатор запускать после всей цепочки, включая пакет: промежуточные XLSX/отчёты/архив разных версий намеренно не проходят проверки отпечатков. Для изменений только личного профиля достаточно final_presentation.py → package_submission.py → validate.py.
-
-`validate.py` проверяет неизменность исходников, дерево, длины, XLSX, RF-точки, структуру презентации, суммы весов и монотонность сценариев. Лучи кэшируются с отпечатком геометрии и координат; после переноса пересчитываются изменившиеся пути. Некоторые сценарии покрытия проходят 95%, другие не проходят; тесты согласованности не подменяют эти исходы.
-
-Отдельное исследование n=3, без изменения выбранной схемы, XLSX/PPTX и архива:
+## Полная последовательность
 
 ```sh
-MPLCONFIGDIR=/tmp/radio-mpl OPENBLAS_NUM_THREADS=1 python3 scripts/final/research_n3.py --passes 2
-MPLCONFIGDIR=/tmp/radio-mpl OPENBLAS_NUM_THREADS=1 python3 scripts/final/review_n3.py
+export MPLCONFIGDIR=/tmp/radio-mpl
+export XDG_CACHE_HOME=/tmp/radio-report-cache
+export OPENBLAS_NUM_THREADS=1
+python scripts/final/calculate.py
+python scripts/final/prepare_coverage_model.py
+python scripts/final/build_project.py
+python scripts/final/evaluate_coverage.py --step 0.25
+python scripts/final/evaluate_coverage.py --step 0.5 --resolution-only
+python scripts/final/final_engineering.py
+python scripts/final/check_geometry.py
+python scripts/final/write_design_docs.py
+python scripts/final/final_presentation.py
+python scripts/final/write_status_docs.py
+python scripts/final/package_submission.py
+python scripts/final/validate.py
 ```
 
-Результаты — `design/final/n3/`, отчёт — `docs/final/n3-feasibility.md`. Поиск использует реальные трассированные потери, 420 назначений классов мощности, проекции S-узлов на предложенные лотки и локальные переносы. Контроль пересчитывает пять вариантов на сетке 0,25 м, проверяет цель n=3/совместного запаса по всем трём диапазонам, маршруты и RF-бюджеты; отдельно используется сетка 0,5 м. Кэши — `/workspace/radio-runtime/n3-cache` в текущей среде. `route_design.construct` принимает необязательные `zone_hubs`; без них сохраняет прежние точки. Вариант n=3 принят в основной пакет, входы содержат новые узлы. Исследование воспроизводится от сохранённой baseline-candidate.json, а не перезаписывает прежнюю базу текущей схемой. Статусы и запись принятия обновляет update_primary_status.py; finalize сверяет экспорт с текущим расчётом.
+Входы проекта — design/final/project-input.json; роли и личные сведения —
+presentation/profile-input.json. Исходные документы не редактируются.
+После изменения RF-входов выполнять всю последовательность. build_project.py
+создаёт спецификацию, evaluate_coverage.py и final_engineering.py добавляют
+листы покрытия, портового плана и комплектности.
+
+Лучевые кэши propagation-*.npz не хранятся на GitHub; при отсутствии они
+генерируются автоматически с отпечатками геометрии и координат.
+check_geometry.py проверяет текущую схему при пределе короткого стыка 0,15 м.
+write_design_docs.py и write_status_docs.py формируют пояснения из текущих
+проверенных JSON; старые исследовательские варианты для этого не нужны.
+
+## Только изменение самопрезентации
+
+```sh
+python scripts/final/final_presentation.py
+python scripts/final/write_status_docs.py
+python scripts/final/package_submission.py
+python scripts/final/validate.py
+```
+
+## Что проверяется
+
+Неизменность исходников; арифметика S/S−1 и Erlang B; доли мощности,
+пути, длины и количества; 384 RF-значения; 39 LTE-сценариев и монотонность;
+контроль геометрии; портовый план и DCS; XLSX/PPTX; поля, навигация,
+векторные схемы и значения экспортированных PDF; содержимое ZIP и SHA-256.
+Проверки согласованности не подтверждают фактические KPI.
+
+Оформление PDF — docs/final/deliverables/pdf-header.tex, pdf-design.lua,
+pdf_design.py. Загрузка архива на конкурсную платформу выполняется участником.

@@ -1,26 +1,19 @@
 #!/usr/bin/env python3
-"""Evaluate CAD-derived RSRP scenarios and screen realizable antenna counts.
+"""Compute propagation paths for the selected CAD-based design.
 
 Unknown materials/door states, CRS normalization and area boundaries remain
 explicit assumptions. Percentages are predictions of this model, not surveys.
 """
 from collections import defaultdict
 from pathlib import Path
-import argparse
-import csv
 import hashlib
 import json
 import math
 
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-from matplotlib.collections import LineCollection
 import numpy as np
 from shapely.geometry import Point, LineString, MultiPoint, box, shape
 from shapely import STRtree, linestrings
 
-from build_project import route, ZONES, V
 
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'design/final/coverage'
@@ -177,70 +170,3 @@ def fields(model,ants,step,cache_dir=None):
                 wall=wall,closed=closed,columns=cols,radius=radius)
     np.savez_compressed(cache,**result)
     return result
-
-def score(values,weights):return float(weights[values>-90].sum()/2100*100)
-
-def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--step',type=float,default=1)
-    args=parser.parse_args()
-    model=json.loads((OUT/'area-model.json').read_text())
-    baseline_file=OUT/'baseline-candidate.json'
-    if not baseline_file.exists():baseline_file.write_bytes((ROOT/'design/final/candidate.json').read_bytes())
-    candidate=json.loads(baseline_file.read_text());ants=candidate['antennas']
-    field=fields(model,ants,args.step);weights=field['weights'];radius=field['radius']
-    # Three source locations are project alternatives; existing room functions
-    # are preserved and no location is claimed to be an existing ВК.
-    heads={'H118':V[0],'H104.2':(9.2,31.2),'H137':(.7,32.0)}
-    results=[];all_choices=[]
-    for name,head in heads.items():
-        trunk_new=[route(head,z)[0] for z in ZONES]
-        power=[]
-        for a in ants:
-            old=next(r['total_loss_db'] for r in candidate['rf_points'] if r['antenna']==a['id'] and r['frequency_mhz']==2600)
-            delta=(trunk_new[a['zone']-1]-candidate['trunks'][a['zone']-1]['length'])*6.39/100
-            power.append(3-(old+delta)+3)
-        radio=np.array(power)[:,None]-(20*np.log10(2600)-27.55+25*np.log10(radius))-field['wall']-field['columns']
-        for count in (48,32,24,16):
-            gain=10*math.log10(48/count)+(.5 if count==16 else 0)
-            chosen=list(range(48));quota=count//4
-            # Balanced backward deletion; retain a realizable equal-output tree.
-            while len(chosen)>count:
-                removable=[i for i in chosen if sum(ants[j]['zone']==ants[i]['zone'] for j in chosen)>quota]
-                utility=[]
-                for i in removable:
-                    trial=[j for j in chosen if j!=i]
-                    values=radio[trial].max(axis=0)+gain
-                    utility.append((score(values,weights),-float(np.maximum(values+90,0).dot(weights)),i))
-                # Coverage first, continuous RF margin as tie-breaker.
-                remove=max(utility,key=lambda t:(t[0],-t[1],-t[2]))[2]
-                chosen.remove(remove)
-            vals=radio[chosen].max(axis=0)+gain
-            result=dict(head=name,head_xy=head,antennas=count,step_m=args.step,
-                        coverage_reference_percent=score(vals,weights),
-                        coverage_model_percent=float(field['areas'][vals>-90].sum()/field['areas'].sum()*100),
-                        selected_ids=[ants[i]['id'] for i in chosen],
-                        nominal_only=True,cable_routes_rebuilt=False)
-            results.append(result)
-            all_choices.append((result,chosen,vals))
-    feasible=[choice for choice in all_choices if choice[0]['coverage_reference_percent']>=95]
-    if feasible:
-        recommend,best_selection,best_fields=min(feasible,key=lambda choice:(choice[0]['antennas'],-choice[0]['coverage_reference_percent']))
-    else:
-        recommend,best_selection,best_fields=max(all_choices,key=lambda choice:choice[0]['coverage_reference_percent'])
-    (OUT/f'options-{args.step:g}.json').write_text(json.dumps(dict(options=results,screening_best=recommend),ensure_ascii=False,indent=2)+'\n')
-    # Save selected points as an explicit proposal; full tree must be rebuilt.
-    (OUT/'screening-selection.json').write_text(json.dumps(dict(head=recommend['head_xy'],head_label=recommend['head'],
-        requested_count=len(best_selection),antennas=[ants[i] for i in best_selection],
-        screening_only=True,baseline_source='baseline-candidate.json'),ensure_ascii=False,indent=2)+'\n')
-    fig,ax=plt.subplots(figsize=(9,14))
-    chart=ax.scatter(field['points'][:,0],field['points'][:,1],c=best_fields,s=8,cmap='RdYlGn',vmin=-110,vmax=-75,marker='s')
-    for g in model['groups']:
-        poly=shape(g['geometry']);ax.plot(*poly.exterior.xy,color='#333333',lw=.4)
-    for i in best_selection:ax.plot(ants[i]['x'],ants[i]['y'],'k.',ms=3)
-    ax.set_aspect('equal');ax.set_xlim(-2,39);ax.set_ylim(-2,66)
-    ax.set_title(f'Скрининг B7, P1, n=2,5: {recommend["head"]}, {len(best_selection)} антенн\nСтены 15 / колонны 30 дБ; неизвестная площадь считается непокрытой',fontsize=10)
-    fig.colorbar(chart,ax=ax,label='RSRP, дБм');fig.savefig(OUT/f'screening-map-{args.step:g}.png',dpi=170,bbox_inches='tight');plt.close(fig)
-    for r in results:print(r['head'],r['antennas'],round(r['coverage_reference_percent'],2),flush=True)
-    print('BEST SCREENING',recommend,flush=True)
-
-if __name__=='__main__':main()
