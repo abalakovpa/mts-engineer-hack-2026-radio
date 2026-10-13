@@ -21,7 +21,7 @@
 \setlength{\parskip}{6pt}
 \setlength{\emergencystretch}{3em}
 \linespread{1.08}
-\AtBeginDocument{\color{ReportInk}\RaggedRight\sloppy}
+\AtBeginDocument{\color{ReportInk}\justifying\sloppy}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\fontsize{8}{10}\selectfont\color{ReportMuted}МТС ENGINEER HACK 2026\quad /\quad РАДИО}
@@ -50,7 +50,7 @@
 \newcommand{\ReportTitle}[3]{%
   {\fontsize{9}{12}\selectfont\bfseries\color{ReportAccent}АРТЕФАКТ #1\quad /\quad ФИНАЛЬНЫЙ ЭТАП\par}
   \vspace{8pt}
-  {\fontsize{27}{32}\selectfont\bfseries #2\par}
+  {\RaggedRight\fontsize{27}{32}\selectfont\bfseries #2\par}
   \vspace{8pt}
   {\fontsize{11}{15}\selectfont\color{ReportMuted}#3\par}
   \vspace{8pt}
@@ -59,7 +59,7 @@
   {\color{ReportAccent}\rule{25mm}{1.5pt}}\par\vspace{10pt}
 }
 \newcommand{\ReportMetric}[3]{%
-  \begin{minipage}[t]{0.315\linewidth}
+  \begin{minipage}[t]{0.315\linewidth}\RaggedRight
   \begin{tcolorbox}[colback=ReportAccent,colframe=ReportAccent,boxrule=0pt,arc=0pt,left=8pt,right=8pt,top=8pt,bottom=8pt]
   {\fontsize{23}{27}\selectfont\bfseries\color{white}#1\par}
   \vspace{4pt}{\fontsize{9}{12}\selectfont\bfseries\color{white}#2\par}

@@ -10,6 +10,7 @@ import re
 import fitz
 from reportlab.lib.colors import HexColor
 from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT
 from reportlab.lib.units import mm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -153,7 +154,8 @@ def introduction(name, design, coverage):
 
 def paragraph(c, text, x, top, width, size=10, bold=False, color=INK):
     style = ParagraphStyle('report', fontName='ReportSansBold' if bold else 'ReportSans',
-                           fontSize=size, leading=size * 1.4, textColor=HexColor(color))
+                           fontSize=size, leading=size * 1.4, textColor=HexColor(color),
+                           alignment=TA_LEFT if bold else TA_JUSTIFY)
     p = Paragraph(text, style)
     _, height = p.wrap(width, 1000)
     p.drawOn(c, x, top - height)

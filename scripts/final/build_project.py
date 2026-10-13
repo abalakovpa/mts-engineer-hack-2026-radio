@@ -81,7 +81,8 @@ def style(ws,widths):
             cell.fill=PatternFill('solid',fgColor='F2F2F2' if cell.row%2==0 else 'FFFFFF')
             cell.border=Border(bottom=separator)
             horizontal=('center' if isinstance(cell.value,bool) else
-                        'right' if isinstance(cell.value,(int,float)) else 'left')
+                        'right' if isinstance(cell.value,(int,float)) else
+                        'justify' if isinstance(cell.value,str) and (len(cell.value)>40 or '\n' in cell.value) else 'left')
             cell.alignment=Alignment(horizontal=horizontal,vertical='top',wrap_text=True)
     for col,width in widths.items():ws.column_dimensions[col].width=width
     for row in ws.iter_rows(min_row=2):
