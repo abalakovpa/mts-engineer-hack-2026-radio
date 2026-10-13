@@ -21,8 +21,8 @@ ROOT = Path(__file__).resolve().parents[2]
 INK = '#202A36'
 MUTED = '#627080'
 ACCENT = '#D82035'
-LINE = '#D7DFE7'
-TINT = '#EFF3F7'
+LINE = '#D9D9D9'
+TINT = '#F2F2F2'
 FONTS = Path('/usr/share/fonts/truetype/dejavu')
 pdfmetrics.registerFont(TTFont('ReportSans', str(FONTS / 'DejaVuSans.ttf')))
 pdfmetrics.registerFont(TTFont('ReportSansBold', str(FONTS / 'DejaVuSans-Bold.ttf')))
@@ -179,9 +179,11 @@ def drawing_sheet(index):
     c.setFillColor(HexColor(ACCENT))
     c.rect(margin, height - 49 * mm, 25 * mm, 1.5, stroke=0, fill=1)
     c.setFillColor(HexColor(TINT))
-    c.rect(margin, 22 * mm, width - 2 * margin, 26 * mm, stroke=0, fill=1)
+    c.setStrokeColor(HexColor(ACCENT))
+    c.setLineWidth(.5)
+    c.rect(margin, 22 * mm, width - 2 * margin, 26 * mm, stroke=1, fill=1)
     paragraph(c, 'УСЛОВИЯ И ГРАНИЦЫ ИНТЕРПРЕТАЦИИ', margin + 4 * mm,
-              44 * mm, width - 2 * margin - 8 * mm, 8, True, MUTED)
+              44 * mm, width - 2 * margin - 8 * mm, 8, True, ACCENT)
     paragraph(c, caption.replace('>', '&gt;'), margin + 4 * mm, 39 * mm,
               width - 2 * margin - 8 * mm, 9)
     c.showPage()
@@ -236,7 +238,7 @@ def finish_pdf(path, name, title):
             c.setFillColor(HexColor(MUTED))
             c.setFont('ReportSans', 8)
             c.drawString(margin, 11 * mm, SHORT_TITLES[name])
-            c.drawCentredString(width / 2, 11 * mm, '13.10.2026 · Оформление v2')
+            c.drawCentredString(width / 2, 11 * mm, '14.10.2026 · Оформление v2')
             c.drawRightString(width - margin, 11 * mm, f'{i + 1} / {len(document)}')
             c.showPage()
             c.save()

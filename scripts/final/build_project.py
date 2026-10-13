@@ -10,7 +10,8 @@ from pathlib import Path
 
 import numpy as np
 from openpyxl import Workbook, load_workbook
-from openpyxl.styles import Alignment, Font, PatternFill
+from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+from openpyxl.worksheet.page import PageMargins
 
 ROOT=Path(__file__).resolve().parents[2]
 DESIGN=ROOT/'design/final'
@@ -65,16 +66,39 @@ def route(p,q):
 
 def style(ws,widths):
     ws.freeze_panes='A2';ws.auto_filter.ref=ws.dimensions
+    ws.sheet_view.showGridLines=False
+    ws.sheet_properties.tabColor='D82035'
+    separator=Side(style='thin',color='D9D9D9')
     for cell in ws[1]:
-        cell.font=Font(bold=True,color='FFFFFF');cell.fill=PatternFill('solid',fgColor='17324D')
+        cell.font=Font(name='DejaVu Sans',size=11,bold=True,color='FFFFFF')
+        cell.fill=PatternFill('solid',fgColor='D82035')
+        cell.border=Border(bottom=separator)
         cell.alignment=Alignment(vertical='center',wrap_text=True)
     ws.row_dimensions[1].height=45
     for row in ws.iter_rows(min_row=2):
-        for cell in row:cell.alignment=Alignment(vertical='top',wrap_text=True)
+        for cell in row:
+            cell.font=Font(name='DejaVu Sans',size=11,color='202A36')
+            cell.fill=PatternFill('solid',fgColor='F2F2F2' if cell.row%2==0 else 'FFFFFF')
+            cell.border=Border(bottom=separator)
+            horizontal=('center' if isinstance(cell.value,bool) else
+                        'right' if isinstance(cell.value,(int,float)) else 'left')
+            cell.alignment=Alignment(horizontal=horizontal,vertical='top',wrap_text=True)
     for col,width in widths.items():ws.column_dimensions[col].width=width
     for row in ws.iter_rows(min_row=2):
         line_count=max(max(1,math.ceil(len(str(c.value or ''))/(widths.get(c.column_letter,15)*.85))) for c in row)
         ws.row_dimensions[row[0].row].height=max(21,line_count*15+6)
+    ws.print_title_rows='1:1'
+    ws.print_area=ws.dimensions
+    ws.page_setup.orientation='landscape'
+    ws.page_setup.paperSize=ws.PAPERSIZE_A3 if sum(widths.values())>160 else ws.PAPERSIZE_A4
+    ws.page_setup.fitToWidth=1;ws.page_setup.fitToHeight=0
+    ws.sheet_properties.pageSetUpPr.fitToPage=True
+    ws.page_margins=PageMargins(left=.4,right=.4,top=.5,bottom=.5,header=.2,footer=.2)
+    ws.oddFooter.left.text='МТС Engineer Hack 2026 / Радио'
+    ws.oddFooter.center.text='14.10.2026'
+    ws.oddFooter.right.text='&P / &N'
+    for item in (ws.oddFooter.left,ws.oddFooter.center,ws.oddFooter.right):
+        item.font='DejaVu Sans';item.size=8;item.color='707070'
 
 def local_groups(ids,ants,zone):
     # Partition each zone into 4-antenna groups by actual tray-route length.

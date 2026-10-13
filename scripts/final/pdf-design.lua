@@ -49,6 +49,14 @@ function Table(t)
     t.colspecs[i] = {spec[1], weights[i] / sum}
   end
   local latex = pandoc.write(pandoc.Pandoc({t}), 'latex')
+  -- Keep normal outer cell padding: colortbl's header fill and booktabs rules
+  -- then share the same edges. Account for that padding in the full-width
+  -- column calculations, so the table still fits within the text margins.
+  latex = latex:gsub('@{}', '')
+  latex = latex:gsub('(\\[a-z]+width%s*%-%s*)(%d+)(\\tabcolsep)',
+    function(prefix, padding, suffix)
+      return prefix .. tostring(tonumber(padding) + 2) .. suffix
+    end)
   latex = latex:gsub('(\\toprule[^\n]*\n)', '%1\\rowcolor{ReportTint}\n')
   local rows = 0
   for _, body in ipairs(t.bodies) do rows = rows + #body.body end

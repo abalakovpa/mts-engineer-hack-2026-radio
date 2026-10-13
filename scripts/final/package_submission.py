@@ -13,6 +13,7 @@ from openpyxl import load_workbook
 from pptx import Presentation
 from final_engineering import table
 from pdf_design import FIGURES, introduction, finish_pdf, display_equations, inspect_pdf, preview_reports
+from format_equipment import format_equipment
 
 ROOT=Path(__file__).resolve().parents[2]
 FINAL=ROOT/'docs/final'
@@ -53,6 +54,7 @@ def main():
     EDITABLE.mkdir(parents=True,exist_ok=True);OUTPUT.mkdir(parents=True,exist_ok=True)
     unexpected=set(p.name for p in OUTPUT.iterdir())-set(NAMES)
     assert not unexpected,('Do not silently delete unexpected submission files',unexpected)
+    format_equipment()
     d=json.loads((ROOT/'design/final/candidate.json').read_text())
     cov=json.loads((ROOT/'design/final/coverage/coverage-report.json').read_text())
     audit=json.loads((ROOT/'design/final/verification/engineering-review.json').read_text())
@@ -169,13 +171,13 @@ def main():
     assert len(Presentation(OUTPUT/NAMES[4]).slides)==6
     with zipfile.ZipFile(ARCHIVE,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as archive:
         for name in NAMES:
-            entry=zipfile.ZipInfo(name,date_time=(2026,10,13,0,0,0));entry.compress_type=zipfile.ZIP_DEFLATED
+            entry=zipfile.ZipInfo(name,date_time=(2026,10,14,0,0,0));entry.compress_type=zipfile.ZIP_DEFLATED
             archive.writestr(entry,(OUTPUT/name).read_bytes(),compresslevel=9)
     with zipfile.ZipFile(ARCHIVE) as archive:
         assert archive.testzip() is None and archive.namelist()==NAMES
         for entry in files:assert hashlib.sha256(archive.read(entry['name'])).hexdigest()==entry['sha256']
     assert ARCHIVE.stat().st_size<=18_000_000,'ZIP exceeds conservative 18 MB limit'
-    manifest=dict(date='2026-10-13',files=files,archive=dict(name=ARCHIVE.name,bytes=ARCHIVE.stat().st_size,
+    manifest=dict(date='2026-10-14',files=files,archive=dict(name=ARCHIVE.name,bytes=ARCHIVE.stat().st_size,
                   sha256=hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()),
                   design_fingerprint=cov['design_fingerprint'],area_model_sha256=cov['area_model_sha256'],technical_export_checked=True,
                   full_kpi_compliance=False,uploaded_to_competition=False,

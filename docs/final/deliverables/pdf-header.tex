@@ -12,11 +12,11 @@
 \definecolor{ReportInk}{HTML}{202A36}
 \definecolor{ReportMuted}{HTML}{627080}
 \definecolor{ReportAccent}{HTML}{D82035}
-\definecolor{ReportTint}{HTML}{EFF3F7}
-\definecolor{ReportLine}{HTML}{D7DFE7}
-\definecolor{ReportBlue}{HTML}{285B82}
-\definecolor{ReportAmber}{HTML}{996611}
-\AtBeginDocument{\hypersetup{colorlinks=true,linkcolor=ReportBlue,urlcolor=ReportBlue,bookmarksdepth=2}}
+\definecolor{ReportTint}{HTML}{F2F2F2}
+\definecolor{ReportLine}{HTML}{D9D9D9}
+\colorlet{ReportBlue}{ReportAccent}
+\colorlet{ReportAmber}{ReportAccent}
+\AtBeginDocument{\hypersetup{colorlinks=true,linkcolor=ReportAccent,urlcolor=ReportAccent,bookmarksdepth=2}}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt}
 \setlength{\emergencystretch}{3em}
@@ -30,8 +30,8 @@
 \renewcommand{\headrule}{\hbox to\headwidth{\color{ReportLine}\leaders\hrule height \headrulewidth\hfill}}
 % Footers and final page counts are added after the A3 sheets are composed.
 \titleformat{\section}{\RaggedRight\fontsize{17}{21}\selectfont\bfseries\color{ReportInk}}{\color{ReportAccent}\thesection}{0.7em}{}
-\titleformat{\subsection}{\RaggedRight\fontsize{12}{16}\selectfont\bfseries\color{ReportInk}}{\color{ReportMuted}\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\RaggedRight\fontsize{11}{14}\selectfont\bfseries\color{ReportBlue}}{\thesubsubsection}{0.7em}{}
+\titleformat{\subsection}{\RaggedRight\fontsize{12}{16}\selectfont\bfseries\color{ReportInk}}{\color{ReportAccent}\thesubsection}{0.7em}{}
+\titleformat{\subsubsection}{\RaggedRight\fontsize{11}{14}\selectfont\bfseries\color{ReportInk}}{\color{ReportAccent}\thesubsubsection}{0.7em}{}
 \titlespacing*{\section}{0pt}{18pt}{9pt}
 \titlespacing*{\subsection}{0pt}{13pt}{6pt}
 \titlespacing*{\subsubsection}{0pt}{10pt}{5pt}
@@ -54,26 +54,26 @@
   \vspace{8pt}
   {\fontsize{11}{15}\selectfont\color{ReportMuted}#3\par}
   \vspace{8pt}
-  {\fontsize{9}{12}\selectfont\color{ReportMuted}Павел Абалаков\quad ·\quad 13 октября 2026\quad ·\quad Версия оформления 2\par}
+  {\fontsize{9}{12}\selectfont\color{ReportMuted}Павел Абалаков\quad ·\quad 14 октября 2026\quad ·\quad Версия оформления 2\par}
   \vspace{13pt}
   {\color{ReportAccent}\rule{25mm}{1.5pt}}\par\vspace{10pt}
 }
 \newcommand{\ReportMetric}[3]{%
   \begin{minipage}[t]{0.315\linewidth}
-  \begin{tcolorbox}[colback=ReportTint,colframe=ReportTint,boxrule=0pt,arc=0pt,left=8pt,right=8pt,top=8pt,bottom=8pt]
-  {\fontsize{23}{27}\selectfont\bfseries #1\par}
-  \vspace{4pt}{\fontsize{9}{12}\selectfont\bfseries #2\par}
-  \vspace{3pt}{\fontsize{8}{11}\selectfont\color{ReportMuted}#3\par}
+  \begin{tcolorbox}[colback=ReportAccent,colframe=ReportAccent,boxrule=0pt,arc=0pt,left=8pt,right=8pt,top=8pt,bottom=8pt]
+  {\fontsize{23}{27}\selectfont\bfseries\color{white}#1\par}
+  \vspace{4pt}{\fontsize{9}{12}\selectfont\bfseries\color{white}#2\par}
+  \vspace{3pt}{\fontsize{8}{11}\selectfont\color{white}#3\par}
   \end{tcolorbox}\end{minipage}}
 \newcommand{\ReportMetrics}[9]{%
   \noindent\ReportMetric{#1}{#2}{#3}\hfill\ReportMetric{#4}{#5}{#6}\hfill\ReportMetric{#7}{#8}{#9}\par\vspace{8pt}}
 \newcommand{\ReportNote}[3]{%
-  \begin{tcolorbox}[colback=white,colframe=#1,boxrule=0pt,borderline west={2pt}{0pt}{#1},arc=0pt,left=9pt,right=5pt,top=5pt,bottom=5pt]
-  {\fontsize{9}{12}\selectfont\bfseries\color{#1}#2}\par
+  \begin{tcolorbox}[colback=white,colframe=ReportAccent,boxrule=0.5pt,borderline west={2pt}{0pt}{ReportAccent},arc=0pt,left=9pt,right=5pt,top=5pt,bottom=5pt]
+  {\fontsize{9}{12}\selectfont\bfseries\color{ReportAccent}#2}\par
   {\fontsize{10}{14}\selectfont #3}
   \end{tcolorbox}}
 \newcommand{\ReportNavigation}{%
   \vspace{5pt}\begingroup\fontsize{9}{12}\selectfont
   \renewcommand{\contentsname}{Навигация по документу}
-  \hypersetup{linkcolor=ReportInk}\tableofcontents\endgroup\clearpage}
+  \hypersetup{linkcolor=ReportAccent}\tableofcontents\endgroup\clearpage}
 \newcommand{\ReportFigurePlaceholder}[1]{\vfill\texttt{REPORTFIGURE:#1}\vfill}

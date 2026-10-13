@@ -1,10 +1,10 @@
 {
-  "date": "2026-10-13",
+  "date": "2026-10-14",
   "files": [
     {
       "name": "01-capacity.pdf",
-      "bytes": 111580,
-      "sha256": "7b4edd5cf7fa86dc696d93d877e56ad0d0955b3c8ae53bdfa8fbc812c3c9fd84",
+      "bytes": 111584,
+      "sha256": "44de003f61e8ca82ff2b55bb023dd440405d52e5987655102e15fbedb16d5209",
       "layout_checked": true,
       "a3_sheets": 0,
       "navigation_checked": true,
@@ -12,8 +12,8 @@
     },
     {
       "name": "02-floor-design.pdf",
-      "bytes": 4006122,
-      "sha256": "f6d309e772788953c9b34bdb5cf8e1ac3fbd3e0e29557a0f6100a07d1ddc7274",
+      "bytes": 4005877,
+      "sha256": "1416e7183b6c0398c2c972bf125f7c0492bcd6ac106ad8a6e82aaee4403ac7ed",
       "layout_checked": true,
       "a3_sheets": 14,
       "navigation_checked": true,
@@ -21,8 +21,8 @@
     },
     {
       "name": "03-rsrp.pdf",
-      "bytes": 126036,
-      "sha256": "9c4c6bc91d1095cfdf89c3d7828a5ff900a886de18173d4cd3390551faa11ff7",
+      "bytes": 125985,
+      "sha256": "087e0ae23fac4e9f2744cb0f529ef3ae16cfd1554024bcfaee3fa469128fd5f8",
       "layout_checked": true,
       "a3_sheets": 0,
       "navigation_checked": true,
@@ -30,8 +30,8 @@
     },
     {
       "name": "04-equipment.xlsx",
-      "bytes": 51632,
-      "sha256": "4343420ac9497355cf678f877d83d96fab689eef4f43f0f8a701a4c663bed0c2"
+      "bytes": 53886,
+      "sha256": "cad38d218dc318ecee6d51e782cbc146d4d8b53d145b75bbe1f2effb8873ca53"
     },
     {
       "name": "05-defense.pptx",
@@ -41,8 +41,8 @@
   ],
   "archive": {
     "name": "mts-radio-final.zip",
-    "bytes": 4477151,
-    "sha256": "584bbaff4fde201f8f885044356514c6f48f78f066f7ecc682a4c6a1b6d9a995"
+    "bytes": 4479668,
+    "sha256": "13c2a601499ede361739e4e1356bf29224892eecca22d0b48bbb3d0911cedc19"
   },
   "design_fingerprint": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
   "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69",

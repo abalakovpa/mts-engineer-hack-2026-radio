@@ -64,4 +64,5 @@ python scripts/final/validate.py
 Проверки согласованности не подтверждают фактические KPI.
 
 Оформление PDF — docs/final/deliverables/pdf-header.tex, pdf-design.lua,
-pdf_design.py. Загрузка архива на конкурсную платформу выполняется участником.
+pdf_design.py. XLSX использует общую style() из build_project.py; экспорт
+автоматически вызывает format_equipment.py для всех листов. Загрузка архива на конкурсную платформу выполняется участником.
