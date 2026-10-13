@@ -14,10 +14,12 @@ def construct(project):
     assert len(ants)==32 and len({a['id'] for a in ants})==32
     modes={str(z):project.get('zone_modes',{}).get(str(z),'balanced') for z in range(1,5)}
     classes=project.get('power_classes',{})
+    zones=project.get('zone_hubs',ZONES)
+    assert len(zones)==4 and all(len(point)==2 for point in zones)
     trunk=[];subfeeds=[];drops=[]
     for z in range(1,5):
         local=[a for a in ants if a['zone']==z];assert len(local)==8
-        zone=ZONES[z-1];length,points=route(head,zone)
+        zone=tuple(zones[z-1]);length,points=route(head,zone)
         trunk.append(dict(id=f'T{z}',length=length,points=points,cable='7/8'))
         if modes[str(z)]=='balanced':
             ids=[i for i,a in enumerate(ants) if a['zone']==z]
