@@ -22,7 +22,7 @@ MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/package_submission.py
 python3 scripts/final/validate.py
 ```
 
-Экспорт PDF: Pandoc + XeLaTeX и DejaVu Sans/Mono. Проверка PDF: pdfinfo/pdftotext. Презентация и PDF-предпросмотр формируются по общему макету, а не рендерингом в PowerPoint. Скрипт final_engineering.py добавляет листы портового плана, DCS и комплектности в XLSX; его выполнять после evaluate_coverage.py. Личные поля — presentation/profile-input.json. Архив, манифест и правила отправки — submission/README.md. Загрузка на платформу не автоматизирована.
+Экспорт PDF: Pandoc + XeLaTeX и DejaVu Sans/Mono; ReportLab/PyMuPDF формируют листы A3 и согласованную нумерацию. Общий стиль — docs/final/deliverables/pdf-header.tex, таблицы — pdf-design.lua, обзоры и графические листы — pdf_design.py. Проверка PDF: pdfinfo/pdftotext и PyMuPDF, включая поля, переходы и 384 экспортированных значения RSRP. Презентация и PDF-предпросмотр формируются по общему макету, а не рендерингом в PowerPoint. Скрипт final_engineering.py добавляет листы портового плана, DCS и комплектности в XLSX; его выполнять после evaluate_coverage.py. Личные поля — presentation/profile-input.json. Архив, манифест и правила отправки — submission/README.md. Загрузка на платформу не автоматизирована.
 
 Зависимости зафиксированы в requirements.txt. В новой среде создать virtualenv, активировать его и установить `python -m pip install -r scripts/final/requirements.txt`; путь активации заменить на путь нового virtualenv. Исходные DOCX/DWG/XLSX/PDF/PNG не редактируются.
 

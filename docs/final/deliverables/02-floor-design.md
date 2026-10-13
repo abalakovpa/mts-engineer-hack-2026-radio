@@ -1,3 +1,15 @@
+\ReportTitle{02}{Проект первого этажа}{Пассивная DAS · размещение · подключения · покрытие · ведомости}
+
+\ReportMetrics{32}{антенны In06}{две отдельные MIMO-ветви}{96,32\%}{B7 с потерями +3 дБ}{прогноз P1; порог >−90 дБм}{1461}{метров коаксиала}{без закупочного запаса}
+
+\ReportNote{ReportBlue}{РАСЧЁТНЫЙ РЕЗУЛЬТАТ}{Неравномерное дерево 2+2+4 сохраняет мощность пилота и число антенн. Подробные планы и схемы представлены на листах A3 с отдельными условиями расчёта.}
+
+\ReportNote{ReportAmber}{ОГРАНИЧЕНИЯ}{n=3 и P2 не проходят 95\%. RSRQ/SINR/C/I/UL, полная комплектация и удалённое регулирование пассивной схемой не подтверждены.}
+
+\ReportNavigation
+
+# Проектная конфигурация
+
 Обновлено 13.10.2026. Один LTE-пул B3/B1/B7, один DCS-пул, две отдельные MIMO-ветви. RSRP с запасом 3 дБ проверен в модели P1; полное соответствие ТЗ и измеренные KPI не установлены.
 
 ## Исходная геометрия и проектная ВК
@@ -51,7 +63,7 @@ Z1–Z4 — распределительные группы, не четыре L
 
 Проверены 32 антенны, 71 устройство, 137 портовых соединений/окончаний, 384 RF-точки и 36 сценариев. Номинальный запас 3 дБ достигнут только в условной модели P1. Фактические RSRQ/SINR/C/I/UL, MIMO rank, PIM и допустимые мощности не подтверждены. Пассивная схема не выполняет удалённое регулирование. Уточнения недоступны; эти ограничения сохраняются в пяти отдельных артефактах, без выдуманных характеристик.
 
-\newpage
+# Инженерная проверка
 
 Дата: 13.10.2026. Данные задания, паспортные данные и собственные решения разделены. Полное соответствие ТЗ не установлено.
 
@@ -102,7 +114,7 @@ UL: P_UE + G_UE + G_In06 − L_propagation,UL − L_walls − L_RF,UL ≥ S_BS +
 
 `design/final/verification/`: схемы подключения БС и дерева, портовый план CSV, карта DCS, карта принадлежности проектной ячейке, численный отчёт. В XLSX добавлены листы «Портовый план», «DCS сценарии», «Комплектность».
 
-\newpage
+# Геометрия и запас RSRP
 
 Дата: 13.10.2026. Исходный пакет сохранён в Git-коммите [18204fb](https://github.com/abalakovpa/mts-engineer-hack-2026-radio/commit/18204fb09b7dcd327cee8d1a408d0ef8c928512a). Ниже показана доработка по тем же исходным материалам, без новых паспортов, измерений или изменения мощности пилота.
 
@@ -160,7 +172,7 @@ UL: P_UE + G_UE + G_In06 − L_propagation,UL − L_walls − L_RF,UL ≥ S_BS +
 
 При n=3 B7 даёт 89.90%, при P2 — 77.88%. Нормировка пилота P1 условна, материал/высота перегородок и вертикальная диаграмма антенны не подтверждены. В модели остаются непрошедшие участки, включая 114.2. RSRQ/SINR/C/I/UL и полная комплектация не подтверждены. Пассивная схема не обеспечивает удалённое регулирование; нагрузки свободных портов и часть интерфейсов отсутствуют в перечне. Эти ограничения не удаляются из финального пакета.
 
-\newpage
+# Модель и сценарии покрытия
 
 Обновлено 13.10.2026. Данные задания, геометрическая интерпретация и RF-допущения разделены. Ниже — прогноз модели P1, не измерения и не полное подтверждение технического задания.
 
@@ -201,73 +213,81 @@ P1: 23 дБм — условная сумма 2N_PRB CRS-поднесущих н
 ## Артефакты и воспроизведение
 
 Аудит площади, контуры, карта площади. Карты RSRP: B3, B1, B7. Численный отчёт содержит 36 вариантов и отпечатки проекта/геометрии. Таблица долей по группам — room-coverage.csv и XLSX. Сохранены контрольная сетка 0,5 м и сравнение прежнего дерева на той же новой геометрии/сетке 0,25 м. Порядок — scripts/final/README.md. RSRP и его запас не доказывают SINR/RSRQ, скорость, C/I, MIMO rank или UL.
-\newpage
 
-## План первого этажа: антенны, делители, трассы и ВК
 
-\noindent\includegraphics[height=220mm,width=\linewidth,keepaspectratio]{/workspace/mts-engineer-hack-2026-radio/design/final/verification/final-layout.pdf}
+\clearpage
 
-\newpage
+# Графические листы
 
-## Схема подключения передатчиков БС
 
-\noindent\includegraphics[width=170mm]{/workspace/mts-engineer-hack-2026-radio/design/final/verification/bs-connections.pdf}
 
-\newpage
+## План первого этажа
 
-## Схема соединения распределительного оборудования
+\ReportFigurePlaceholder{FIG01}
 
-\noindent\includegraphics[width=170mm]{/workspace/mts-engineer-hack-2026-radio/design/final/verification/distribution-tree.pdf}
+\clearpage
 
-\newpage
+## Подключение передатчиков БС
 
-## Карта RSRP B3: P1, n=2,5
+\ReportFigurePlaceholder{FIG02}
 
-\noindent\includegraphics[height=215mm,width=\linewidth,keepaspectratio]{/workspace/mts-engineer-hack-2026-radio/design/final/coverage/rsrp-1800-walls.png}
+\clearpage
 
-\newpage
+## Распределительное дерево
 
-## Карта RSRP B1: P1, n=2,5
+\ReportFigurePlaceholder{FIG03}
 
-\noindent\includegraphics[height=215mm,width=\linewidth,keepaspectratio]{/workspace/mts-engineer-hack-2026-radio/design/final/coverage/rsrp-2100-walls.png}
+\clearpage
 
-\newpage
+## RSRP B3 / 1800 МГц
 
-## Карта RSRP B7: P1, n=2,5
+\ReportFigurePlaceholder{FIG04}
 
-\noindent\includegraphics[height=215mm,width=\linewidth,keepaspectratio]{/workspace/mts-engineer-hack-2026-radio/design/final/coverage/rsrp-2600-walls.png}
+\clearpage
 
-\newpage
+## RSRP B1 / 2100 МГц
 
-## B7: дополнительные 3 дБ потерь
+\ReportFigurePlaceholder{FIG05}
 
-\noindent\includegraphics[height=215mm,width=\linewidth,keepaspectratio]{/workspace/mts-engineer-hack-2026-radio/design/final/coverage/rsrp-2600-reserve3.png}
+\clearpage
 
-\newpage
+## RSRP B7 / 2600 МГц
 
-## B7: проёмы, спорный контур и ещё 3 дБ
+\ReportFigurePlaceholder{FIG06}
 
-\noindent\includegraphics[height=215mm,width=\linewidth,keepaspectratio]{/workspace/mts-engineer-hack-2026-radio/design/final/coverage/rsrp-2600-joint-reserve3.png}
+\clearpage
 
-\newpage
+## B7 / проверка запаса 3 дБ
 
-## Карта DCS: условная мощность BCCH 40 дБм
+\ReportFigurePlaceholder{FIG07}
 
-\noindent\includegraphics[height=215mm,width=\linewidth,keepaspectratio]{/workspace/mts-engineer-hack-2026-radio/design/final/verification/dcs-1800-conditional.png}
+\clearpage
 
-\newpage
+## B7 / совместный сценарий
 
-## Принадлежность проектной LTE-ячейке: без внешней сети
+\ReportFigurePlaceholder{FIG08}
 
-\noindent\includegraphics[height=210mm,width=\linewidth,keepaspectratio]{/workspace/mts-engineer-hack-2026-radio/design/final/verification/project-cell-assignment.png}
+\clearpage
 
-\newpage
+## DCS / условный BCCH 40 дБм
 
-## Модель площади и неопределённые контуры
+\ReportFigurePlaceholder{FIG09}
 
-\noindent\includegraphics[height=215mm,width=\linewidth,keepaspectratio]{/workspace/mts-engineer-hack-2026-radio/design/final/coverage/area-model.png}
+\clearpage
 
-\newpage
+## Принадлежность проектной LTE-ячейке
+
+\ReportFigurePlaceholder{FIG10}
+
+\clearpage
+
+## Модель площади
+
+\ReportFigurePlaceholder{FIG11}
+
+\clearpage
+
+# Проектные ведомости
 
 ## Координаты и группы антенн
 
@@ -307,6 +327,8 @@ CAD X/Y, метры; высота антенн 7 м — допущение. Z �
 | A30 | 114.1 | 4/1 | 27.774 | 2.132 | 67.670 | 4.278 |
 | A31 | 116 | 4/0 | 0.647 | 11.483 | 35.622 | 1.185 |
 | A32 | 121 | 4/2 | 34.765 | 5.653 | 76.605 | 0.000 |
+
+\clearpage
 
 ## Маршруты одной ветви Mj
 
@@ -358,6 +380,8 @@ CAD X/Y, метры; высота антенн 7 м — допущение. Z �
 | A30 | 1/2 | 4.278 | 4.278 |
 | A31 | 1/2 | 1.185 | 1.185 |
 | A32 | 7/8 | 31.898 | 31.898 |
+
+\clearpage
 
 ## Координаты распределительных узлов
 

@@ -3,21 +3,30 @@
   "files": [
     {
       "name": "01-capacity.pdf",
-      "bytes": 65945,
-      "sha256": "1f30357e86de05078d7c8a64c70652dcaf47cad7a55e68b8ed64ca071784d327",
-      "pages": 5
+      "bytes": 111274,
+      "sha256": "4b3a51eae6261e6e2cd3c335bf50f861d18917713c07b99e1249b0d234889d5d",
+      "layout_checked": true,
+      "a3_sheets": 0,
+      "navigation_checked": true,
+      "pages": 7
     },
     {
       "name": "02-floor-design.pdf",
-      "bytes": 2009897,
-      "sha256": "576a9cf72a73a6a1ddd3118e7ffa8525d5568c96703050449cf4e09dd253c0c1",
-      "pages": 22
+      "bytes": 2888354,
+      "sha256": "048570e069c0a3e81c98614247b221d3e01aea71f9addad0738175fb0659611b",
+      "layout_checked": true,
+      "a3_sheets": 11,
+      "navigation_checked": true,
+      "pages": 23
     },
     {
       "name": "03-rsrp.pdf",
-      "bytes": 70089,
-      "sha256": "4545d969a906390a62bab010bef554719272202db9c2d484698e81f7fd25c160",
-      "pages": 8
+      "bytes": 125970,
+      "sha256": "b5ca9359394eedeff62f23a6b81813c4a0d0041dfb77ccf1e0ff68fe59292e92",
+      "layout_checked": true,
+      "a3_sheets": 0,
+      "navigation_checked": true,
+      "pages": 11
     },
     {
       "name": "04-equipment.xlsx",
@@ -32,8 +41,8 @@
   ],
   "archive": {
     "name": "mts-radio-final.zip",
-    "bytes": 2631174,
-    "sha256": "5c4117a4b6b2769bef56ffe55f2f6033ffb78dd1ea9501d519fb08c02f42feba"
+    "bytes": 3406669,
+    "sha256": "510115e56034303552d32b5bea8fe6a251f36428857259baaaafbca3eb28576a"
   },
   "design_fingerprint": "7ce3a57fdfcac5e7032b8df3b7089582e0d209048ba20f9430b9815007d80744",
   "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69",
@@ -47,5 +56,6 @@
     "course_confirmed"
   ],
   "official_template_available": false,
-  "personal_rehearsal_done": false
+  "personal_rehearsal_done": false,
+  "pdf_design_version": 2
 }

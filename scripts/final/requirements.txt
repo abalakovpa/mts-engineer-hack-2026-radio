@@ -5,3 +5,4 @@ matplotlib==3.10.8
 numpy==2.3.5
 shapely==2.1.2
 reportlab==4.4.9
+PyMuPDF==1.26.6
