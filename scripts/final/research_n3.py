@@ -298,9 +298,10 @@ def main():
     parser.add_argument('--diagnose-only',action='store_true');args=parser.parse_args()
     OUT.mkdir(exist_ok=True,parents=True);CACHE.mkdir(exist_ok=True,parents=True)
     model=json.loads((ROOT/'design/final/coverage/area-model.json').read_text())
-    selected=json.loads((ROOT/'design/final/candidate.json').read_text())
-    (OUT/'baseline-candidate.json').write_bytes((ROOT/'design/final/candidate.json').read_bytes())
-    (OUT/'baseline-project-input.json').write_bytes((ROOT/'design/final/project-input.json').read_bytes())
+    if not (OUT/'baseline-candidate.json').exists():
+        (OUT/'baseline-candidate.json').write_bytes((ROOT/'design/final/candidate.json').read_bytes())
+        (OUT/'baseline-project-input.json').write_bytes((ROOT/'design/final/project-input.json').read_bytes())
+    selected=json.loads((OUT/'baseline-candidate.json').read_text())
     for step in (.25,.5):
         source=ROOT/f'design/final/coverage/propagation-{step:g}.npz'
         dest=CACHE/'baseline'/source.name;dest.parent.mkdir(exist_ok=True)

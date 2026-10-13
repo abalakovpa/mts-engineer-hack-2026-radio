@@ -131,8 +131,8 @@ def device_layout(data):
             r for r in data['drops'] if next(a for a in data['antennas'] if a['id']==r['id'])['zone']==z]
         for r in routes:ax.plot(*zip(*r['points']),color=color,lw=1,alpha=.75)
         s=data['trunks'][z-1]['points'][-1];ax.scatter(*s,marker='s',s=80,color=color,zorder=5)
-        joined=any(r['id']==f'F{z}-1' and r['cable']=='jumper' for r in data['subfeeds'])
-        label=f'S-Z{z}' + (f' / Q-Z{z}-1' if joined else '')
+        joined=[f'Q-Z{z}-{g}' for g in (1,2) if any(r['id']==f'F{z}-{g}' and r['cable']=='jumper' for r in data['subfeeds'])]
+        label=' / '.join([f'S-Z{z}']+joined)
         ax.annotate(label,s,xytext=(8,-14),textcoords='offset points',fontsize=7,color=color,
                     bbox=dict(facecolor='white',alpha=.9,edgecolor='none',pad=1))
         for g in (1,2):

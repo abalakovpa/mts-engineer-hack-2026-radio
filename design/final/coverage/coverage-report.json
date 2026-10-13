@@ -14,7 +14,7 @@
   "model_geometry_area_m2": 2070.3878949524965,
   "normative_threshold_dbm": -90,
   "strict_greater": true,
-  "design_fingerprint": "7ce3a57fdfcac5e7032b8df3b7089582e0d209048ba20f9430b9815007d80744",
+  "design_fingerprint": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
   "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69",
   "actual_routes_rebuilt": true,
   "scenarios": [
@@ -23,10 +23,10 @@
       "frequency_mhz": 1800,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2027.6987721628352,
-      "reference_percent_2100": 96.55708438870644,
-      "model_area_percent": 98.96832260440748,
-      "worst_dbm": -141.3734294869009,
+      "reference_covered_m2": 2028.2972437894264,
+      "reference_percent_2100": 96.58558303759173,
+      "model_area_percent": 98.9974910516087,
+      "worst_dbm": -140.34067081326185,
       "passed_95": true
     },
     {
@@ -34,10 +34,10 @@
       "frequency_mhz": 1800,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2036.8123108739824,
-      "reference_percent_2100": 96.99106242257058,
-      "model_area_percent": 99.33915649590762,
-      "worst_dbm": -136.56953544393215,
+      "reference_covered_m2": 2032.7593719785082,
+      "reference_percent_2100": 96.79806533230992,
+      "model_area_percent": 99.19037761212888,
+      "worst_dbm": -135.75008701199232,
       "passed_95": true
     },
     {
@@ -45,21 +45,32 @@
       "frequency_mhz": 1800,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 1938.0536289642728,
-      "reference_percent_2100": 92.28826804591776,
-      "model_area_percent": 94.67743292921254,
-      "worst_dbm": -146.17732352986965,
-      "passed_95": false
+      "reference_covered_m2": 2026.0817962224253,
+      "reference_percent_2100": 96.48008553440121,
+      "model_area_percent": 98.89006734706808,
+      "worst_dbm": -144.93125842922865,
+      "passed_95": true
+    },
+    {
+      "scenario": "P1_n3_closed_gaps",
+      "frequency_mhz": 1800,
+      "step_m": 0.25,
+      "antennas": 32,
+      "reference_covered_m2": 2018.5110755081312,
+      "reference_percent_2100": 96.11957502419672,
+      "model_area_percent": 98.54314362885191,
+      "worst_dbm": -144.93125842922865,
+      "passed_95": true
     },
     {
       "scenario": "P1_extra_RF_3dB",
       "frequency_mhz": 1800,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2027.0880154090366,
-      "reference_percent_2100": 96.52800073376365,
-      "model_area_percent": 98.93914449718068,
-      "worst_dbm": -144.3734294869009,
+      "reference_covered_m2": 2027.3709724477642,
+      "reference_percent_2100": 96.54147487846497,
+      "model_area_percent": 98.95163974025233,
+      "worst_dbm": -143.34067081326185,
       "passed_95": true
     },
     {
@@ -67,10 +78,10 @@
       "frequency_mhz": 1800,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2023.5694108464963,
-      "reference_percent_2100": 96.36044813554744,
-      "model_area_percent": 98.78658049338374,
-      "worst_dbm": -141.52303650476495,
+      "reference_covered_m2": 2024.273583491351,
+      "reference_percent_2100": 96.3939801662548,
+      "model_area_percent": 98.82075283382896,
+      "worst_dbm": -140.34067081326185,
       "passed_95": true
     },
     {
@@ -78,10 +89,10 @@
       "frequency_mhz": 1800,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2027.0880154090366,
-      "reference_percent_2100": 96.52800073376365,
-      "model_area_percent": 98.93914449718068,
-      "worst_dbm": -144.38372944354072,
+      "reference_covered_m2": 2027.3709724477642,
+      "reference_percent_2100": 96.54147487846497,
+      "model_area_percent": 98.95163974025233,
+      "worst_dbm": -143.35097076990166,
       "passed_95": true
     },
     {
@@ -89,10 +100,10 @@
       "frequency_mhz": 1800,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 1746.1533911796778,
-      "reference_percent_2100": 83.15016148474656,
-      "model_area_percent": 85.49955588117076,
-      "worst_dbm": -149.15494199073734,
+      "reference_covered_m2": 1984.2863490755208,
+      "reference_percent_2100": 94.48982614645337,
+      "model_area_percent": 96.89466910557503,
+      "worst_dbm": -148.1221833170983,
       "passed_95": false
     },
     {
@@ -100,10 +111,10 @@
       "frequency_mhz": 1800,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2027.6848800944656,
-      "reference_percent_2100": 96.55642286164122,
-      "model_area_percent": 98.96766572266887,
-      "worst_dbm": -141.54971096157342,
+      "reference_covered_m2": 2028.2705704449102,
+      "reference_percent_2100": 96.58431287832906,
+      "model_area_percent": 98.99620626820823,
+      "worst_dbm": -140.5402256995721,
       "passed_95": true
     },
     {
@@ -111,10 +122,10 @@
       "frequency_mhz": 1800,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2027.6987721628352,
-      "reference_percent_2100": 96.55708438870644,
-      "model_area_percent": 98.96832260440748,
-      "worst_dbm": -141.3734294869009,
+      "reference_covered_m2": 2028.2972437894264,
+      "reference_percent_2100": 96.58558303759173,
+      "model_area_percent": 98.9974910516087,
+      "worst_dbm": -140.34067081326185,
       "passed_95": true
     },
     {
@@ -122,10 +133,10 @@
       "frequency_mhz": 1800,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2022.7886805502942,
-      "reference_percent_2100": 96.32327050239496,
-      "model_area_percent": 98.74936524488473,
-      "worst_dbm": -144.52303650476495,
+      "reference_covered_m2": 2023.3473121496888,
+      "reference_percent_2100": 96.34987200712803,
+      "model_area_percent": 98.77490152247255,
+      "worst_dbm": -143.34067081326185,
       "passed_95": true
     },
     {
@@ -133,10 +144,10 @@
       "frequency_mhz": 1800,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2027.0880154090366,
-      "reference_percent_2100": 96.52800073376365,
-      "model_area_percent": 98.93914449718068,
-      "worst_dbm": -144.3734294869009,
+      "reference_covered_m2": 2027.3709724477642,
+      "reference_percent_2100": 96.54147487846497,
+      "model_area_percent": 98.95163974025233,
+      "worst_dbm": -143.34067081326185,
       "passed_95": true
     },
     {
@@ -144,10 +155,10 @@
       "frequency_mhz": 1800,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2022.7886805502942,
-      "reference_percent_2100": 96.32327050239496,
-      "model_area_percent": 98.74936524488473,
-      "worst_dbm": -144.52303650476495,
+      "reference_covered_m2": 2023.3473121496888,
+      "reference_percent_2100": 96.34987200712803,
+      "model_area_percent": 98.77490152247255,
+      "worst_dbm": -143.34067081326185,
       "passed_95": true
     },
     {
@@ -155,10 +166,10 @@
       "frequency_mhz": 2100,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2027.6414673808108,
-      "reference_percent_2100": 96.55435558956242,
-      "model_area_percent": 98.96561296723577,
-      "worst_dbm": -141.8127665734568,
+      "reference_covered_m2": 2028.2705704449102,
+      "reference_percent_2100": 96.58431287832906,
+      "model_area_percent": 98.99620626820823,
+      "worst_dbm": -140.78260028849144,
       "passed_95": true
     },
     {
@@ -166,10 +177,10 @@
       "frequency_mhz": 2100,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2034.7131544284143,
-      "reference_percent_2100": 96.89110259182925,
-      "model_area_percent": 99.25765003018137,
-      "worst_dbm": -137.00887253048805,
+      "reference_covered_m2": 2032.1610345796114,
+      "reference_percent_2100": 96.7695730752196,
+      "model_area_percent": 99.16526154565324,
+      "worst_dbm": -136.1920164872219,
       "passed_95": true
     },
     {
@@ -177,21 +188,32 @@
       "frequency_mhz": 2100,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 1918.4196506142744,
-      "reference_percent_2100": 91.35331669591783,
-      "model_area_percent": 93.735532136248,
-      "worst_dbm": -146.61665298703102,
-      "passed_95": false
+      "reference_covered_m2": 2025.4532134269994,
+      "reference_percent_2100": 96.4501530203333,
+      "model_area_percent": 98.86001017751462,
+      "worst_dbm": -145.37318790445823,
+      "passed_95": true
+    },
+    {
+      "scenario": "P1_n3_closed_gaps",
+      "frequency_mhz": 2100,
+      "step_m": 0.25,
+      "antennas": 32,
+      "reference_covered_m2": 2016.5092436785758,
+      "reference_percent_2100": 96.0242496989798,
+      "model_area_percent": 98.4472775351195,
+      "worst_dbm": -145.37318790445823,
+      "passed_95": true
     },
     {
       "scenario": "P1_extra_RF_3dB",
       "frequency_mhz": 2100,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2026.496413134856,
-      "reference_percent_2100": 96.4998291968979,
-      "model_area_percent": 98.91119804321372,
-      "worst_dbm": -144.8127665734568,
+      "reference_covered_m2": 2027.2932228433906,
+      "reference_percent_2100": 96.53777251635194,
+      "model_area_percent": 98.94789648034488,
+      "worst_dbm": -143.78260028849144,
       "passed_95": true
     },
     {
@@ -199,10 +221,10 @@
       "frequency_mhz": 2100,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2023.5694108464963,
-      "reference_percent_2100": 96.36044813554744,
-      "model_area_percent": 98.78658049338374,
-      "worst_dbm": -141.96496597999453,
+      "reference_covered_m2": 2024.2469101468353,
+      "reference_percent_2100": 96.39271000699216,
+      "model_area_percent": 98.81946805042847,
+      "worst_dbm": -140.78260028849144,
       "passed_95": true
     },
     {
@@ -210,10 +232,10 @@
       "frequency_mhz": 2100,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2026.404288470194,
-      "reference_percent_2100": 96.49544230810447,
-      "model_area_percent": 98.90685103170834,
-      "worst_dbm": -144.8230665300966,
+      "reference_covered_m2": 2027.2497373464817,
+      "reference_percent_2100": 96.53570177840389,
+      "model_area_percent": 98.94596447523138,
+      "worst_dbm": -143.79290024513125,
       "passed_95": true
     },
     {
@@ -221,10 +243,10 @@
       "frequency_mhz": 2100,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 1700.6821162784695,
-      "reference_percent_2100": 80.98486267992712,
-      "model_area_percent": 83.33438190052263,
-      "worst_dbm": -149.59427907729324,
+      "reference_covered_m2": 1963.8426901072717,
+      "reference_percent_2100": 93.51631857653675,
+      "model_area_percent": 95.92222814177863,
+      "worst_dbm": -148.56411279232788,
       "passed_95": false
     },
     {
@@ -232,10 +254,10 @@
       "frequency_mhz": 2100,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2027.5980546671562,
-      "reference_percent_2100": 96.55228831748363,
-      "model_area_percent": 98.96356021180269,
-      "worst_dbm": -142.0046122474286,
+      "reference_covered_m2": 2028.2705704449102,
+      "reference_percent_2100": 96.58431287832906,
+      "model_area_percent": 98.99620626820823,
+      "worst_dbm": -140.99977422426477,
       "passed_95": true
     },
     {
@@ -243,10 +265,10 @@
       "frequency_mhz": 2100,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2027.6414673808108,
-      "reference_percent_2100": 96.55435558956242,
-      "model_area_percent": 98.96561296723577,
-      "worst_dbm": -141.8127665734568,
+      "reference_covered_m2": 2028.2705704449102,
+      "reference_percent_2100": 96.58431287832906,
+      "model_area_percent": 98.99620626820823,
+      "worst_dbm": -140.78260028849144,
       "passed_95": true
     },
     {
@@ -254,10 +276,10 @@
       "frequency_mhz": 2100,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2022.158772940536,
-      "reference_percent_2100": 96.29327490193027,
-      "model_area_percent": 98.71960753612386,
-      "worst_dbm": -144.96496597999453,
+      "reference_covered_m2": 2023.2695625453152,
+      "reference_percent_2100": 96.34616964501501,
+      "model_area_percent": 98.77115826256512,
+      "worst_dbm": -143.78260028849144,
       "passed_95": true
     },
     {
@@ -265,10 +287,10 @@
       "frequency_mhz": 2100,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2026.496413134856,
-      "reference_percent_2100": 96.4998291968979,
-      "model_area_percent": 98.91119804321372,
-      "worst_dbm": -144.8127665734568,
+      "reference_covered_m2": 2027.2932228433906,
+      "reference_percent_2100": 96.53777251635194,
+      "model_area_percent": 98.94789648034488,
+      "worst_dbm": -143.78260028849144,
       "passed_95": true
     },
     {
@@ -276,10 +298,10 @@
       "frequency_mhz": 2100,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2022.158772940536,
-      "reference_percent_2100": 96.29327490193027,
-      "model_area_percent": 98.71960753612386,
-      "worst_dbm": -144.96496597999453,
+      "reference_covered_m2": 2023.2695625453152,
+      "reference_percent_2100": 96.34616964501501,
+      "model_area_percent": 98.77115826256512,
+      "worst_dbm": -143.78260028849144,
       "passed_95": true
     },
     {
@@ -287,10 +309,10 @@
       "frequency_mhz": 2600,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2027.5898998856803,
-      "reference_percent_2100": 96.5518999945562,
-      "model_area_percent": 98.96316898076721,
-      "worst_dbm": -142.45391419975383,
+      "reference_covered_m2": 2028.2705704449102,
+      "reference_percent_2100": 96.58431287832906,
+      "model_area_percent": 98.99620626820823,
+      "worst_dbm": -141.42832020157118,
       "passed_95": true
     },
     {
@@ -298,10 +320,10 @@
       "frequency_mhz": 2600,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2031.6722438279867,
-      "reference_percent_2100": 96.74629732514222,
-      "model_area_percent": 99.1394306372856,
-      "worst_dbm": -137.65002015678508,
+      "reference_covered_m2": 2031.495765114362,
+      "reference_percent_2100": 96.73789357687438,
+      "model_area_percent": 99.13869647534247,
+      "worst_dbm": -136.83773640030165,
       "passed_95": true
     },
     {
@@ -309,21 +331,32 @@
       "frequency_mhz": 2600,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 1887.925845208622,
-      "reference_percent_2100": 89.9012307242201,
-      "model_area_percent": 92.27353073671341,
-      "worst_dbm": -147.25780824272258,
-      "passed_95": false
+      "reference_covered_m2": 2023.667713207768,
+      "reference_percent_2100": 96.3651292003699,
+      "model_area_percent": 98.77464453157414,
+      "worst_dbm": -146.01890781753798,
+      "passed_95": true
+    },
+    {
+      "scenario": "P1_n3_closed_gaps",
+      "frequency_mhz": 2600,
+      "step_m": 0.25,
+      "antennas": 32,
+      "reference_covered_m2": 2012.9407127848492,
+      "reference_percent_2100": 95.8543196564214,
+      "model_area_percent": 98.27642066290612,
+      "worst_dbm": -146.01890781753798,
+      "passed_95": true
     },
     {
       "scenario": "P1_extra_RF_3dB",
       "frequency_mhz": 2600,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2022.6763236251245,
-      "reference_percent_2100": 96.31792017262497,
-      "model_area_percent": 98.72920388791584,
-      "worst_dbm": -145.45391419975383,
+      "reference_covered_m2": 2026.7973721868548,
+      "reference_percent_2100": 96.51416058032642,
+      "model_area_percent": 98.92461098871428,
+      "worst_dbm": -144.42832020157118,
       "passed_95": true
     },
     {
@@ -331,10 +364,10 @@
       "frequency_mhz": 2600,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2023.5612560650202,
-      "reference_percent_2100": 96.36005981262001,
-      "model_area_percent": 98.78618926234824,
-      "worst_dbm": -142.61068589307428,
+      "reference_covered_m2": 2024.2469101468353,
+      "reference_percent_2100": 96.39271000699216,
+      "model_area_percent": 98.81946805042847,
+      "worst_dbm": -141.42832020157118,
       "passed_95": true
     },
     {
@@ -342,10 +375,10 @@
       "frequency_mhz": 2600,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2022.6134009285506,
-      "reference_percent_2100": 96.31492385374051,
-      "model_area_percent": 98.726185129926,
-      "worst_dbm": -145.46421415639364,
+      "reference_covered_m2": 2026.7647331539429,
+      "reference_percent_2100": 96.51260634066394,
+      "model_area_percent": 98.92304123455956,
+      "worst_dbm": -144.438620158211,
       "passed_95": true
     },
     {
@@ -353,10 +386,10 @@
       "frequency_mhz": 2600,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 1635.4668842885699,
-      "reference_percent_2100": 77.87937544231285,
-      "model_area_percent": 80.22182506240034,
-      "worst_dbm": -150.23542670359026,
+      "reference_covered_m2": 1925.2646794775612,
+      "reference_percent_2100": 91.67927045131245,
+      "model_area_percent": 94.08689090412193,
+      "worst_dbm": -149.20983270540762,
       "passed_95": false
     },
     {
@@ -364,10 +397,10 @@
       "frequency_mhz": 2600,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2027.5898998856803,
-      "reference_percent_2100": 96.5518999945562,
-      "model_area_percent": 98.96316898076721,
-      "worst_dbm": -142.67012122915062,
+      "reference_covered_m2": 2028.2078691510605,
+      "reference_percent_2100": 96.58132710243146,
+      "model_area_percent": 98.99318751021835,
+      "worst_dbm": -141.6730717799824,
       "passed_95": true
     },
     {
@@ -375,10 +408,10 @@
       "frequency_mhz": 2600,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2027.5898998856803,
-      "reference_percent_2100": 96.5518999945562,
-      "model_area_percent": 98.96316898076721,
-      "worst_dbm": -142.45391419975383,
+      "reference_covered_m2": 2028.2705704449102,
+      "reference_percent_2100": 96.58431287832906,
+      "model_area_percent": 98.99620626820823,
+      "worst_dbm": -141.42832020157118,
       "passed_95": true
     },
     {
@@ -386,10 +419,10 @@
       "frequency_mhz": 2600,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2018.3386834308046,
-      "reference_percent_2100": 96.11136587765736,
-      "model_area_percent": 98.53761338082599,
-      "worst_dbm": -145.61068589307428,
+      "reference_covered_m2": 2022.7737118887796,
+      "reference_percent_2100": 96.3225577089895,
+      "model_area_percent": 98.74787277093455,
+      "worst_dbm": -144.42832020157118,
       "passed_95": true
     },
     {
@@ -397,10 +430,10 @@
       "frequency_mhz": 2600,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2022.6763236251245,
-      "reference_percent_2100": 96.31792017262497,
-      "model_area_percent": 98.72920388791584,
-      "worst_dbm": -145.45391419975383,
+      "reference_covered_m2": 2026.7973721868548,
+      "reference_percent_2100": 96.51416058032642,
+      "model_area_percent": 98.92461098871428,
+      "worst_dbm": -144.42832020157118,
       "passed_95": true
     },
     {
@@ -408,10 +441,10 @@
       "frequency_mhz": 2600,
       "step_m": 0.25,
       "antennas": 32,
-      "reference_covered_m2": 2018.3386834308046,
-      "reference_percent_2100": 96.11136587765736,
-      "model_area_percent": 98.53761338082599,
-      "worst_dbm": -145.61068589307428,
+      "reference_covered_m2": 2022.7737118887796,
+      "reference_percent_2100": 96.3225577089895,
+      "model_area_percent": 98.74787277093455,
+      "worst_dbm": -144.42832020157118,
       "passed_95": true
     }
   ]

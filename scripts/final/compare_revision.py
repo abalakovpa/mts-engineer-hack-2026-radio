@@ -27,6 +27,8 @@ def main():
             for mode,extra,closed in [('nominal',0,False),('reserve3',3,False),('closed_reserve3',3,True)]:
                 best=(signal-extra-(field['closed'] if closed else 0)).max(axis=0)
                 scores[mode]=float(field['weights'][best>-90].sum()/21)
+            best=(signal-5*np.log10(field['radius'])).max(0)
+            scores['n3']=float(field['weights'][best>-90].sum()/21)
             results.append(dict(name=name,step_m=step,scores=scores,groups=len(area['groups']),
                                 uncertain_rooms=[g['rooms'] for g in area['groups'] if abs(g['relative_area_difference'])>.1],
                                 area_join_max_m=area['metadata']['area_join_max_m']))

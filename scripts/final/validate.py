@@ -105,7 +105,7 @@ def main():
         assert coverage['antennas']==count
         assert math.isclose(coverage['located_reference_m2'],2051.56,abs_tol=1e-6)
         assert coverage['unknown_reference_m2']==45.52
-        assert len(coverage['scenarios'])==36
+        assert len(coverage['scenarios'])==39
         assert coverage['area_model_sha256']==hashlib.sha256((ROOT/'design/final/coverage/area-model.json').read_bytes()).hexdigest()
         model=json.loads((ROOT/'design/final/coverage/area-model.json').read_text())
         assert len(model['groups'])==36 and not model['metadata']['area_joins_are_rf_walls']
@@ -116,15 +116,15 @@ def main():
         for f in (1800,2100,2600):
             nominal=by_key[('P1_n2.5',f)]['reference_percent_2100']
             assert nominal<=2051.56/2100*100+1e-6
-            for name in ('P1_n3','P1_extra_RF_3dB','P1_closed_gaps','P1_two_ports_total','P2_carrier23','P1_cable78_plus5pct','P1_geometry_uncertain_fail',
+            for name in ('P1_n3','P1_n3_closed_gaps','P1_extra_RF_3dB','P1_closed_gaps','P1_two_ports_total','P2_carrier23','P1_cable78_plus5pct','P1_geometry_uncertain_fail',
                          'P1_closed_gaps_RF3','P1_geometry_uncertain_fail_RF3','P1_closed_gaps_geometry_uncertain_fail_RF3'):
                 assert by_key[(name,f)]['reference_percent_2100']<=nominal+1e-6
             assert by_key[('P1_closed_gaps_RF3',f)]['reference_percent_2100']<=by_key[('P1_extra_RF_3dB',f)]['reference_percent_2100']+1e-6
             assert by_key[('P1_closed_gaps_geometry_uncertain_fail_RF3',f)]['reference_percent_2100']<=by_key[('P1_closed_gaps_RF3',f)]['reference_percent_2100']+1e-6
             assert by_key[('P1_n2',f)]['reference_percent_2100']>=nominal-1e-6
-            for name in ('P1_extra_RF_3dB','P1_closed_gaps_geometry_uncertain_fail_RF3'):
+            for name in ('P1_n3','P1_n3_closed_gaps','P1_extra_RF_3dB','P1_closed_gaps_geometry_uncertain_fail_RF3'):
                 assert by_key[(name,f)]['reference_percent_2100']>=95,'Selected reserve objective not met'
-        assert wb['Покрытие сценарии'].max_row==37
+        assert wb['Покрытие сценарии'].max_row==40
         assert coverage['design_fingerprint']==hashlib.sha256((ROOT/'design/final/candidate.json').read_bytes()).hexdigest()
         for row,result in zip(wb['Покрытие сценарии'].iter_rows(min_row=2,values_only=True),coverage['scenarios']):
             assert row[0]==result['scenario'] and row[1]==result['frequency_mhz']

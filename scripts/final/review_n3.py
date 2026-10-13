@@ -89,8 +89,8 @@ def map_pair(model,baseline,new,cached,frequency):
 
 def main():
     model=json.loads((ROOT/'design/final/coverage/area-model.json').read_text())
-    original=json.loads((ROOT/'design/final/candidate.json').read_text())
-    baseline_input=json.loads((ROOT/'design/final/project-input.json').read_text())
+    original=json.loads((OUT/'baseline-candidate.json').read_text())
+    baseline_input=json.loads((OUT/'baseline-project-input.json').read_text())
     proposal=json.loads((OUT/'best32-project-input.json').read_text())
     best=json.loads((OUT/'best32-candidate.json').read_text())
     assert np.allclose(proposal['head'],baseline_input['head'])
@@ -119,10 +119,9 @@ def main():
         if name!='baseline':write(f'{name}-verified-candidate.json',design)
         print(name,result,flush=True)
     # Match the original authoritative evaluation, not just the search score.
-    original_report=json.loads((ROOT/'design/final/coverage/coverage-report.json').read_text())
+    original_report=json.loads((OUT/'baseline-results.json').read_text())
     for frequency,_,_,_ in FREQUENCIES:
-        reference=next(r['reference_percent_2100'] for r in original_report['scenarios']
-                       if r['scenario']=='P1_n3' and r['frequency_mhz']==frequency)
+        reference=original_report[f'{frequency}_n3']
         assert math.isclose(reference,fine['baseline'][f'{frequency}_n3'],abs_tol=1e-6)
     for frequency,_,_,_ in FREQUENCIES:
         assert fine['best32'][f'{frequency}_n3']>=95
@@ -216,7 +215,7 @@ def main():
     text+='Найден полностью трассированный пассивный вариант с **32 In06** и прежней мощностью пилота. '
     text+='На сетке **0,25 м** он проходит RSRP >−90 дБм на ≥95% от 2100 м² при n=3 во всех трёх диапазонах. '
     text+='Совместная проверка n=2,5 с закрытыми проёмами, 114.2 как непрошедшим и дополнительными 3 дБ также проходит. '
-    text+='Это результат условной модели P1, не измерения и не подтверждение всех KPI. Основной пакет пока сохраняет прежнюю схему.\n\n'
+    text+='Это результат условной модели P1, не измерения и не подтверждение всех KPI. В таблицах «основная схема» означает зафиксированный вариант до принятия.\n\n'
     text+=table(['Диапазон','Основная схема n=3','Новый вариант n=3','Новый: проёмы/контур/+3 дБ'],
         [[f'{f} МГц',fmt(fine['baseline'][f'{f}_n3'])+'%',fmt(fine['best32'][f'{f}_n3'])+'%',
           fmt(fine['best32'][f'{f}_joint_reserve3'])+'%'] for f,_,_,_ in FREQUENCIES])

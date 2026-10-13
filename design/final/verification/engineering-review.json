@@ -1,6 +1,6 @@
 {
   "date": "2026-10-13",
-  "design_fingerprint": "7ce3a57fdfcac5e7032b8df3b7089582e0d209048ba20f9430b9815007d80744",
+  "design_fingerprint": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
   "antennas_inside_model": 32,
   "head_group": "104.2",
   "port_plan_connections": 137,
@@ -10,12 +10,12 @@
   "total_jumper_count": 113,
   "connector_genders_required": {
     "1/2": {
-      "male": 42,
-      "female": 42
+      "male": 34,
+      "female": 34
     },
     "7/8": {
-      "male": 62,
-      "female": 22
+      "male": 70,
+      "female": 30
     }
   },
   "unused_input_loads_mts_only": 16,
@@ -25,8 +25,8 @@
       "scenario": "D40_per_TRX",
       "bcch_source_dbm": 40,
       "extra_rf_db": 0,
-      "reference_percent_2100": 97.65558306260813,
-      "worst_rx_dbm": -104.8734294869009,
+      "reference_percent_2100": 97.6596979825995,
+      "worst_rx_dbm": -103.84067081326185,
       "passed_95": true
     },
     {
@@ -34,15 +34,15 @@
       "bcch_source_dbm": 36.98970004336019,
       "extra_rf_db": 0,
       "reference_percent_2100": 97.65558306260813,
-      "worst_rx_dbm": -107.88372944354072,
+      "worst_rx_dbm": -106.85097076990166,
       "passed_95": true
     },
     {
       "scenario": "D30_per_TRX",
       "bcch_source_dbm": 30,
       "extra_rf_db": 0,
-      "reference_percent_2100": 97.59410754880625,
-      "worst_rx_dbm": -114.8734294869009,
+      "reference_percent_2100": 97.61633602937316,
+      "worst_rx_dbm": -113.84067081326185,
       "passed_95": true
     },
     {
@@ -50,7 +50,7 @@
       "bcch_source_dbm": 40,
       "extra_rf_db": 3,
       "reference_percent_2100": 97.65558306260813,
-      "worst_rx_dbm": -107.8734294869009,
+      "worst_rx_dbm": -106.84067081326185,
       "passed_95": true
     }
   ],

@@ -5,7 +5,8 @@
     "scores": {
       "nominal": 96.26167201084702,
       "reserve3": 94.01267862437896,
-      "closed_reserve3": 92.10127277835484
+      "closed_reserve3": 92.10127277835484,
+      "n3": 87.49506262747387
     },
     "groups": 36,
     "uncertain_rooms": [
@@ -19,9 +20,10 @@
     "name": "current_layout_join015",
     "step_m": 0.5,
     "scores": {
-      "nominal": 96.47778602737041,
-      "reserve3": 96.12791504307093,
-      "closed_reserve3": 95.89648200202744
+      "nominal": 96.48976003358278,
+      "reserve3": 96.37061992114046,
+      "closed_reserve3": 96.15857546011127,
+      "n3": 96.20752160607856
     },
     "groups": 36,
     "uncertain_rooms": [

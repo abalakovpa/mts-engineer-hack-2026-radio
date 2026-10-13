@@ -3,8 +3,8 @@
   "files": [
     {
       "name": "01-capacity.pdf",
-      "bytes": 111274,
-      "sha256": "4b3a51eae6261e6e2cd3c335bf50f861d18917713c07b99e1249b0d234889d5d",
+      "bytes": 111276,
+      "sha256": "ba14d89b92f318cd77e866abab51836c3dac2162a8e7fb458a543aa1cf18c709",
       "layout_checked": true,
       "a3_sheets": 0,
       "navigation_checked": true,
@@ -12,17 +12,17 @@
     },
     {
       "name": "02-floor-design.pdf",
-      "bytes": 2888354,
-      "sha256": "048570e069c0a3e81c98614247b221d3e01aea71f9addad0738175fb0659611b",
+      "bytes": 4010193,
+      "sha256": "b6d89ec3d93afeb938c141c477305724530ff6167d46ff24913919d6479e1e7b",
       "layout_checked": true,
-      "a3_sheets": 11,
+      "a3_sheets": 14,
       "navigation_checked": true,
-      "pages": 23
+      "pages": 26
     },
     {
       "name": "03-rsrp.pdf",
-      "bytes": 125970,
-      "sha256": "b5ca9359394eedeff62f23a6b81813c4a0d0041dfb77ccf1e0ff68fe59292e92",
+      "bytes": 126043,
+      "sha256": "14ea9b86a028b90257209473bcb6dd5742155a0732f28422b92d25d44c30feed",
       "layout_checked": true,
       "a3_sheets": 0,
       "navigation_checked": true,
@@ -30,21 +30,21 @@
     },
     {
       "name": "04-equipment.xlsx",
-      "bytes": 51845,
-      "sha256": "516ec7d8b32ede7422e82df6007384ea9cb37d4355dd094f7ed5ce8e19bf2ee2"
+      "bytes": 51631,
+      "sha256": "153299548597f487c1a3fa474116502c08930fc142671801aa6fde3095c01b01"
     },
     {
       "name": "05-defense.pptx",
-      "bytes": 585701,
-      "sha256": "401ea9a14d9fa4a634c20a9e5d3d0e4fe4f4fef92b85b78b4131282cd85f9362"
+      "bytes": 627706,
+      "sha256": "83b98c63bf3d9b90c52f149cf35e25c9d34dacbc26e9da91e34b5f5e18a80d9b"
     }
   ],
   "archive": {
     "name": "mts-radio-final.zip",
-    "bytes": 3406669,
-    "sha256": "510115e56034303552d32b5bea8fe6a251f36428857259baaaafbca3eb28576a"
+    "bytes": 4479167,
+    "sha256": "fdeb9de3b15a53c69e44d053770e148a8e6a3dfd04a929d1a836883e9e589c54"
   },
-  "design_fingerprint": "7ce3a57fdfcac5e7032b8df3b7089582e0d209048ba20f9430b9815007d80744",
+  "design_fingerprint": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
   "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69",
   "technical_export_checked": true,
   "full_kpi_compliance": false,
@@ -57,5 +57,7 @@
   ],
   "official_template_available": false,
   "personal_rehearsal_done": false,
-  "pdf_design_version": 2
+  "pdf_design_version": 2,
+  "selected_revision": "n3",
+  "n3_goal_verified": true
 }

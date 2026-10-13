@@ -253,6 +253,8 @@
   },
   "goal_met_all_bands": true,
   "full_kpi_compliance": false,
-  "adopted_into_submission": false,
-  "physical_installation_confirmed": false
+  "adopted_into_submission": true,
+  "physical_installation_confirmed": false,
+  "current_selected_design_sha256": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
+  "source_hash_context": "Исходные пути и hashes относятся к основной версии 50974e2 до принятия; см. frozen baseline и primary-adoption.json"
 }

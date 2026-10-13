@@ -17,9 +17,12 @@ MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/evaluate_coverage.py --step 0.
 MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/final_engineering.py
 MPLCONFIGDIR=/tmp/radio-mpl OPENBLAS_NUM_THREADS=1 python3 scripts/final/compare_revision.py
 MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/write_reserve_docs.py
+MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/update_primary_status.py
 python3 scripts/final/final_presentation.py
+MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/update_primary_status.py
 MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/package_submission.py
 python3 scripts/final/validate.py
+MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/update_primary_status.py --finalize
 ```
 
 Экспорт PDF: Pandoc + XeLaTeX и DejaVu Sans/Mono; ReportLab/PyMuPDF формируют листы A3 и согласованную нумерацию. Общий стиль — docs/final/deliverables/pdf-header.tex, таблицы — pdf-design.lua, обзоры и графические листы — pdf_design.py. Проверка PDF: pdfinfo/pdftotext и PyMuPDF, включая поля, переходы и 384 экспортированных значения RSRP. Презентация и PDF-предпросмотр формируются по общему макету, а не рендерингом в PowerPoint. Скрипт final_engineering.py добавляет листы портового плана, DCS и комплектности в XLSX; его выполнять после evaluate_coverage.py. Личные поля — presentation/profile-input.json. Архив, манифест и правила отправки — submission/README.md. Загрузка на платформу не автоматизирована.
@@ -43,4 +46,4 @@ MPLCONFIGDIR=/tmp/radio-mpl OPENBLAS_NUM_THREADS=1 python3 scripts/final/researc
 MPLCONFIGDIR=/tmp/radio-mpl OPENBLAS_NUM_THREADS=1 python3 scripts/final/review_n3.py
 ```
 
-Результаты — `design/final/n3/`, отчёт — `docs/final/n3-feasibility.md`. Поиск использует реальные трассированные потери, 420 назначений классов мощности, проекции S-узлов на предложенные лотки и локальные переносы. Контроль пересчитывает пять вариантов на сетке 0,25 м, проверяет цель n=3/совместного запаса по всем трём диапазонам, маршруты и RF-бюджеты; отдельно используется сетка 0,5 м. Кэши — `/workspace/radio-runtime/n3-cache` в текущей среде. `route_design.construct` принимает необязательные `zone_hubs`; без них сохраняет прежние точки. Перенос исследовательского варианта в основной пакет требует отдельного обновления генераторов схем и пяти артефактов.
+Результаты — `design/final/n3/`, отчёт — `docs/final/n3-feasibility.md`. Поиск использует реальные трассированные потери, 420 назначений классов мощности, проекции S-узлов на предложенные лотки и локальные переносы. Контроль пересчитывает пять вариантов на сетке 0,25 м, проверяет цель n=3/совместного запаса по всем трём диапазонам, маршруты и RF-бюджеты; отдельно используется сетка 0,5 м. Кэши — `/workspace/radio-runtime/n3-cache` в текущей среде. `route_design.construct` принимает необязательные `zone_hubs`; без них сохраняет прежние точки. Вариант n=3 принят в основной пакет, входы содержат новые узлы. Исследование воспроизводится от сохранённой baseline-candidate.json, а не перезаписывает прежнюю базу текущей схемой. Статусы и запись принятия обновляет update_primary_status.py; finalize сверяет экспорт с текущим расчётом.

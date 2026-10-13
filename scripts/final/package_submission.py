@@ -180,7 +180,8 @@ def main():
                   design_fingerprint=cov['design_fingerprint'],area_model_sha256=cov['area_model_sha256'],technical_export_checked=True,
                   full_kpi_compliance=False,uploaded_to_competition=False,
                   pending_profile_fields=status['pending_profile_fields'],official_template_available=False,
-                  personal_rehearsal_done=False,pdf_design_version=2)
+                  personal_rehearsal_done=False,pdf_design_version=2,selected_revision='n3',
+                  n3_goal_verified=all(r['passed_95'] for r in cov['scenarios'] if r['scenario']=='P1_n3'))
     (ROOT/'submission/manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
     preview_reports(OUTPUT,EDITABLE/'redesign-preview.png')
     print(json.dumps(manifest,ensure_ascii=False,indent=2))

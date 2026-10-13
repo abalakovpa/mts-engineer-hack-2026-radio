@@ -3,10 +3,11 @@
 from pathlib import Path
 import json
 import math
+import hashlib
 from final_engineering import table
 
 ROOT=Path(__file__).resolve().parents[2];DOC=ROOT/'docs/final';D=ROOT/'design/final'
-LABELS=[('P1_n2.5','P1, n=2,5'),('P1_n2','P1, n=2'),('P1_n3','P1, n=3'),
+LABELS=[('P1_n2.5','P1, n=2,5'),('P1_n2','P1, n=2'),('P1_n3','P1, n=3'),('P1_n3_closed_gaps','P1, n=3, закрытые проёмы'),
  ('P1_extra_RF_3dB','Ещё 3 дБ RF-потерь'),('P1_closed_gaps','Закрытые проёмы'),
  ('P1_two_ports_total','23 дБм на два порта'),('P2_carrier23','P2: полная несущая 23 дБм'),
  ('P1_cable78_plus5pct','Затухание 7/8 +5%'),('P1_geometry_uncertain_fail','Спорный контур не проходит'),
@@ -17,10 +18,20 @@ def main():
     data=json.loads((D/'candidate.json').read_text());model=json.loads((D/'coverage/area-model.json').read_text())
     report=json.loads((D/'coverage/coverage-report.json').read_text());review=json.loads((D/'verification/engineering-review.json').read_text())
     comparison=json.loads((D/'revision/control-comparison.json').read_text());proposal=json.loads((D/'revision/reserve-proposal.json').read_text())
+    previous=json.loads((D/'n3/baseline-candidate.json').read_text())
+    previous_total=previous['cable78_installed']+previous['cable12_installed']
+    current_input=json.loads((D/'project-input.json').read_text())
+    old_by_id={a['id']:a for a in previous['antennas']}
+    proposal['swaps']=[dict(id=a['id'],before_room=old_by_id[a['id']]['room'],after_room=a['room'])
+                       for a in data['antennas'] if a['room']!=old_by_id[a['id']]['room']]
+    proposal['scores']=json.loads((D/'coverage/resolution-0.5.json').read_text())['scores']
+    assert report['design_fingerprint']==review['design_fingerprint']==hashlib.sha256((D/'candidate.json').read_bytes()).hexdigest()
     old=comparison[0]['scores'];s={(r['scenario'],r['frequency_mhz']):r['reference_percent_2100'] for r in report['scenarios']}
     total=data['cable78_installed']+data['cable12_installed'];jumpers=review['total_jumper_count'];routes=data['trunks']+data['subfeeds']+data['drops']
     counts={k:2*sum(r['cable']==k for r in routes) for k in ('1/2','7/8')};connectors={k:2*v for k,v in counts.items()}
     uncertain=[g for g in model['groups'] if abs(g['relative_area_difference'])>.1]
+    genders=review['connector_genders_required']
+    local_ids='/'.join(r['id'] for r in routes if r['cable']=='jumper')
     worst=max(data['rf_points'],key=lambda r:r['total_loss_db']);id=worst['antenna'];points=[r for r in data['rf_points'] if r['antenna']==id and r['frequency_mhz']==2600]
     body=['# Проверка геометрии и запаса RSRP\n\nДата: 13.10.2026. Исходный пакет сохранён в Git-коммите [18204fb](https://github.com/abalakovpa/mts-engineer-hack-2026-radio/commit/18204fb09b7dcd327cee8d1a408d0ef8c928512a). '
           'Ниже показана доработка по тем же исходным материалам, без новых паспортов, измерений или изменения мощности пилота.\n',
@@ -46,7 +57,9 @@ def main():
           'На стадиях распределения непосредственные пути выигрывают 3,01 дБ идеального деления и 0,5 дБ оценочных excess loss; '
           'парные сохраняют прежние потери деления; четверные теряют 3,01 дБ. Кабели и местные соединения пересчитаны отдельно.\n\n',
           table(['ID','Прежняя привязка','Новая привязка'],[[r['id'],r['before_room'],r['after_room']] for r in proposal['swaps']]),
-          '\n\nПолный журнал переносов и входы — `design/final/revision/reserve-proposal.json` и `design/final/project-input.json`. '
+          '\n\nПринят вариант исследования n=3: изменены S-узлы, классы мощности, две привязки и девять локальных позиций. '
+          'Журнал — `design/final/n3/moves.json`, проверенные входы — `design/final/project-input.json`; '
+          'результаты исследования — `docs/final/n3-feasibility.md`. '
           'Номер помещения в ведомости — исходная привязка/целевая зона. Для объединённых открытых CAD-групп он не удостоверяет, '
           'что перенесённая антенна находится внутри отдельной комнаты; точное положение задают X/Y на плане. '
           'Отбор по приближённой мощности не использован как итог: пересчитано настоящее дерево, все пути и поле 0,25 м.\n',
@@ -62,7 +75,9 @@ def main():
           f'При уменьшении допустимого короткого стыка до 0,15 м на сетке 0,5 м — {comparison[1]["scores"]["reserve3"]:.2f}% и {comparison[1]["scores"]["closed_reserve3"]:.2f}%. '
           'Изменение шага и стыка не заменяет проверку физических материалов и высот, но основной вывод сохраняется.\n',
           '## Цена изменения\n\n'
-          f'Метраж двух MIMO-ветвей вырос с 1084,20 до {total:.2f} м (+{(total/1084.2026152168604-1)*100:.1f}%). '
+          f'Метраж двух MIMO-ветвей сокращён с {previous_total:.2f} до {total:.2f} м ({(total/previous_total-1)*100:.2f}%) '
+          'относительно последней схемы до принятия n=3. '
+          f'Ранний равномерный 32-антенный вариант содержал 1084,20 м; к нему изменение +{(total/1084.2026152168604-1)*100:.1f}%. '
           f'Относительно начальной 48-антенной схемы 1849,04 м он меньше на {(1-total/1849.04)*100:.1f}%. '
           f'7/8: {data["cable78_installed"]:.2f} м, закупочно {math.ceil(data["cable78_installed"]*1.1)} м; '
           f'1/2: {data["cable12_installed"]:.2f} м, закупочно {math.ceil(data["cable12_installed"]*1.1)} м. '
@@ -79,7 +94,7 @@ def main():
     coverage=['# Покрытие со стенами и проверка запаса\n\nОбновлено 13.10.2026. Данные задания, геометрическая интерпретация и RF-допущения разделены. '
               'Ниже — прогноз модели P1, не измерения и не полное подтверждение технического задания.\n',
               '## Площадь и источники\n\n'
-              f'DWG: INSUNITS=4, метры без подгонки масштаба. {len(model["groups"])} групп и 45 локализованных помещений. '
+              f'DWG: INSUNITS=4, миллиметры пересчитаны в метры без подгонки масштаба. {len(model["groups"])} групп и 45 локализованных помещений. '
               f'Маска до модельных колонн {model["metadata"]["mask_area_m2"]:.2f} м². '
               'Основные границы — архитектура/A-AREA; для 117 также границы лестничного ядра A-FLOR. '
               f'{model["metadata"]["area_join_count"]} коротких стыков ≤0,25 м нужны только для площади; как стены они не считаются. '
@@ -103,14 +118,14 @@ def main():
                   [[label]+[f'{s[(name,f)]:.2f}%' for f in (1800,2100,2600)] for name,label in LABELS]),
               '\n\nВсе доли относятся к 2100 м²; непроверенная площадь включена как непрошедшая. '
               'В новой модели номинал, +3 дБ и совместные сценарии проёмов/114.2/+3 дБ проходят 95%. '
-              'n=3 и P2 не проходят. Отсутствие дополнительного падения при исключении 114.2 объясняется тем, '
+              'n=3 и n=3 с закрытыми проёмами также проходят; P2 не проходит. Отсутствие дополнительного падения при исключении 114.2 объясняется тем, '
               'что эта группа уже не проходит номинальный LTE-порог; из знаменателя она не удалена.\n',
               '## Артефакты и воспроизведение\n\n'
               '[Аудит площади](../../design/final/coverage/area-audit.csv), [контуры](../../design/final/coverage/rooms.geojson), '
               '[карта площади](../../design/final/coverage/area-model.png). Карты RSRP: '
               '[B3](../../design/final/coverage/rsrp-1800-walls.png), [B1](../../design/final/coverage/rsrp-2100-walls.png), '
               '[B7](../../design/final/coverage/rsrp-2600-walls.png). '
-              '[Численный отчёт](../../design/final/coverage/coverage-report.json) содержит 36 вариантов и отпечатки проекта/геометрии. '
+              f'[Численный отчёт](../../design/final/coverage/coverage-report.json) содержит {len(report["scenarios"])} вариантов и отпечатки проекта/геометрии. '
               'Таблица долей по группам — room-coverage.csv и XLSX. Сохранены контрольная сетка 0,5 м и сравнение прежнего дерева '
               'на той же новой геометрии/сетке 0,25 м. Порядок — scripts/final/README.md. '
               'RSRP и его запас не доказывают SINR/RSRQ, скорость, C/I, MIMO rank или UL.\n']
@@ -161,12 +176,13 @@ def main():
              f'\n\n{review["manufactured_feeder_segments"]} ненулевых фидерных участка и {data["local_jumper_count"]} местных джампера составляют '
              '88 распределительных связей двух ветвей. Общие джамперы: 18 LTE-входов (12 резервных), 1 GSM-вход, '
              '2 связи DCS PC250→PC221, 24 PC221→PC211, 64 антенных и местные. '
-             'F2-1/F3-1 на обеих ветвях — соседние устройства, соединённые джамперами 3 м с оценкой 0,2 дБ на путь. '
+             f'{local_ids} на обеих ветвях — соседние устройства, соединённые джамперами 3 м с оценкой 0,2 дБ на путь. '
              'Нулевые фидеры и отдельные разъёмы для них не считаются.\n\n'
              'Для male/male джамперов нужны female-окончания на антенных концах фидеров. '
-             '1/2 — 42 male/42 female; 7/8 — 62 male/22 female. Пол разъёмов, интерфейс In06/БС и '
+             f'1/2 — {genders["1/2"]["male"]} male/{genders["1/2"]["female"]} female; '
+             f'7/8 — {genders["7/8"]["male"]} male/{genders["7/8"]["female"]} female. Пол разъёмов, интерфейс In06/БС и '
              'доступность исполнений не подтверждены перечнем. Пожарное исполнение XLSX и PE-паспорта расходятся.\n\n'
-             f'Метраж {total:.2f} м вырос на {(total/1084.2026152168604-1)*100:.1f}% к предыдущему варианту; '
+             f'Метраж {total:.2f} м изменён на {(total/previous_total-1)*100:.2f}% к предыдущим {previous_total:.2f} м; '
              f'к первоначальному 48-антенному варианту он меньше на {(1-total/1849.04)*100:.1f}%. Это цена запаса, не экономический оптимум.\n',
              '## RF-бюджет и покрытие\n\n'
              'Общие потери до зонального распределения/после него: 6 дБ PC221 + 1 дБ PC211 + 0,8 дБ '
@@ -179,14 +195,15 @@ def main():
              '/'.join(f'{s[("P1_n2.5",f)]:.2f}%' for f in (1800,2100,2600))+'. '
              f'B7 +3 дБ — {s[("P1_extra_RF_3dB",2600)]:.2f}%; проёмы/спорный контур/+3 дБ — {s[("P1_closed_gaps_geometry_uncertain_fail_RF3",2600)]:.2f}%. '
              'Максимум отдельных антенн не учитывает фазовую интерференцию и не является строгой нижней границей сигнала. '
-             'n=3 и P2 не проходят 95%.\n',
+             f'n=3: B3/B1/B7 — '+ '/'.join(f'{s[("P1_n3",f)]:.2f}%' for f in (1800,2100,2600))+'. '
+             'n=3 с закрытыми проёмами также проходит; P2 не проходит 95%.\n',
              '## Границы готовности\n\n'
-             'Проверены 32 антенны, 71 устройство, 137 портовых соединений/окончаний, 384 RF-точки и 36 сценариев. '
+             f'Проверены 32 антенны, 71 устройство, 137 портовых соединений/окончаний, 384 RF-точки и {len(report["scenarios"])} сценариев. '
              'Номинальный запас 3 дБ достигнут только в условной модели P1. Фактические RSRQ/SINR/C/I/UL, '
              'MIMO rank, PIM и допустимые мощности не подтверждены. Пассивная схема не выполняет удалённое регулирование. '
              'Уточнения недоступны; эти ограничения сохраняются в пяти отдельных артефактах, без выдуманных характеристик.\n']
     (DOC/'design-project.md').write_text('\n'.join(project))
-    path=DOC/'rsrp-calculation.md';text=path.read_text().split('## Худшая проектная ветвь')[0]
+    path=DOC/'rsrp-calculation.md';text=path.read_text().split('## Фиксированные потери по классу')[0].split('## Худшая проектная ветвь')[0]
     text+='## Фиксированные потери по классу\n\n'
     text+='В новом дереве 2+2+4 фиксированная часть непосредственного/парного/четверного пути равна '
     text+='15,3206/18,8309/21,8412 дБ. Дополнительно паспортные кабели и 0,2 дБ на местный джампер при наличии. '
