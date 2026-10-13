@@ -1,21 +1,21 @@
 {
   "date": "2026-10-13",
-  "design_fingerprint": "71b95286b00d83292322b0532712d42b766c2e83e6c602fb65b09108dbefd364",
+  "design_fingerprint": "7ce3a57fdfcac5e7032b8df3b7089582e0d209048ba20f9430b9815007d80744",
   "antennas_inside_model": 32,
   "head_group": "104.2",
   "port_plan_connections": 137,
   "device_locations": 71,
-  "manufactured_feeder_segments": 82,
-  "local_jumper_count": 6,
-  "total_jumper_count": 115,
+  "manufactured_feeder_segments": 84,
+  "local_jumper_count": 4,
+  "total_jumper_count": 113,
   "connector_genders_required": {
     "1/2": {
-      "male": 56,
-      "female": 56
+      "male": 42,
+      "female": 42
     },
     "7/8": {
-      "male": 44,
-      "female": 8
+      "male": 62,
+      "female": 22
     }
   },
   "unused_input_loads_mts_only": 16,
@@ -25,32 +25,32 @@
       "scenario": "D40_per_TRX",
       "bcch_source_dbm": 40,
       "extra_rf_db": 0,
-      "reference_percent_2100": 97.62342578309377,
-      "worst_rx_dbm": -101.05987611369301,
+      "reference_percent_2100": 97.65558306260813,
+      "worst_rx_dbm": -104.8734294869009,
       "passed_95": true
     },
     {
       "scenario": "D40_total_2TRX_equal",
       "bcch_source_dbm": 36.98970004336019,
       "extra_rf_db": 0,
-      "reference_percent_2100": 97.62080680807118,
-      "worst_rx_dbm": -104.07017607033282,
+      "reference_percent_2100": 97.65558306260813,
+      "worst_rx_dbm": -107.88372944354072,
       "passed_95": true
     },
     {
       "scenario": "D30_per_TRX",
       "bcch_source_dbm": 30,
       "extra_rf_db": 0,
-      "reference_percent_2100": 97.59899679855863,
-      "worst_rx_dbm": -111.05987611369301,
+      "reference_percent_2100": 97.59410754880625,
+      "worst_rx_dbm": -114.8734294869009,
       "passed_95": true
     },
     {
       "scenario": "D40_RF_extra3dB",
       "bcch_source_dbm": 40,
       "extra_rf_db": 3,
-      "reference_percent_2100": 97.62080680807118,
-      "worst_rx_dbm": -104.05987611369301,
+      "reference_percent_2100": 97.65558306260813,
+      "worst_rx_dbm": -107.8734294869009,
       "passed_95": true
     }
   ],

@@ -70,21 +70,24 @@ def main():
     (EDITABLE/'01-capacity.md').write_text(capacity)
     project=body(FINAL/'design-project.md')+'\n\n\\newpage\n\n'
     project+=body(FINAL/'engineering-review.md')+'\n\n\\newpage\n\n'
+    project+=body(FINAL/'reserve-review.md')+'\n\n\\newpage\n\n'
     project+=body(FINAL/'coverage-review.md')
     for title,path,w,h in [
         ('План первого этажа: антенны, делители, трассы и ВК','design/final/verification/final-layout.pdf',None,220),
-        ('Схема подключения передатчиков БС','design/final/verification/bs-connections.png',170,None),
-        ('Схема соединения распределительного оборудования','design/final/verification/distribution-tree.png',170,None),
+        ('Схема подключения передатчиков БС','design/final/verification/bs-connections.pdf',170,None),
+        ('Схема соединения распределительного оборудования','design/final/verification/distribution-tree.pdf',170,None),
         ('Карта RSRP B3: P1, n=2,5','design/final/coverage/rsrp-1800-walls.png',None,215),
         ('Карта RSRP B1: P1, n=2,5','design/final/coverage/rsrp-2100-walls.png',None,215),
         ('Карта RSRP B7: P1, n=2,5','design/final/coverage/rsrp-2600-walls.png',None,215),
+        ('B7: дополнительные 3 дБ потерь','design/final/coverage/rsrp-2600-reserve3.png',None,215),
+        ('B7: проёмы, спорный контур и ещё 3 дБ','design/final/coverage/rsrp-2600-joint-reserve3.png',None,215),
         ('Карта DCS: условная мощность BCCH 40 дБм','design/final/verification/dcs-1800-conditional.png',None,215),
         ('Принадлежность проектной LTE-ячейке: без внешней сети','design/final/verification/project-cell-assignment.png',None,210),
         ('Модель площади и неопределённые контуры','design/final/coverage/area-model.png',None,215),
     ]:project+=image_page(title,ROOT/path,w,h)
     project+='\n\\newpage\n\n## Координаты и группы антенн\n\n'
-    project+='CAD X/Y, метры; высота антенн 7 м — допущение. Z — группа, g — подгруппа. P1/P2 обслуживаются раздельными деревьями.\n\n'
-    project+=table(['ID','Помещение','Z/g','X, м','Y, м','7/8, м','1/2, м'],
+    project+='CAD X/Y, метры; высота антенн 7 м — допущение. Z — группа; g=0 — непосредственная, g=1 — парная, g=2 — четверная. P1/P2 обслуживаются раздельными деревьями. Номер — исходная привязка/целевая зона, не подтверждение принадлежности новой позиции отдельной комнате.\n\n'
+    project+=table(['ID','Привязка','Z/g','X, м','Y, м','7/8, м','1/2, м'],
                    [(a['id'],a['room'],f'{a["zone"]}/{a["subgroup"]}',f'{a["x"]:.3f}',f'{a["y"]:.3f}',
                      f'{a["length78_m"]:.3f}',f'{a["length12_m"]:.3f}') for a in d['antennas']])
     project+='\n\n## Маршруты одной ветви Mj\n\nКаждый ID повторяется на M1 и M2. Геометрическая длина без закупочного запаса. '
@@ -96,23 +99,24 @@ def main():
     project+='Геометрические точки не задают размеры шкафов или точную монтажную раскладку.\n\n'
     project+=table(['Узел','Модель / количество','X, м','Y, м'],
                    [('ВК','6 PC221 + 8 PC211 + 1 PC250',f'{d["head"][0]:.3f}',f'{d["head"][1]:.3f}')]+
-                   [(f'S-Z{z}','2 PC250',f'{d["trunks"][z-1]["points"][-1][0]:.3f}',f'{d["trunks"][z-1]["points"][-1][1]:.3f}') for z in range(1,5)]+
-                   [(f'Q-Z{z}-{g}','2 PC252',f'{r["points"][-1][0]:.3f}',f'{r["points"][-1][1]:.3f}')
+                   [(f'S-Z{z}','2 PC252',f'{d["trunks"][z-1]["points"][-1][0]:.3f}',f'{d["trunks"][z-1]["points"][-1][1]:.3f}') for z in range(1,5)]+
+                   [(f'Q-Z{z}-{g}','2 '+('PC250' if g==1 else 'PC252'),f'{r["points"][-1][0]:.3f}',f'{r["points"][-1][1]:.3f}')
                     for z in range(1,5) for g in (1,2) for r in d['subfeeds'] if r['id']==f'F{z}-{g}'])
-    project+='\n\n## Портовые обозначения\n\nH-band-Mj — гибрид PC221; TP-Zz-Mj — триплексер PC211; S-Zz-Mj — PC250; '
-    project+='Q-Zz-g-Mj — PC252; S-DCS — отдельный PC250. Полная таблица портов, включая входы БС, резерв операторов '
+    project+='\n\n## Портовые обозначения\n\nH-band-Mj — гибрид PC221; TP-Zz-Mj — триплексер PC211; S-Zz-Mj — PC252; '
+    project+='Q-Zz-1-Mj — PC250; Q-Zz-2-Mj — PC252; S-DCS — отдельный PC250. Полная таблица портов, включая входы БС, резерв операторов '
     project+='и оконечные антенны, включена в лист «Портовый план» отдельного артефакта 04-equipment.xlsx. '
     project+='Портовая маркировка I/O является проектной; точная маркировка корпуса устройства не предоставлена.\n'
     (EDITABLE/'02-floor-design.md').write_text(project)
     radio=body(FINAL/'rsrp-calculation.md')
     radio+='\n\n\\newpage\n\n## Проверяемый пример полного тракта\n\n'
-    a=next(a for a in d['antennas'] if a['id']=='A28')
-    radio+=f'A28: 7/8 — {a["length78_m"]:.6f} м; 1/2 — {a["length12_m"]:.6f} м; местный джампер F4-1 — 3 м. '
-    radio+='Фиксированные потери 18,83089987 дБ плюс 0,2 дБ местного джампера. Последовательность: '
+    worst_id=max(d['rf_points'],key=lambda r:r['total_loss_db'])['antenna']
+    a=next(a for a in d['antennas'] if a['id']==worst_id)
+    radio+=f'{worst_id}: 7/8 — {a["length78_m"]:.6f} м; 1/2 — {a["length12_m"]:.6f} м; класс {a["power_class"]}. '
+    radio+=f'Фиксированные потери {d["fixed_loss_db"]+a.get("distribution_adjustment_db",0):.8f} дБ; дополнительные местные джамперы {a["additional_jumper_loss_db"]:.2f} дБ. Последовательность: '
     radio+='мощность CRS RE → RF-потери → усиление 3 dBi → пространственная потеря → RSRP. '
     radio+='Один путь на одном порту, n=2,5, без препятствий.\n\n'
     for f,prb in ((1800,100),(2100,75),(2600,50)):
-        rows=[r for r in d['rf_points'] if r['antenna']=='A28' and r['frequency_mhz']==f]
+        rows=[r for r in d['rf_points'] if r['antenna']==worst_id and r['frequency_mhz']==f]
         pilot=23-10*math.log10(2*prb)
         radio+=f'### {f} МГц\n\nP_CRS_RE = {pilot:.6f} дБм; L_cable = {rows[0]["cable_loss_db"]:.6f} дБ; '
         radio+=f'L_RF = {rows[0]["total_loss_db"]:.6f} дБ.\n\n'
@@ -137,7 +141,7 @@ def main():
         radio+=table(['ID','L_RF, дБ','5 м','10 м','15 м','20 м'],rows)+'\n\n'
     radio+='\n\\newpage\n\n'+body(FINAL/'coverage-review.md')
     radio+='\n\n## Проверка выгрузки\n\n384 значения совпадают с листом «RF и RSRP» отдельной XLSX-спецификации. '
-    radio+='27 сценариев покрытия рассчитаны на актуальных координатах и потерях. Исходные паспорта и DOCX не изменены. '
+    radio+=f'{len(cov["scenarios"])} сценариев покрытия рассчитаны на актуальных координатах и потерях. Исходные паспорта и DOCX не изменены. '
     radio+='RSRQ, SINR, C/I и UL не выводятся из этих значений автоматически.\n'
     (EDITABLE/'03-rsrp.md').write_text(radio)
     jobs=[('01-capacity','Скорректированный расчёт количества секторов'),
@@ -154,7 +158,7 @@ def main():
             entry['pages']=int(re.search(r'^Pages:\s+(\d+)',info,re.M).group(1))
             text=subprocess.run(['pdftotext','-layout',str(p),'-'],capture_output=True,text=True,check=True).stdout
             assert 'Павел Абалаков' in text and '\ufffd' not in text and len(text)>1500,name
-            if name=='03-rsrp.pdf':assert 'A28' in text and '92,69' in text,name
+            if name=='03-rsrp.pdf':assert worst_id in text and '384' in text,name
         else:
             with zipfile.ZipFile(p) as z:assert z.testzip() is None
         files.append(entry)
@@ -171,7 +175,7 @@ def main():
     assert ARCHIVE.stat().st_size<=18_000_000,'ZIP exceeds conservative 18 MB limit'
     manifest=dict(date='2026-10-13',files=files,archive=dict(name=ARCHIVE.name,bytes=ARCHIVE.stat().st_size,
                   sha256=hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()),
-                  design_fingerprint=cov['design_fingerprint'],technical_export_checked=True,
+                  design_fingerprint=cov['design_fingerprint'],area_model_sha256=cov['area_model_sha256'],technical_export_checked=True,
                   full_kpi_compliance=False,uploaded_to_competition=False,
                   pending_profile_fields=status['pending_profile_fields'],official_template_available=False,
                   personal_rehearsal_done=False)

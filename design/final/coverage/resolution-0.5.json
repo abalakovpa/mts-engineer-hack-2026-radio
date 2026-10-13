@@ -1,6 +1,7 @@
 {
   "step_m": 0.5,
-  "receiver_cells": 9347,
-  "reference_percent_2100": 95.58449186186883,
-  "design_fingerprint": "71b95286b00d83292322b0532712d42b766c2e83e6c602fb65b09108dbefd364"
+  "receiver_cells": 9491,
+  "reference_percent_2100": 96.50205535964108,
+  "design_fingerprint": "7ce3a57fdfcac5e7032b8df3b7089582e0d209048ba20f9430b9815007d80744",
+  "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69"
 }

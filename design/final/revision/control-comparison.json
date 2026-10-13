@@ -1,0 +1,34 @@
+[
+  {
+    "name": "old_layout_new_geometry",
+    "step_m": 0.25,
+    "scores": {
+      "nominal": 96.26167201084702,
+      "reserve3": 94.01267862437896,
+      "closed_reserve3": 92.10127277835484
+    },
+    "groups": 36,
+    "uncertain_rooms": [
+      [
+        "114.2"
+      ]
+    ],
+    "area_join_max_m": 0.25
+  },
+  {
+    "name": "current_layout_join015",
+    "step_m": 0.5,
+    "scores": {
+      "nominal": 96.47778602737041,
+      "reserve3": 96.12791504307093,
+      "closed_reserve3": 95.89648200202744
+    },
+    "groups": 36,
+    "uncertain_rooms": [
+      [
+        "114.2"
+      ]
+    ],
+    "area_join_max_m": 0.15
+  }
+]

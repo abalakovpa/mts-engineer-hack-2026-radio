@@ -33,6 +33,10 @@ def box(ax, x, y, width, height, text, color='#eaf2f8', fontsize=10):
 def arrow(ax, start, end):
     ax.annotate('', xy=end, xytext=start, arrowprops=dict(arrowstyle='->',color='#17324d',lw=1.3))
 
+def node_models(data,z):
+    unequal=data['topology'].get('zone_modes',{}).get(str(z))=='unequal'
+    return ('PC252','PC250','PC252') if unequal else ('PC250','PC252','PC252')
+
 def diagrams(data):
     fig, ax = plt.subplots(figsize=(15,10));ax.set_xlim(0,15);ax.set_ylim(0,10);ax.axis('off')
     ax.set_title('Подключение БС к головному узлу: две независимые MIMO-ветви',fontsize=16)
@@ -53,13 +57,17 @@ def diagrams(data):
     for z in range(1,5):
         y=9-(z-1)*2.25
         box(ax,.15,y-1.25,2.25,1.25,f'Выходы Oz трёх H\nB3/B1/B7 →\nTP-Z{z}-Mj, PC211')
-        box(ax,3.2,y-1.25,2.05,1.25,f'T{z}-Mj, 7/8\nS-Z{z}-Mj\nPC250, 2-way')
+        root,q1,q2=node_models(data,z)
+        direct=[a['id'] for a in data['antennas'] if a['zone']==z and a['subgroup']==0]
+        root_text=f'T{z}-Mj, 7/8\nS-Z{z}-Mj, {root}'
+        root_text+=('\nO1/O2 → '+' / '.join(direct)+'\nO3/O4 → подгруппы') if direct else '\n2-way'
+        box(ax,3.2,y-1.25,2.05,1.25,root_text,fontsize=8 if direct else 10)
         arrow(ax,(2.4,y-.65),(3.2,y-.65))
         for g,dy in ((1,0),(2,-1.0)):
             sy=y+dy-.15
             route=next(r for r in data['subfeeds'] if r['id']==f'F{z}-{g}')
             typ='джампер 3 м' if route['cable']=='jumper' else f'7/8: {route["length"]:.2f} м'
-            box(ax,6.35,sy-.75,3.05,.75,f'F{z}-{g}-Mj: {typ}\nQ-Z{z}-{g}-Mj, PC252',fontsize=9)
+            box(ax,6.35,sy-.75,3.05,.75,f'F{z}-{g}-Mj: {typ}\nQ-Z{z}-{g}-Mj, {q1 if g==1 else q2}',fontsize=9)
             arrow(ax,(5.25,y-.65),(6.35,sy-.4))
             ids=[a['id'] for a in data['antennas'] if a['zone']==z and a['subgroup']==g]
             box(ax,10.3,sy-.75,4.4,.75,' / '.join(ids)+f'\nоконечные фидеры → джамперы → порт Pj',fontsize=9)
@@ -80,9 +88,13 @@ def port_plan(data):
             for z in range(1,5):add(f'{h}:O{z}',f'TP-Z{z}-M{m}:{band}','Джампер 3 м')
         for z in range(1,5):
             add(f'TP-Z{z}-M{m}:COMMON',f'S-Z{z}-M{m}:IN',f'T{z}-M{m}, 7/8')
+            for a in sorted([a for a in data['antennas'] if a['zone']==z and a['subgroup']==0],key=lambda a:a['id']):
+                drop=next(r for r in data['drops'] if r['id']==a['id'])
+                add(f'S-Z{z}-M{m}:O{a["leaf_output"]}',f'{a["id"]}:P{m}',f'{a["id"]}-M{m}, {drop["cable"]} + джампер 3 м')
             for g in (1,2):
                 route=next(r for r in data['subfeeds'] if r['id']==f'F{z}-{g}')
-                add(f'S-Z{z}-M{m}:O{g}',f'Q-Z{z}-{g}-M{m}:IN',f'F{z}-{g}-M{m}, '+('джампер 3 м' if route['cable']=='jumper' else '7/8'))
+                output=g+2 if node_models(data,z)[0]=='PC252' else g
+                add(f'S-Z{z}-M{m}:O{output}',f'Q-Z{z}-{g}-M{m}:IN',f'F{z}-{g}-M{m}, '+('джампер 3 м' if route['cable']=='jumper' else '7/8'))
                 for slot,a in enumerate([a for a in data['antennas'] if a['zone']==z and a['subgroup']==g],1):
                     drop=next(r for r in data['drops'] if r['id']==a['id'])
                     add(f'Q-Z{z}-{g}-M{m}:O{slot}',f'{a["id"]}:P{m}',f'{a["id"]}-M{m}, {drop["cable"]} + джампер 3 м')
@@ -99,10 +111,11 @@ def device_layout(data):
         for band in ('B3','B1','B7'):add(f'H-{band}-M{m}','PC221',data['head'],'Головной узел; размеры и монтажная раскладка не заданы')
         for z in range(1,5):
             add(f'TP-Z{z}-M{m}','PC211',data['head'],'Головной узел')
-            add(f'S-Z{z}-M{m}','PC250',data['trunks'][z-1]['points'][-1],'Зональное распределение по трассе')
+            root,q1,q2=node_models(data,z)
+            add(f'S-Z{z}-M{m}',root,data['trunks'][z-1]['points'][-1],'Зональное распределение по трассе')
             for g in (1,2):
                 r=next(r for r in data['subfeeds'] if r['id']==f'F{z}-{g}')
-                add(f'Q-Z{z}-{g}-M{m}','PC252',r['points'][-1],'Подгруппа на трассе; M1/M2 показаны одной геометрической точкой')
+                add(f'Q-Z{z}-{g}-M{m}',q1 if g==1 else q2,r['points'][-1],'Подгруппа на трассе; M1/M2 показаны одной геометрической точкой')
     add('S-DCS','PC250',data['head'],'Головной узел; общий GSM-выход условен')
     for a in data['antennas']:add(a['id'],'In06',(a['x'],a['y']),a['basis'])
     assert len(rows)==71 and len({r['id'] for r in rows})==71
@@ -136,10 +149,10 @@ def device_layout(data):
                 textcoords='offset points',fontsize=7,color='#17324d',arrowprops=dict(arrowstyle='->'),
                 bbox=dict(facecolor='white',alpha=.9,edgecolor='#17324d'))
     ax.set_xlim(-3,40);ax.set_ylim(-3,66);ax.set_aspect('equal');ax.grid(alpha=.12)
-    ax.set_title('Первый этаж: один LTE-пул B3/B1/B7; 32 In06\nS — PC250; Q — PC252; M1/M2 отдельно, показаны на одной трассе',fontsize=11)
+    ax.set_title('Первый этаж: один LTE-пул B3/B1/B7; 32 In06\nS — PC252; Q1 — PC250; Q2 — PC252; M1/M2 отдельно',fontsize=11)
     ax.set_xlabel('CAD X, м');ax.set_ylabel('CAD Y, м')
     fig.text(.5,.055,'S/Q: по два устройства, M1 и M2. Точные размеры и монтажная раскладка не заданы.\n'
-             '● In06; ■ зональный PC250; ◆ PC252; ★ головной узел. Проектные координаты, не натурная съёмка.',
+             '● In06; ■ зональный делитель; ◆ делитель подгруппы; ★ головной узел. Проектные координаты, не натурная съёмка.',
              ha='center',fontsize=8)
     fig.savefig(OUT/'final-layout.png',dpi=190,bbox_inches='tight');fig.savefig(OUT/'final-layout.pdf',bbox_inches='tight');plt.close(fig)
     return rows
@@ -153,6 +166,7 @@ def main():
     assert fp==cov['design_fingerprint']
     groups=[shape(g['geometry']) for g in model['groups']]
     assert all(any(g.covers(Point(a['x'],a['y'])) for g in groups) for a in d['antennas'])
+    assert all(next(shape(g['geometry']) for g in model['groups'] if a['room'] in g['rooms']).covers(Point(a['x'],a['y'])) for a in d['antennas'])
     assert any(shape(g['geometry']).covers(Point(d['head'])) and '104.2' in g['rooms'] for g in model['groups'])
     ports=port_plan(d)
     devices=device_layout(d)
@@ -219,8 +233,8 @@ def main():
     for row in [
         ('Нагрузки входов, только МТС',16,'50 Ом; модели и допустимые мощности не предоставлены, в основную спецификацию не добавлены'),
         ('Нагрузки входов, три LTE-оператора',4,'Четвёртые входы гибридов B1/B7; отдельного резерва GSM О2/О3 нет'),
-        ('Разъёмы 1/2', '56 male + 56 female','Это требуемые исполнения в рамках общей позиции перечня; доступность не подтверждена'),
-        ('Разъёмы 7/8','44 male + 8 female','Female на антенных концах для male/male джамперов; переходники не выдуманы'),
+        ('Разъёмы 1/2', f'{conn["1/2"]["male"]} male + {conn["1/2"]["female"]} female','Это требуемые исполнения в рамках общей позиции перечня; доступность не подтверждена'),
+        ('Разъёмы 7/8',f'{conn["7/8"]["male"]} male + {conn["7/8"]["female"]} female','Female на антенных концах для male/male джамперов; переходники не выдуманы'),
         ('In06 / БС','Интерфейс не задан','4.3-10F на In06 принят как условие стыковки, не характеристика из перечня'),
         ('Объединение двух GSM TRX','Условно общий RF-порт БС','При раздельных выходах нужно дополнительное решение; его модели нет в исходных данных'),
         ('DCS О2 / О3','Отдельных входов нет','Три LTE-оператора предусмотрены, полное трёхоператорское использование GSM не подтверждено'),
@@ -238,9 +252,15 @@ def main():
     wb.save(ROOT/'equipment/bill-of-materials-draft.xlsx')
     sections=['# Итоговая инженерная проверка\n\nДата: 13.10.2026. Данные задания, паспортные данные и собственные решения разделены. Полное соответствие ТЗ не установлено.\n',
               '## Исправления и проверенная согласованность\n\n'
-              'F2-1/F3-1/F4-1 на обеих ветвях заменены с нулевых фидеров на шесть заводских джамперов 3 м. Добавлено 0,2 дБ оценочных потерь на затронутый путь. '
-              'Итого 82 изготовляемых фидера, 115 джамперов (12 резервных), 112 разъёмов 1/2 и 52 разъёма 7/8. '
+              f'Местные связи на обеих ветвях: {d["local_jumper_count"]} заводских джамперов 3 м вместо нулевых фидеров. Добавлено 0,2 дБ оценочных потерь на затронутый путь. '
+              f'Итого {report["manufactured_feeder_segments"]} изготовляемых фидера, {report["total_jumper_count"]} джамперов (12 резервных), {sum(conn["1/2"].values())} разъёмов 1/2 и {sum(conn["7/8"].values())} разъёма 7/8. '
               'Все 32 антенны лежат внутри восстановленных групп; ВК в 104.2. Это проверка модели, не разрешение на монтаж.\n',
+              '## Неравномерное распределение мощности\n\n'
+              'В каждой зоне PC252 питает две антенны непосредственно, две через PC250, четыре через второй PC252. '
+              'Идеальные доли от зонального входа: 2×1/4 + 2×1/8 + 4×1/16 = 1. '
+              'На стадиях деления относительно прежних восьми одинаковых путей непосредственные получают +3,51 дБ (включая исключение одной оценочной стадии потерь), '
+              'парные сохраняют потери деления, четверные получают −3,01 дБ. Полные уровни включают отдельно пересчитанные кабели и местные соединения. Мощность пилота не изменена. Количества моделей делителей сохранены, их места в дереве изменены. '
+              'Покрытие оценивается по всей площади, включая участки с меньшей мощностью и помещение 89 как непрошедшее.\n',
               '## Условный DCS Signal strength\n\n'
               'Данные задания: максимальная мощность GSM 40 дБм, RxLev >−85 дБм на 95%, C/I >20 дБ на 95%. '
               'Рабочая мощность BCCH, ARFCN и объединение двух TRX не заданы. Выбран сценарий 40 дБм на BCCH/TRX перед отдельным PC250; '
@@ -268,12 +288,12 @@ def main():
               'При работе только МТС нужно закончить 16 свободных входов гибридов; при подключении трёх LTE-операторов остаются четыре свободных входа B1/B7. '
               'Согласованные нагрузки 50 Ом отсутствуют в перечне, их мощность неизвестна. В спецификацию не добавлялись выдуманные позиции. '
               'Доступность исполнений разъёмов male/female, интерфейса In06 и переходов от БС не подтверждена. '
-              'Потребность: 1/2 — 56 male+56 female; 7/8 — 44 male+8 female. Антенные female-окончания нужны для male/male джамперов. '
+              f'Потребность: 1/2 — {conn["1/2"]["male"]} male+{conn["1/2"]["female"]} female; 7/8 — {conn["7/8"]["male"]} male+{conn["7/8"]["female"]} female. Антенные female-окончания нужны для male/male джамперов. '
               'Для пассивных устройств перечень заявляет −160дБн, но не задаёт условия PIM, изоляцию и допустимую суммарную мощность. '
               'Ни эти свойства, ни регулирование удалённых модулей, ни пожарное исполнение не объявляются подтверждёнными.\n',
               '## Итоговое решение\n\n'
               'Сохранён один общий трёхдиапазонный LTE-пул и 32 In06. Он обслуживает 13 UE по 8 Мбит/с в принятой модели ёмкости и проходит номинальный прогноз RSRP. '
-              'Запаса на 14-го UE без CA нет. Неблагоприятные RF/геометрические сценарии не проходят 95%; полное соответствие задания не доказано. '
+              'Запаса на 14-го UE без CA нет. Проверки +3 дБ и закрытых проёмов приведены в отчёте покрытия; более сильное затухание и иная нормировка пилота остаются отдельными ограничениями. Полное соответствие задания не доказано. '
               'Второй сектор сам по себе не исправляет стены, UL, нормировку CRS и комплектацию, поэтому не добавлен без отдельного обоснования. '
               'Недоступные исходные данные не заменены благоприятными выдуманными настройками.\n',
               '## Производные файлы\n\n'

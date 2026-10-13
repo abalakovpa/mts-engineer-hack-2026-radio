@@ -3,39 +3,40 @@
   "files": [
     {
       "name": "01-capacity.pdf",
-      "bytes": 65944,
-      "sha256": "0e750e1adbf80b60d76904d3b76307e4708e830cd52933c08393c84e88b0efa4",
+      "bytes": 65945,
+      "sha256": "1f30357e86de05078d7c8a64c70652dcaf47cad7a55e68b8ed64ca071784d327",
       "pages": 5
     },
     {
       "name": "02-floor-design.pdf",
-      "bytes": 1914924,
-      "sha256": "80ddd0218d15777f9faf3aa6429e994f54f933e22cb0edfbf95de41b3fd298c9",
-      "pages": 19
+      "bytes": 2009897,
+      "sha256": "576a9cf72a73a6a1ddd3118e7ffa8525d5568c96703050449cf4e09dd253c0c1",
+      "pages": 22
     },
     {
       "name": "03-rsrp.pdf",
-      "bytes": 73849,
-      "sha256": "b466da4ddeb47c2cba68132559e125df5d6b7d61b175ef6bfb8b79e7fc82d464",
-      "pages": 9
+      "bytes": 70089,
+      "sha256": "4545d969a906390a62bab010bef554719272202db9c2d484698e81f7fd25c160",
+      "pages": 8
     },
     {
       "name": "04-equipment.xlsx",
-      "bytes": 51219,
-      "sha256": "742fe68f03aa83028fc82126f0e8a6bd643e149fcbaedcfd243ffc68962881d2"
+      "bytes": 51845,
+      "sha256": "516ec7d8b32ede7422e82df6007384ea9cb37d4355dd094f7ed5ce8e19bf2ee2"
     },
     {
       "name": "05-defense.pptx",
-      "bytes": 589806,
-      "sha256": "28836723ecf1ba4dea810aa9d07da6250b9e7b3806f60318b556a06028dac14d"
+      "bytes": 585701,
+      "sha256": "401ea9a14d9fa4a634c20a9e5d3d0e4fe4f4fef92b85b78b4131282cd85f9362"
     }
   ],
   "archive": {
     "name": "mts-radio-final.zip",
-    "bytes": 2553714,
-    "sha256": "c3b401eb4d7470ea7c03b9902ccbafc8c17ed81b5bb9bc237bf19ad7d38e5cd2"
+    "bytes": 2631174,
+    "sha256": "5c4117a4b6b2769bef56ffe55f2f6033ffb78dd1ea9501d519fb08c02f42feba"
   },
-  "design_fingerprint": "71b95286b00d83292322b0532712d42b766c2e83e6c602fb65b09108dbefd364",
+  "design_fingerprint": "7ce3a57fdfcac5e7032b8df3b7089582e0d209048ba20f9430b9815007d80744",
+  "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69",
   "technical_export_checked": true,
   "full_kpi_compliance": false,
   "uploaded_to_competition": false,

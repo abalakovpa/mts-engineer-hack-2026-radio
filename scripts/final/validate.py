@@ -31,7 +31,16 @@ def main():
     ants=data['antennas'];count=len(ants);assert count in (32,48) and len({a['id'] for a in ants})==count
     per_zone=count//4;subgroups=per_zone//4
     assert Counter(a['zone'] for a in ants)=={z:per_zone for z in range(1,5)}
-    assert all(sum(a['zone']==z and a['subgroup']==g for a in ants)==4 for z in range(1,5) for g in range(1,subgroups+1))
+    for z in range(1,5):
+        if data['topology'].get('zone_modes',{}).get(str(z))=='unequal':
+            assert Counter(a['subgroup'] for a in ants if a['zone']==z)=={0:2,1:2,2:4}
+            # Ideal power fractions at the zone input sum to unity.
+            fractions={'direct':.25,'pair':.125,'quartet':.0625}
+            assert sum(fractions[a['power_class']] for a in ants if a['zone']==z)==1
+            for a in [a for a in ants if a['zone']==z]:
+                delta={'direct':-10*math.log10(2)-.5,'pair':0,'quartet':10*math.log10(2)}[a['power_class']]
+                assert math.isclose(a['distribution_adjustment_db'],delta,abs_tol=1e-10)
+        else:assert all(sum(a['zone']==z and a['subgroup']==g for a in ants)==4 for g in range(1,subgroups+1))
     routes=data['trunks']+data['subfeeds']+data['drops']
     expected_routes=4+4*subgroups+count
     assert len(routes)==expected_routes
@@ -54,7 +63,7 @@ def main():
             selected=[r for r in points if r['antenna']==a['id'] and r['frequency_mhz']==f]
             alpha12={1800:10.09,2100:10.99,2600:11.84+(12.66-11.84)*2/3}[f]
             alpha78={1800:5.21,2100:5.67,2600:6.39}[f]
-            loss=18.830899869919438+a['length78_m']*alpha78/100+a['length12_m']*alpha12/100+a['additional_jumper_loss_db']
+            loss=18.830899869919438+a.get('distribution_adjustment_db',0)+a['length78_m']*alpha78/100+a['length12_m']*alpha12/100+a['additional_jumper_loss_db']
             pilot=23-10*math.log10(2*{1800:100,2100:75,2600:50}[f])
             for r in selected:
                 predicted=pilot-loss+3-(20*math.log10(f)-27.55+25*math.log10(math.hypot(r['d_horizontal_m'],5.5)))
@@ -96,15 +105,26 @@ def main():
         assert coverage['antennas']==count
         assert math.isclose(coverage['located_reference_m2'],2051.56,abs_tol=1e-6)
         assert coverage['unknown_reference_m2']==45.52
-        assert len(coverage['scenarios'])==27
+        assert len(coverage['scenarios'])==36
+        assert coverage['area_model_sha256']==hashlib.sha256((ROOT/'design/final/coverage/area-model.json').read_bytes()).hexdigest()
+        model=json.loads((ROOT/'design/final/coverage/area-model.json').read_text())
+        assert len(model['groups'])==36 and not model['metadata']['area_joins_are_rf_walls']
+        assert all(j['length_m']<=.25+1e-8 for j in model['area_joins'])
+        assert all(w['layer'] not in ('A-AREA','A-FLOR') for w in model['walls'])
+        assert [g['rooms'] for g in model['groups'] if abs(g['relative_area_difference'])>.1]==[['114.2']]
         by_key={(r['scenario'],r['frequency_mhz']):r for r in coverage['scenarios']}
         for f in (1800,2100,2600):
             nominal=by_key[('P1_n2.5',f)]['reference_percent_2100']
             assert nominal<=2051.56/2100*100+1e-6
-            for name in ('P1_n3','P1_extra_RF_3dB','P1_closed_gaps','P1_two_ports_total','P2_carrier23','P1_cable78_plus5pct','P1_geometry_uncertain_fail'):
+            for name in ('P1_n3','P1_extra_RF_3dB','P1_closed_gaps','P1_two_ports_total','P2_carrier23','P1_cable78_plus5pct','P1_geometry_uncertain_fail',
+                         'P1_closed_gaps_RF3','P1_geometry_uncertain_fail_RF3','P1_closed_gaps_geometry_uncertain_fail_RF3'):
                 assert by_key[(name,f)]['reference_percent_2100']<=nominal+1e-6
+            assert by_key[('P1_closed_gaps_RF3',f)]['reference_percent_2100']<=by_key[('P1_extra_RF_3dB',f)]['reference_percent_2100']+1e-6
+            assert by_key[('P1_closed_gaps_geometry_uncertain_fail_RF3',f)]['reference_percent_2100']<=by_key[('P1_closed_gaps_RF3',f)]['reference_percent_2100']+1e-6
             assert by_key[('P1_n2',f)]['reference_percent_2100']>=nominal-1e-6
-        assert wb['Покрытие сценарии'].max_row==28
+            for name in ('P1_extra_RF_3dB','P1_closed_gaps_geometry_uncertain_fail_RF3'):
+                assert by_key[(name,f)]['reference_percent_2100']>=95,'Selected reserve objective not met'
+        assert wb['Покрытие сценарии'].max_row==37
         assert coverage['design_fingerprint']==hashlib.sha256((ROOT/'design/final/candidate.json').read_bytes()).hexdigest()
         for row,result in zip(wb['Покрытие сценарии'].iter_rows(min_row=2,values_only=True),coverage['scenarios']):
             assert row[0]==result['scenario'] and row[1]==result['frequency_mhz']
@@ -119,14 +139,18 @@ def main():
                 assert math.isclose(predicted,by_key[('P1_n2.5',f)]['reference_percent_2100'],abs_tol=1e-8)
         resolution=json.loads((ROOT/'design/final/coverage/resolution-0.5.json').read_text())
         assert resolution['design_fingerprint']==coverage['design_fingerprint']
+        assert resolution['area_model_sha256']==coverage['area_model_sha256']
     review_file=ROOT/'design/final/verification/engineering-review.json'
     if review_file.exists():
         review=json.loads(review_file.read_text())
         assert review['design_fingerprint']==coverage['design_fingerprint']
-        assert review['manufactured_feeder_segments']==82 and review['total_jumper_count']==115
+        assert review['manufactured_feeder_segments']==2*sum(r['cable']!='jumper' for r in routes)
+        assert review['total_jumper_count']==45+2*count+data['local_jumper_count']
         assert review['unused_input_loads_mts_only']==16 and not review['full_kpi_compliance']
         ports=list(csv.DictReader((ROOT/'design/final/verification/port-plan.csv').open()))
         assert len(ports)==137 and len({r['target'] for r in ports})==137
+        wired=[r['source'] for r in ports if r['source']!='Нагрузка 50 Ом']
+        assert len(wired)==len(set(wired)), 'A device output port was used twice'
         antenna_ports={r['target'] for r in ports if r['target'].startswith('A')}
         assert antenna_ports=={f'{a["id"]}:P{m}' for a in ants for m in (1,2)}
         devices=list(csv.DictReader((ROOT/'design/final/verification/device-locations.csv').open()))

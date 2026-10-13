@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 import numpy as np
 from shapely.geometry import Point, LineString, MultiPoint, box, shape
-from shapely import STRtree
+from shapely import STRtree, linestrings
 
 from build_project import route, ZONES, V
 
@@ -71,6 +71,34 @@ def column_loss(origin,target,columns):
         if np.linalg.norm(centre-(origin+t*u))<c['radius_m']-1e-6:result+=30
     return result
 
+def crossings_many(origin,targets,segments,tree,losses,merge=.35):
+    """Batch ray query, retaining the scalar function's wall-face clustering."""
+    result=np.zeros(len(targets));u=targets-origin
+    rays=linestrings(np.stack((np.broadcast_to(origin,targets.shape),targets),axis=1))
+    indexes=tree.query(rays,predicate='intersects')
+    if not indexes.size:return result
+    receiver,wall=indexes;seg=segments[wall];v=seg[:,1]-seg[:,0];w=seg[:,0]-origin;ray=u[receiver]
+    den=ray[:,0]*v[:,1]-ray[:,1]*v[:,0];ok=np.abs(den)>1e-9
+    t=np.divide(w[:,0]*v[:,1]-w[:,1]*v[:,0],den,out=np.zeros_like(den),where=ok)
+    q=np.divide(w[:,0]*ray[:,1]-w[:,1]*ray[:,0],den,out=np.zeros_like(den),where=ok)
+    ok&=(t>1e-6)&(t<1-1e-6)&(q>=-1e-6)&(q<=1+1e-6)
+    receiver=receiver[ok];distance=t[ok]*np.linalg.norm(ray[ok],axis=1);loss=losses[wall[ok]]
+    if not len(receiver):return result
+    order=np.lexsort((distance,receiver));receiver=receiver[order];distance=distance[order];loss=loss[order]
+    starts=np.r_[0,np.flatnonzero((receiver[1:]!=receiver[:-1])|((distance[1:]-distance[:-1])>merge))+1]
+    np.add.at(result,receiver[starts],np.maximum.reduceat(loss,starts))
+    return result
+
+def column_losses(origin,targets,columns):
+    """Same segment/circle predicate for all receivers without a Python loop."""
+    u=targets-origin;norm=np.sum(u*u,axis=1);result=np.zeros(len(targets))
+    for c in columns:
+        centre=np.array(c['center'])
+        t=np.clip(np.divide(u@(centre-origin),norm,out=np.zeros_like(norm),where=norm>=1e-12),0,1)
+        separation=np.linalg.norm(centre-(origin+t[:,None]*u),axis=1)
+        result+=np.where((norm>=1e-12)&(separation<c['radius_m']-1e-6),30.,0.)
+    return result
+
 def test_crossings():
     segments=np.array([[(1,-2),(1,2)],[(1.2,-2),(1.2,2)],[(3,-2),(3,2)]],float)
     tree=STRtree([LineString(s) for s in segments]);losses=np.full(3,15.)
@@ -79,6 +107,12 @@ def test_crossings():
     assert crossings(np.array([0.,0.]),np.array([4.,4.]),segments,tree,losses)==15
     assert column_loss(np.array([0.,0.]),np.array([4.,0.]),[dict(center=[2,0],radius_m=.3)])==30
     assert column_loss(np.array([0.,1.]),np.array([4.,1.]),[dict(center=[2,0],radius_m=.3)])==0
+    receivers=np.array([[4,0],[.5,0],[4,4],[0,0],[4,-1],[1,2],[4,.5]],float)
+    assert np.array_equal(crossings_many(np.array([0.,0.]),receivers,segments,tree,losses),
+                          np.array([crossings(np.array([0.,0.]),p,segments,tree,losses) for p in receivers]))
+    origin=np.array([0.,0.]);targets=np.array([[0,0],[4,0],[4,1],[1,0],[2,.3],[2,.3-1e-5]],float)
+    columns=[dict(center=[2,0],radius_m=.3)]
+    assert np.array_equal(column_losses(origin,targets,columns),np.array([column_loss(origin,p,columns) for p in targets]))
 
 def samples(model,step):
     points=[];weights=[];gid=[];areas=[]
@@ -98,12 +132,14 @@ def samples(model,step):
     assert abs(sum(weights)-model['metadata']['located_reference_m2'])<1e-5
     return np.array(points),np.array(weights),np.array(gid),np.array(areas)
 
-def fields(model,ants,step):
+def fields(model,ants,step,cache_dir=None):
     test_crossings()
     coordinates=np.array([(a['x'],a['y']) for a in ants])
     geometry_fingerprint=hashlib.sha256(json.dumps([model,step,'ray-v2'],sort_keys=True).encode()).hexdigest()
     fingerprint=hashlib.sha256(json.dumps([model,[(a['x'],a['y']) for a in ants],step,'ray-v2'],sort_keys=True).encode()).hexdigest()
-    cache=OUT/f'propagation-{step:g}.npz'
+    folder=Path(cache_dir) if cache_dir is not None else OUT
+    folder.mkdir(parents=True,exist_ok=True)
+    cache=folder/f'propagation-{step:g}.npz'
     if cache.exists():
         with np.load(cache) as stored:
             existing={k:stored[k] for k in stored.files}
@@ -131,12 +167,10 @@ def fields(model,ants,step):
                     new[j]=existing[key][index]
                 continue
         origin=np.array((a['x'],a['y']));radius[j]=np.sqrt(((points-origin)**2).sum(axis=1)+5.5**2)
-        for k,target in enumerate(points):
-            wall[j,k]=crossings(origin,target,segments,tree,losses)
-            # Re-cluster all crossings jointly, so a closed gap cannot count
-            # the same physical partition twice with its existing faces.
-            closed[j,k]=max(0,crossings(origin,target,fullsegments,ctree,closses)-wall[j,k])
-            cols[j,k]=column_loss(origin,target,model['columns'])
+        cols[j]=column_losses(origin,points,model['columns'])
+        wall[j]=crossings_many(origin,points,segments,tree,losses)
+        # Re-cluster jointly, so a closed gap cannot count a wall face twice.
+        closed[j]=np.maximum(0,crossings_many(origin,points,fullsegments,ctree,closses)-wall[j])
         if j%6==5:print(f'CAD propagation: {j+1}/{len(ants)} antennas, {len(points)} receiver cells',flush=True)
     result=dict(fingerprint=np.array(fingerprint),geometry_fingerprint=np.array(geometry_fingerprint),coordinates=coordinates,
                 points=points,weights=weights,gid=gid,areas=areas,

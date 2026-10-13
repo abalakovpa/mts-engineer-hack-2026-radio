@@ -9,13 +9,14 @@ MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/prepare_coverage_model.py
 MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/build_project.py
 MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/evaluate_coverage.py --step 0.25
 MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/evaluate_coverage.py --step 0.5 --resolution-only
-python3 scripts/final/validate.py
 ```
 
 После этих команд подготовить инженерные дополнения, презентацию и пять отдельных артефактов:
 
 ```sh
 MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/final_engineering.py
+MPLCONFIGDIR=/tmp/radio-mpl OPENBLAS_NUM_THREADS=1 python3 scripts/final/compare_revision.py
+MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/write_reserve_docs.py
 python3 scripts/final/final_presentation.py
 MPLCONFIGDIR=/tmp/radio-mpl python3 scripts/final/package_submission.py
 python3 scripts/final/validate.py
@@ -29,6 +30,8 @@ python3 scripts/final/validate.py
 
 `calculate.py` использует Decimal. `prepare_coverage_model.py` восстанавливает группы площади и препятствия. `build_project.py` читает явные входы design/final/project-input.json, пересчитывает топологию и создаёт схемы/XLSX/PPTX. `evaluate_coverage.py` добавляет карты, листы покрытия и численные результаты в презентацию. Поэтому после отдельного запуска build_project.py необходимо снова выполнить evaluate_coverage.py. Оценки компонентов не являются паспортными данными; карты — прогнозы выбранной модели.
 
-Для повторного исследования вариантов, без автоматического изменения принятого project-input.json: `python3 scripts/final/coverage.py --step 0.5`. Исходный 48-антенный вариант сохранён в coverage/baseline-candidate.json. Локальный поиск позиций выполнен optimize_positions.py; он создаёт предложения, а не автоматически меняет проект. Оригинальные предложения и сравнение до переносов сохранены.
+Для повторного исследования вариантов, без автоматического изменения принятого project-input.json: `MPLCONFIGDIR=/tmp/radio-mpl OPENBLAS_NUM_THREADS=1 python3 scripts/final/research_reserve.py --step 0.5 --passes 2`. Исходный 48-антенный вариант сохранён в coverage/baseline-candidate.json, предыдущий 32-антенный — revision/baseline-32-candidate.json. Исследование начинает с текущего набора точек и создаёт предложение; оно не утверждает глобальный оптимум и не меняет принятую конфигурацию автоматически. Полная конструкция неравномерного дерева — route_design.py. Ранние coverage.py/optimize_positions.py и их результаты сохраняются для истории; старый optimize_positions.py рассчитан на первоначальные точки и не применяется к новой конфигурации.
+
+compare_revision.py сравнивает прежнюю схему на новой геометрии/сетке 0,25 м и проверяет короткие стыки 0,15 м на сетке 0,5 м в отдельном временном кэше. write_reserve_docs.py обновляет пояснения из проверенных JSON. Валидатор запускать после всей цепочки, включая пакет: промежуточные XLSX/отчёты/архив разных версий намеренно не проходят проверки отпечатков. Для изменений только личного профиля достаточно final_presentation.py → package_submission.py → validate.py.
 
 `validate.py` проверяет неизменность исходников, дерево, длины, XLSX, RF-точки, структуру презентации, суммы весов и монотонность сценариев. Лучи кэшируются с отпечатком геометрии и координат; после переноса пересчитываются изменившиеся пути. Некоторые сценарии покрытия проходят 95%, другие не проходят; тесты согласованности не подменяют эти исходы.
