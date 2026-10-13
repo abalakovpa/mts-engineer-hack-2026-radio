@@ -46,12 +46,27 @@ check_geometry.py проверяет текущую схему при преде
 write_design_docs.py и write_status_docs.py формируют пояснения из текущих
 проверенных JSON; старые исследовательские варианты для этого не нужны.
 
-## Только изменение самопрезентации
+## Экспорт технических документов
+
+Текущий пакет содержит три PDF и XLSX; презентация ожидает официальный шаблон.
+При изменении только пояснительного текста или оформления:
+
+```sh
+python scripts/final/package_submission.py
+python scripts/final/validate.py
+```
+
+Тексты формируются solution_documents.py из проверенной модели. Экспорт
+не меняет расчётные данные и исключает служебные листы из XLSX.
+
+## Добавление презентации
+
+После оформления по шаблону и проверки в используемом просмотрщике:
 
 ```sh
 python scripts/final/final_presentation.py
 python scripts/final/write_status_docs.py
-python scripts/final/package_submission.py
+python scripts/final/package_submission.py --include-presentation
 python scripts/final/validate.py
 ```
 

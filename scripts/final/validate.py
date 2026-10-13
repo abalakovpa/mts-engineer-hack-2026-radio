@@ -187,18 +187,24 @@ def main():
     if manifest_file.exists():
         manifest=json.loads(manifest_file.read_text())
         assert manifest['design_fingerprint']==coverage['design_fingerprint']
-        assert len(manifest['files'])==5 and not manifest['full_kpi_compliance']
+        assert len(manifest['files']) in (4,5) and not manifest['full_kpi_compliance']
+        assert manifest['presentation_included']==(len(manifest['files'])==5)
+        expected_files={'01-capacity.pdf','02-floor-design.pdf','03-rsrp.pdf','04-equipment.xlsx'}
+        if manifest['presentation_included']:expected_files.add('05-defense.pptx')
+        assert {item['name'] for item in manifest['files']}==expected_files
+        assert {p.name for p in (ROOT/'submission/final').iterdir()}==expected_files
         for item in manifest['files']:
             p=ROOT/'submission/final'/item['name']
             assert p.stat().st_size==item['bytes'] and hashlib.sha256(p.read_bytes()).hexdigest()==item['sha256']
         assert (ROOT/'submission/final/04-equipment.xlsx').read_bytes()==(ROOT/'equipment/bill-of-materials.xlsx').read_bytes()
-        assert (ROOT/'submission/final/05-defense.pptx').read_bytes()==(ROOT/'presentation/defense.pptx').read_bytes()
+        if manifest['presentation_included']:
+            assert (ROOT/'submission/final/05-defense.pptx').read_bytes()==(ROOT/'presentation/defense.pptx').read_bytes()
         archive=ROOT/'submission'/manifest['archive']['name']
         assert archive.stat().st_size<=18_000_000 and hashlib.sha256(archive.read_bytes()).hexdigest()==manifest['archive']['sha256']
         with zipfile.ZipFile(archive) as z:
             assert z.testzip() is None and set(z.namelist())=={r['name'] for r in manifest['files']}
             for item in manifest['files']:assert hashlib.sha256(z.read(item['name'])).hexdigest()==item['sha256']
-        print('PASS: five separate submission artifacts, current XLSX/PPTX, ZIP hashes and size')
+        print(f'PASS: {len(manifest["files"])} separate submission artifacts; ZIP hashes and size')
     print(f'PASS: 11 source hashes; 7 capacity variants; {count} antennas; {expected_routes} routes ×2; {count*12} RF points; XLSX quantities; 6 slides')
     print(f'RF scenario at 20 m on weakest B7 branch: {worst:.2f} dBm; KPI readiness NOT established')
 

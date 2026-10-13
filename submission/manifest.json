@@ -3,52 +3,49 @@
   "files": [
     {
       "name": "01-capacity.pdf",
-      "bytes": 112016,
-      "sha256": "c755f011825c46d4793c4773ac9e3c3e815c81baf0b4ca891c33df0e0fac3221",
+      "bytes": 80651,
+      "sha256": "53cfa944a78ed9465fcf5a286efd1cf157b91a796cb8b808940ade559b279adf",
       "layout_checked": true,
       "a3_sheets": 0,
       "navigation_checked": true,
-      "pages": 7
+      "pages": 3
     },
     {
       "name": "02-floor-design.pdf",
-      "bytes": 4006863,
-      "sha256": "8b1d3e23f3d9744fe8e96b5759ea3bd1470bd402c4401c7544bb1ae5e0035a9e",
+      "bytes": 3923111,
+      "sha256": "a865b9a879ed6b9217b9f3d36a56be90c2ce261f24b46a93e991010dc1637887",
       "layout_checked": true,
       "a3_sheets": 14,
       "navigation_checked": true,
-      "pages": 26
+      "pages": 21
     },
     {
       "name": "03-rsrp.pdf",
-      "bytes": 126377,
-      "sha256": "64946ee4a04ea0143f56b1023f75ba2e1da046974df53d25f9df78a787836916",
+      "bytes": 95968,
+      "sha256": "2c2afc2a4a7bdfb72a89bc6e7146ef78cda26e0a3fcd73d47a12335afc11ca2c",
       "layout_checked": true,
       "a3_sheets": 0,
       "navigation_checked": true,
-      "pages": 11
+      "pages": 8
     },
     {
       "name": "04-equipment.xlsx",
-      "bytes": 53958,
-      "sha256": "2f2a48cba99daca3e18443a7a82d86539f087b8c735fc48c4ba54049139417fc"
-    },
-    {
-      "name": "05-defense.pptx",
-      "bytes": 627893,
-      "sha256": "fd25fb03b82df3d64bf1db964a72b29b32165974580181510cb53b896d095356"
+      "bytes": 48664,
+      "sha256": "c0d616ab2f70bc9762400f8eb56bb4747cb0fbc16e12f52ae9ddb1b3103aaf2f"
     }
   ],
   "archive": {
     "name": "mts-radio-final.zip",
-    "bytes": 4481382,
-    "sha256": "9b761c1442b9033a9d64225ea2427a4c82e44290a5b1b7389eb9e121f38e331d"
+    "bytes": 3736749,
+    "sha256": "b746b9b1692fcd8d42a6e885771cc0ade7d3b1560c3ec0a7ba3977be14e344d0"
   },
   "design_fingerprint": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
   "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69",
   "technical_export_checked": true,
   "full_kpi_compliance": false,
   "uploaded_to_competition": false,
+  "presentation_included": false,
+  "required_artifact_count": 5,
   "pending_profile_fields": [],
   "official_template_available": false,
   "personal_rehearsal_done": false,

@@ -1,12 +1,14 @@
-# Пакет для сдачи
+# Технические документы финала
 
-[mts-radio-final.zip](mts-radio-final.zip) содержит ровно пять файлов:
+[mts-radio-final.zip](mts-radio-final.zip) содержит четыре технических файла:
 
 1. [01-capacity.pdf](final/01-capacity.pdf) — изменение ёмкостного расчёта.
 2. [02-floor-design.pdf](final/02-floor-design.pdf) — проект, схемы, карты и ведомости.
 3. [03-rsrp.pdf](final/03-rsrp.pdf) — формулы, пример и 384 значения RSRP.
 4. [04-equipment.xlsx](final/04-equipment.xlsx) — спецификация и расчётные листы.
-5. [05-defense.pptx](final/05-defense.pptx) — шесть слайдов с текстом выступления.
+
+Презентация — пятый обязательный артефакт — будет добавлена после получения
+официального шаблона. Текущий архив содержит только четыре технических документа.
 
 Размер ниже 18 МБ; SHA-256 и состояние проверок — в [manifest.json](manifest.json).
 Исходники задания, README и материалы репетиции в ZIP не входят.
@@ -40,10 +42,11 @@ RSRQ/SINR/C/I/UL и закупочная комплектность не под�
 ```sh
 python scripts/final/final_presentation.py
 python scripts/final/write_status_docs.py
-python scripts/final/package_submission.py
+python scripts/final/package_submission.py --include-presentation
 python scripts/final/validate.py
 ```
 
+Экспорт без --include-presentation формирует текущие четыре документа.
 Копии XLSX/PPTX в final/ формируются из редактируемых источников автоматически.
 Результаты пользовательской репетиции и открытия в PowerPoint не заявляются
 проверками Python.
