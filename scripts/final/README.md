@@ -10,6 +10,8 @@ python -m pip install -r scripts/final/requirements.txt
 ```
 
 Для PDF требуются Pandoc, XeLaTeX, pdfinfo/pdftotext и шрифты DejaVu Sans/Mono.
+Презентация использует официальный шаблон со встроенными шрифтами МТС;
+для рендеринга PPTX требуется LibreOffice (soffice).
 В подготовленной облачной среде virtualenv — `/workspace/radio-runtime/venv`.
 Конвертер DWG нужен только при повторном извлечении CAD; компактная геометрия
 уже сохранена. [Геометрия и единицы](../../design/final/README.md).
@@ -30,7 +32,7 @@ python scripts/final/check_geometry.py
 python scripts/final/write_design_docs.py
 python scripts/final/final_presentation.py
 python scripts/final/write_status_docs.py
-python scripts/final/package_submission.py
+python scripts/final/package_submission.py --include-presentation
 python scripts/final/validate.py
 ```
 
@@ -48,7 +50,8 @@ write_design_docs.py и write_status_docs.py формируют пояснени
 
 ## Экспорт технических документов
 
-Текущий пакет содержит три PDF и XLSX; презентация ожидает официальный шаблон.
+Техническая часть содержит три PDF и XLSX. Презентация сформирована
+по официальному шаблону presentation/source-template.pptx.
 При изменении только пояснительного текста или оформления:
 
 ```sh
@@ -61,12 +64,12 @@ python scripts/final/validate.py
 
 ## Добавление презентации
 
-После оформления по шаблону и проверки в используемом просмотрщике:
+Для обновления презентации с сохранением четырёх готовых документов:
 
 ```sh
 python scripts/final/final_presentation.py
 python scripts/final/write_status_docs.py
-python scripts/final/package_submission.py --include-presentation
+python scripts/final/package_submission.py --include-presentation --reuse-technical
 python scripts/final/validate.py
 ```
 

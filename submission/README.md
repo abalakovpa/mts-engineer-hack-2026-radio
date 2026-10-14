@@ -1,14 +1,17 @@
-# Технические документы финала
+# Пакет финального решения
 
-[mts-radio-final.zip](mts-radio-final.zip) содержит четыре технических файла:
+[mts-radio-final.zip](mts-radio-final.zip) содержит пять файлов:
 
 1. [01-capacity.pdf](final/01-capacity.pdf) — изменение ёмкостного расчёта.
 2. [02-floor-design.pdf](final/02-floor-design.pdf) — проект, схемы, карты и ведомости.
 3. [03-rsrp.pdf](final/03-rsrp.pdf) — формулы, пример и 384 значения RSRP.
 4. [04-equipment.xlsx](final/04-equipment.xlsx) — спецификация и расчётные листы.
 
-Презентация — пятый обязательный артефакт — будет добавлена после получения
-официального шаблона. Текущий архив содержит только четыре технических документа.
+5. [05-defense.pptx](final/05-defense.pptx) — шесть слайдов на официальном шаблоне,
+   заметки докладчика и план выступления на четыре минуты.
+
+На первом слайде пока используются инициалы автора. Для вставки фотографии
+нужен отдельный JPG/PNG; изображение из сообщения не доступно как файл.
 
 Размер ниже 18 МБ; SHA-256 и состояние проверок — в [manifest.json](manifest.json).
 Исходники задания, README и материалы репетиции в ZIP не входят.
@@ -16,9 +19,9 @@
 ## Перед отправкой
 
 1. Просмотреть три PDF и XLSX; учитывать A4/A3 в проекте.
-2. Открыть PPTX в используемом просмотрщике: проверить DejaVu Sans,
+2. Открыть PPTX в используемом просмотрщике: проверить встроенные шрифты МТС,
    переносы и личные сведения. [PDF-предпросмотр](../presentation/defense-preview.pdf)
-   не заменяет проверку в PowerPoint.
+   получен из PPTX в LibreOffice; переносы на компьютере защиты также следует проверить.
 3. Провести репетицию: 4 минуты доклада и 4 минуты вопросов.
 4. Загрузить ZIP через страницу задания и проверить принятие файла.
 
@@ -42,7 +45,7 @@ RSRQ/SINR/C/I/UL и закупочная комплектность не под�
 ```sh
 python scripts/final/final_presentation.py
 python scripts/final/write_status_docs.py
-python scripts/final/package_submission.py --include-presentation
+python scripts/final/package_submission.py --include-presentation --reuse-technical
 python scripts/final/validate.py
 ```
 

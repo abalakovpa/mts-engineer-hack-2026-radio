@@ -55,7 +55,16 @@ def export_pdf(item):
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--include-presentation',action='store_true')
+    parser.add_argument('--reuse-technical',action='store_true',help='Retain the four verified technical files when adding a presentation')
     args=parser.parse_args()
+    assert not args.reuse_technical or args.include_presentation, '--reuse-technical requires --include-presentation'
+    if args.reuse_technical:
+        previous_manifest=json.loads((ROOT/'submission/manifest.json').read_text())
+        core={name for name in NAMES}
+        for item in previous_manifest['files']:
+            if item['name'] in core:
+                assert hashlib.sha256((OUTPUT/item['name']).read_bytes()).hexdigest()==item['sha256'],item['name']
+        assert core.issubset({item['name'] for item in previous_manifest['files']})
     if args.include_presentation:NAMES.append('05-defense.pptx')
     previous=OUTPUT/'05-defense.pptx'
     if not args.include_presentation and previous.exists():
@@ -64,80 +73,87 @@ def main():
     EDITABLE.mkdir(parents=True,exist_ok=True);OUTPUT.mkdir(parents=True,exist_ok=True)
     unexpected=set(p.name for p in OUTPUT.iterdir())-set(NAMES)
     assert not unexpected,('Do not silently delete unexpected submission files',unexpected)
-    format_equipment()
+    if not args.reuse_technical:format_equipment()
     d=json.loads((ROOT/'design/final/candidate.json').read_text())
     cov=json.loads((ROOT/'design/final/coverage/coverage-report.json').read_text())
     audit=json.loads((ROOT/'design/final/verification/engineering-review.json').read_text())
     status=json.loads((ROOT/'presentation/presentation-status.json').read_text())
     assert audit['design_fingerprint']==cov['design_fingerprint']==hashlib.sha256((ROOT/'design/final/candidate.json').read_bytes()).hexdigest()
-    (EDITABLE/'01-capacity.md').write_text(introduction('01-capacity',d,cov)+capacity_document().rstrip()+'\n')
-    project=introduction('02-floor-design',d,cov)+project_document(d,cov,audit)
-    project+='\n\\clearpage\n\n# Графические листы\n\n'
-    for index in range(len(FIGURES)):project+=image_page(index)
-    project+='\n\\clearpage\n\n# Проектные ведомости\n\n## Координаты и группы антенн\n\n'
-    project+='CAD X/Y, метры; высота антенн 7 м — допущение. Z — группа; g=0 — непосредственная, g=1 — парная, g=2 — четверная. P1/P2 обслуживаются раздельными деревьями. Привязка указывает проектную зону; положение антенны определяется координатами X/Y.\n\n'
-    project+=table(['ID','Привязка','Z/g','X, м','Y, м','7/8, м','1/2, м'],
-                   [(a['id'],a['room'],f'{a["zone"]}/{a["subgroup"]}',n(a["x"],3),n(a["y"],3),
-                     n(a["length78_m"],3),n(a["length12_m"],3)) for a in d['antennas']])
-    project+='\n\n\\clearpage\n\n## Маршруты одной ветви Mj\n\nКаждый ID повторяется на M1 и M2. Геометрическая длина без закупочного запаса. '
-    project+='Для связей с нулевым геометрическим расстоянием указан физический джампер 3 м.\n\n'
-    project+=table(['ID','Соединение','Геометрия, м','Физическая длина на Mj, м'],
-                   [(r['id'],r['cable'],n(r["length"],3), '3 (заводской джампер)' if r['cable']=='jumper' else n(r["length"],3))
-                    for r in d['trunks']+d['subfeeds']+d['drops']])
-    project+='\n\n\\clearpage\n\n## Координаты распределительных узлов\n\nНа каждой координате S/Q находятся отдельные устройства M1 и M2. '
-    project+='Геометрические точки не задают размеры шкафов или точную монтажную раскладку.\n\n'
-    project+=table(['Узел','Модель / количество','X, м','Y, м'],
-                   [('ВК','6 PC221 + 8 PC211 + 1 PC250',n(d["head"][0],3),n(d["head"][1],3))]+
-                   [(f'S-Z{z}','2 PC252',n(d["trunks"][z-1]["points"][-1][0],3),n(d["trunks"][z-1]["points"][-1][1],3)) for z in range(1,5)]+
-                   [(f'Q-Z{z}-{g}','2 '+('PC250' if g==1 else 'PC252'),n(r["points"][-1][0],3),n(r["points"][-1][1],3))
-                    for z in range(1,5) for g in (1,2) for r in d['subfeeds'] if r['id']==f'F{z}-{g}'])
-    project+='\n\n## Портовые обозначения\n\nH-band-Mj — гибрид PC221; TP-Zz-Mj — триплексер PC211; S-Zz-Mj — PC252; '
-    project+='Q-Zz-1-Mj — PC250; Q-Zz-2-Mj — PC252; S-DCS — отдельный PC250. Полная таблица портов, включая входы БС, резерв операторов '
-    project+='и оконечные антенны, включена в лист «Портовый план» отдельного артефакта 04-equipment.xlsx. '
-    project+='Портовая маркировка I/O является проектной; точная маркировка корпуса устройства не предоставлена.\n'
-    (EDITABLE/'02-floor-design.md').write_text(project)
-    radio=introduction('03-rsrp',d,cov)+radio_document(d)
-    radio+='\n\n\\clearpage\n\n# Проверяемый пример полного тракта\n\n'
-    worst_id=max(d['rf_points'],key=lambda r:r['total_loss_db'])['antenna']
-    a=next(a for a in d['antennas'] if a['id']==worst_id)
-    radio+=f'{worst_id}: 7/8 — {n(a["length78_m"],3)} м; 1/2 — {n(a["length12_m"],3)} м; класс { {"direct":"непосредственный", "pair":"парный", "quartet":"четверной"}[a["power_class"]]}. '
-    radio+=f'Фиксированные потери {n(d["fixed_loss_db"]+a.get("distribution_adjustment_db",0),4)} дБ; дополнительные местные джамперы {n(a["additional_jumper_loss_db"])} дБ. Последовательность: '
-    radio+='мощность CRS RE → RF-потери → усиление 3 dBi → пространственная потеря → RSRP. '
-    radio+='Один путь на одном порту, n=2,5, без препятствий.\n\n'
-    for f,prb in ((1800,100),(2100,75),(2600,50)):
-        rows=[r for r in d['rf_points'] if r['antenna']==worst_id and r['frequency_mhz']==f]
-        pilot=23-10*math.log10(2*prb)
-        radio+=f'## {f} МГц\n\n'+r'\(P_{\mathrm{CRS,RE}}\) ='+f' {n(pilot,4)} дБм; '+r'\(L_{\mathrm{cable}}\) ='+f' {n(rows[0]["cable_loss_db"],4)} дБ; '
-        radio+=r'\(L_{\mathrm{RF}}\) ='+f' {n(rows[0]["total_loss_db"],4)} дБ.\n\n'
-        radio+=table(['d по горизонтали, м','r, м','L_n, дБ','RSRP, дБм'],
-                     [(r['d_horizontal_m'],n(math.hypot(r["d_horizontal_m"],5.5),4),
-                       n(20*math.log10(f)-27.55+25*math.log10(math.hypot(r["d_horizontal_m"],5.5)),4),
-                       n(r["rsrp_dbm"],4)) for r in rows])+'\n\n'
-    radio+='## Препятствия и варианты определения мощности\n\nДля пересечённой перегородки вычитается 15 дБ, '
-    radio+='для внешней стены или ЖБ колонны — 30 дБ. Число пересечений определяется лучом на карте, а не расстоянием само по себе. '
-    radio+='P2 уменьшает каждую строку P1 на 7,7815 дБ; суммарные 23 дБм двух портов — на 3,0103 дБ. '
-    radio+='Нормировка P1 применяется в основной таблице; альтернативные определения мощности входят в проверку чувствительности.\n'
-    radio+='\n\\clearpage\n\n# Полная таблица 384 контрольных значений\n\n'
-    radio+='P1, n=2,5; горизонтальные расстояния 5/10/15/20 м; высоты 7/1,5 м; без пересечений стен. '
-    radio+='Номинально одинаково для двух независимых MIMO-путей. Кабели и компоненты включены в L_RF. '
-    radio+='Это таблица уровней отдельных путей, не процент покрытия площади.\n\n'
-    for f in (1800,2100,2600):
-        if f!=1800:radio+='\\clearpage\n\n'
-        radio+=f'## {f} МГц\n\n'
-        rows=[]
-        for a in d['antennas']:
-            vals=sorted((r for r in d['rf_points'] if r['antenna']==a['id'] and r['frequency_mhz']==f),key=lambda r:r['d_horizontal_m'])
-            rows.append([a['id'],n(vals[0]["total_loss_db"],3)]+[n(r["rsrp_dbm"],2) for r in vals])
-        radio+=table(['ID','L_RF, дБ','5 м','10 м','15 м','20 м'],rows)+'\n\n'
-    radio+='\n\\clearpage\n\n# Проверка покрытия и чувствительности\n\n'+coverage_table(cov)
-    radio+='\n\nДоли относятся к RSRP>−90 дБм и площади 2100 м². Основной расчёт использует P1. n=3 и дополнительные 3 дБ проверены отдельно. Карты учитывают препятствия и неизвестную площадь как непокрытую; уровни отдельных путей на 5–20 м не определяют долю покрытия этажа.\n'
-    (EDITABLE/'03-rsrp.md').write_text(radio)
-    jobs=[('01-capacity','Скорректированный расчёт количества секторов'),
-          ('02-floor-design','Проектное решение первого этажа'),('03-rsrp','Расчёт RSRP: исходные данные и результаты')]
-    with ThreadPoolExecutor(max_workers=3) as pool:list(pool.map(export_pdf,jobs))
-    # MuPDF and ReportLab composition is sequential; XeLaTeX exports are independent.
-    for name,title in jobs:finish_pdf(OUTPUT/(name+'.pdf'),name,title)
-    shutil.copyfile(ROOT/'equipment/bill-of-materials.xlsx',OUTPUT/NAMES[3])
+    if args.reuse_technical:
+        assert previous_manifest['design_fingerprint']==cov['design_fingerprint'], 'Technical files refer to an earlier design'
+        assert previous_manifest['area_model_sha256']==cov['area_model_sha256'], 'Technical files refer to an earlier area model'
+    if not args.reuse_technical:
+        (EDITABLE/'01-capacity.md').write_text(introduction('01-capacity',d,cov)+capacity_document().rstrip()+'\n')
+        project=introduction('02-floor-design',d,cov)+project_document(d,cov,audit)
+        project+='\n\\clearpage\n\n# Графические листы\n\n'
+        for index in range(len(FIGURES)):project+=image_page(index)
+        project+='\n\\clearpage\n\n# Проектные ведомости\n\n## Координаты и группы антенн\n\n'
+        project+='CAD X/Y, метры; высота антенн 7 м — допущение. Z — группа; g=0 — непосредственная, g=1 — парная, g=2 — четверная. P1/P2 обслуживаются раздельными деревьями. Привязка указывает проектную зону; положение антенны определяется координатами X/Y.\n\n'
+        project+=table(['ID','Привязка','Z/g','X, м','Y, м','7/8, м','1/2, м'],
+                       [(a['id'],a['room'],f'{a["zone"]}/{a["subgroup"]}',n(a["x"],3),n(a["y"],3),
+                         n(a["length78_m"],3),n(a["length12_m"],3)) for a in d['antennas']])
+        project+='\n\n\\clearpage\n\n## Маршруты одной ветви Mj\n\nКаждый ID повторяется на M1 и M2. Геометрическая длина без закупочного запаса. '
+        project+='Для связей с нулевым геометрическим расстоянием указан физический джампер 3 м.\n\n'
+        project+=table(['ID','Соединение','Геометрия, м','Физическая длина на Mj, м'],
+                       [(r['id'],r['cable'],n(r["length"],3), '3 (заводской джампер)' if r['cable']=='jumper' else n(r["length"],3))
+                        for r in d['trunks']+d['subfeeds']+d['drops']])
+        project+='\n\n\\clearpage\n\n## Координаты распределительных узлов\n\nНа каждой координате S/Q находятся отдельные устройства M1 и M2. '
+        project+='Геометрические точки не задают размеры шкафов или точную монтажную раскладку.\n\n'
+        project+=table(['Узел','Модель / количество','X, м','Y, м'],
+                       [('ВК','6 PC221 + 8 PC211 + 1 PC250',n(d["head"][0],3),n(d["head"][1],3))]+
+                       [(f'S-Z{z}','2 PC252',n(d["trunks"][z-1]["points"][-1][0],3),n(d["trunks"][z-1]["points"][-1][1],3)) for z in range(1,5)]+
+                       [(f'Q-Z{z}-{g}','2 '+('PC250' if g==1 else 'PC252'),n(r["points"][-1][0],3),n(r["points"][-1][1],3))
+                        for z in range(1,5) for g in (1,2) for r in d['subfeeds'] if r['id']==f'F{z}-{g}'])
+        project+='\n\n## Портовые обозначения\n\nH-band-Mj — гибрид PC221; TP-Zz-Mj — триплексер PC211; S-Zz-Mj — PC252; '
+        project+='Q-Zz-1-Mj — PC250; Q-Zz-2-Mj — PC252; S-DCS — отдельный PC250. Полная таблица портов, включая входы БС, резерв операторов '
+        project+='и оконечные антенны, включена в лист «Портовый план» отдельного артефакта 04-equipment.xlsx. '
+        project+='Портовая маркировка I/O является проектной; точная маркировка корпуса устройства не предоставлена.\n'
+        (EDITABLE/'02-floor-design.md').write_text(project)
+        radio=introduction('03-rsrp',d,cov)+radio_document(d)
+        radio+='\n\n\\clearpage\n\n# Проверяемый пример полного тракта\n\n'
+        worst_id=max(d['rf_points'],key=lambda r:r['total_loss_db'])['antenna']
+        a=next(a for a in d['antennas'] if a['id']==worst_id)
+        radio+=f'{worst_id}: 7/8 — {n(a["length78_m"],3)} м; 1/2 — {n(a["length12_m"],3)} м; класс { {"direct":"непосредственный", "pair":"парный", "quartet":"четверной"}[a["power_class"]]}. '
+        radio+=f'Фиксированные потери {n(d["fixed_loss_db"]+a.get("distribution_adjustment_db",0),4)} дБ; дополнительные местные джамперы {n(a["additional_jumper_loss_db"])} дБ. Последовательность: '
+        radio+='мощность CRS RE → RF-потери → усиление 3 dBi → пространственная потеря → RSRP. '
+        radio+='Один путь на одном порту, n=2,5, без препятствий.\n\n'
+        for f,prb in ((1800,100),(2100,75),(2600,50)):
+            rows=[r for r in d['rf_points'] if r['antenna']==worst_id and r['frequency_mhz']==f]
+            pilot=23-10*math.log10(2*prb)
+            radio+=f'## {f} МГц\n\n'+r'\(P_{\mathrm{CRS,RE}}\) ='+f' {n(pilot,4)} дБм; '+r'\(L_{\mathrm{cable}}\) ='+f' {n(rows[0]["cable_loss_db"],4)} дБ; '
+            radio+=r'\(L_{\mathrm{RF}}\) ='+f' {n(rows[0]["total_loss_db"],4)} дБ.\n\n'
+            radio+=table(['d по горизонтали, м','r, м','L_n, дБ','RSRP, дБм'],
+                         [(r['d_horizontal_m'],n(math.hypot(r["d_horizontal_m"],5.5),4),
+                           n(20*math.log10(f)-27.55+25*math.log10(math.hypot(r["d_horizontal_m"],5.5)),4),
+                           n(r["rsrp_dbm"],4)) for r in rows])+'\n\n'
+        radio+='## Препятствия и варианты определения мощности\n\nДля пересечённой перегородки вычитается 15 дБ, '
+        radio+='для внешней стены или ЖБ колонны — 30 дБ. Число пересечений определяется лучом на карте, а не расстоянием само по себе. '
+        radio+='P2 уменьшает каждую строку P1 на 7,7815 дБ; суммарные 23 дБм двух портов — на 3,0103 дБ. '
+        radio+='Нормировка P1 применяется в основной таблице; альтернативные определения мощности входят в проверку чувствительности.\n'
+        radio+='\n\\clearpage\n\n# Полная таблица 384 контрольных значений\n\n'
+        radio+='P1, n=2,5; горизонтальные расстояния 5/10/15/20 м; высоты 7/1,5 м; без пересечений стен. '
+        radio+='Номинально одинаково для двух независимых MIMO-путей. Кабели и компоненты включены в L_RF. '
+        radio+='Это таблица уровней отдельных путей, не процент покрытия площади.\n\n'
+        for f in (1800,2100,2600):
+            if f!=1800:radio+='\\clearpage\n\n'
+            radio+=f'## {f} МГц\n\n'
+            rows=[]
+            for a in d['antennas']:
+                vals=sorted((r for r in d['rf_points'] if r['antenna']==a['id'] and r['frequency_mhz']==f),key=lambda r:r['d_horizontal_m'])
+                rows.append([a['id'],n(vals[0]["total_loss_db"],3)]+[n(r["rsrp_dbm"],2) for r in vals])
+            radio+=table(['ID','L_RF, дБ','5 м','10 м','15 м','20 м'],rows)+'\n\n'
+        radio+='\n\\clearpage\n\n# Проверка покрытия и чувствительности\n\n'+coverage_table(cov)
+        radio+='\n\nДоли относятся к RSRP>−90 дБм и площади 2100 м². Основной расчёт использует P1. n=3 и дополнительные 3 дБ проверены отдельно. Карты учитывают препятствия и неизвестную площадь как непокрытую; уровни отдельных путей на 5–20 м не определяют долю покрытия этажа.\n'
+        (EDITABLE/'03-rsrp.md').write_text(radio)
+        jobs=[('01-capacity','Скорректированный расчёт количества секторов'),
+              ('02-floor-design','Проектное решение первого этажа'),('03-rsrp','Расчёт RSRP: исходные данные и результаты')]
+        with ThreadPoolExecutor(max_workers=3) as pool:list(pool.map(export_pdf,jobs))
+        # MuPDF and ReportLab composition is sequential; XeLaTeX exports are independent.
+        for name,title in jobs:finish_pdf(OUTPUT/(name+'.pdf'),name,title)
+        shutil.copyfile(ROOT/'equipment/bill-of-materials.xlsx',OUTPUT/NAMES[3])
+    else:
+        worst_id=max(d['rf_points'],key=lambda row:row['total_loss_db'])['antenna']
+        assert (OUTPUT/NAMES[3]).read_bytes()==(ROOT/'equipment/bill-of-materials.xlsx').read_bytes()
     if args.include_presentation:shutil.copyfile(ROOT/'presentation/defense.pptx',OUTPUT/NAMES[4])
     # Page count and Unicode text extraction check exported files, not just the sources.
     files=[]
@@ -169,11 +185,12 @@ def main():
                   design_fingerprint=cov['design_fingerprint'],area_model_sha256=cov['area_model_sha256'],technical_export_checked=True,
                   full_kpi_compliance=False,uploaded_to_competition=False,
                   presentation_included=args.include_presentation,required_artifact_count=5,
-                  pending_profile_fields=status['pending_profile_fields'],official_template_available=False,
+                  pending_profile_fields=status['pending_profile_fields'],official_template_available=status['official_template_available'],
+                  presentation_photo_available=status.get('photo_available',False),
                   personal_rehearsal_done=False,selected_revision='n3',
                   n3_goal_verified=all(r['passed_95'] for r in cov['scenarios'] if r['scenario']=='P1_n3'))
     (ROOT/'submission/manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
-    preview_reports(OUTPUT,EDITABLE/'redesign-preview.png')
+    if not args.reuse_technical:preview_reports(OUTPUT,EDITABLE/'redesign-preview.png')
     print(json.dumps(manifest,ensure_ascii=False,indent=2))
 
 if __name__=='__main__':main()

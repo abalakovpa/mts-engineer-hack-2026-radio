@@ -177,6 +177,25 @@ def main():
         assert wb['Портовый план'].max_row==138 and wb['Комплектность'].max_row==11
         final_prs=Presentation(ROOT/'presentation/defense.pptx')
         assert len(final_prs.slides)==6
+        template=ROOT/'presentation/source-template.pptx'
+        if template.exists():
+            template_hash='83f1fd8e22427bed6954db9cccb7145e5662e14aa89208947e42e5fab1598a28'
+            assert hashlib.sha256(template.read_bytes()).hexdigest()==template_hash
+            assert final_prs.slide_width==9144000 and final_prs.slide_height==5143500
+            with zipfile.ZipFile(template) as original, zipfile.ZipFile(ROOT/'presentation/defense.pptx') as result:
+                fonts={name:original.read(name) for name in original.namelist() if name.startswith('ppt/fonts/')}
+                assert fonts and all(result.read(name)==content for name,content in fonts.items())
+            notes='\n'.join(s.notes_slide.notes_text_frame.text for s in final_prs.slides)
+            assert 'github' not in notes.lower() and '[заполнить]' not in notes
+            import fitz
+            with fitz.open(ROOT/'presentation/defense-preview.pdf') as rendered:
+                assert len(rendered)==6
+                rendered_text='\n'.join(page.get_text() for page in rendered)
+                for value in ('13 UE','104','32 In06','96,37','1366','179'):
+                    assert value in rendered_text,value
+            status=json.loads((ROOT/'presentation/presentation-status.json').read_text())
+            assert status['template_sha256']==template_hash and status['official_template_available']
+            assert status['rendered_from_pptx']
         for slide in final_prs.slides:
             assert slide.has_notes_slide
             for shape in slide.shapes:

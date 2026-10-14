@@ -32,22 +32,28 @@
       "name": "04-equipment.xlsx",
       "bytes": 48664,
       "sha256": "c0d616ab2f70bc9762400f8eb56bb4747cb0fbc16e12f52ae9ddb1b3103aaf2f"
+    },
+    {
+      "name": "05-defense.pptx",
+      "bytes": 6513095,
+      "sha256": "49751faafc8822bdb46ac164cb021c12e57fff3da44e9d9f4170adb63c1ea4de"
     }
   ],
   "archive": {
     "name": "mts-radio-final.zip",
-    "bytes": 3736749,
-    "sha256": "b746b9b1692fcd8d42a6e885771cc0ade7d3b1560c3ec0a7ba3977be14e344d0"
+    "bytes": 10242648,
+    "sha256": "ad9c82d9912b468c0dd49a3f7d3c0105a70a5eae5efcc15bdbb808fdaf631b85"
   },
   "design_fingerprint": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
   "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69",
   "technical_export_checked": true,
   "full_kpi_compliance": false,
   "uploaded_to_competition": false,
-  "presentation_included": false,
+  "presentation_included": true,
   "required_artifact_count": 5,
   "pending_profile_fields": [],
-  "official_template_available": false,
+  "official_template_available": true,
+  "presentation_photo_available": false,
   "personal_rehearsal_done": false,
   "selected_revision": "n3",
   "n3_goal_verified": true
