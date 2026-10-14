@@ -35,14 +35,14 @@
     },
     {
       "name": "05-defense.pptx",
-      "bytes": 6545564,
-      "sha256": "c3590024f176aee782fba192d552a7c940c0ca1e0f9078cff1ea7f7da2cc8476"
+      "bytes": 6545654,
+      "sha256": "d7507179f2b9a00182521fd2cd1fa21fd921aa898960b6bd89d98db86bd64d78"
     }
   ],
   "archive": {
     "name": "mts-radio-final.zip",
-    "bytes": 11457733,
-    "sha256": "8bb5f8da003cb8ecdc2dc5a8eac19b0172e6a96a6a5c0279ffec340af533761a"
+    "bytes": 11457822,
+    "sha256": "84e6776ffc0fc1e3fdb5cceee5cc84a53686be2a11af9fc47dc5b20cb67d8442"
   },
   "design_fingerprint": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
   "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69",

@@ -90,10 +90,14 @@ class Deck:
     def text(self,x,y,w,h,value,size=14,heading=False,color=INK,align=PP_ALIGN.LEFT,valign=MSO_ANCHOR.TOP):
         lines=wrap(value,size,w-.04)
         leading=size*1.18
+        top_padding=(.04 if heading else .02) if valign==MSO_ANCHOR.TOP else 0
+        bottom_padding=(.06 if heading else .02) if valign==MSO_ANCHOR.TOP else 0
         assert len(lines)*leading<=h*72+.5,(self.index,value,len(lines)*leading,h*72)
-        shape=self.slide.shapes.add_textbox(Inches(x),Inches(y),Inches(w),Inches(h))
+        shape=self.slide.shapes.add_textbox(Inches(x),Inches(y),Inches(w),Inches(h+top_padding+bottom_padding))
         frame=shape.text_frame
         frame.margin_left=frame.margin_right=frame.margin_top=frame.margin_bottom=0
+        frame.margin_top=Inches(top_padding)
+        frame.margin_bottom=Inches(bottom_padding)
         frame.vertical_anchor=valign
         frame.word_wrap=False;frame.auto_size=MSO_AUTO_SIZE.NONE
         for i,line in enumerate(lines):
@@ -119,15 +123,16 @@ class Deck:
             for i,label in enumerate(NAV):
                 x=.2+i*1.43;active=i==self.index-1
                 self.rect(x,.2,1.36,.28,RED if active else 'FFFFFF')
-                self.text(x,.255,1.36,.18,label,8.4,color='FFFFFF' if active else MUTED,align=PP_ALIGN.CENTER)
+                self.text(x,.2,1.36,.28,label,8.4,color='FFFFFF' if active else MUTED,
+                          align=PP_ALIGN.CENTER,valign=MSO_ANCHOR.MIDDLE)
             self.text(.2,.78,9.3,1.0,title,28,True)
-        self.text(8.88,5.42,.87,.13,f'{self.index} / 6',7,color=MUTED,align=PP_ALIGN.RIGHT)
+        self.text(8.88,5.33,.87,.18,f'{self.index} / 6',9.1,color=MUTED,align=PP_ALIGN.RIGHT)
 
-    def card(self,x,y,w,h,label,value,detail):
+    def card(self,x,y,w,h,label,value,detail,value_size=20):
         self.rect(x,y,w,h)
         self.text(x+.17,y+.14,w-.34,.25,label,10,color=RED)
-        self.text(x+.17,y+.52,w-.34,.42,value,17.2 if len(value)>14 else 20,True)
-        self.text(x+.17,y+1.02,w-.34,h-1.1,detail,11.2)
+        self.text(x+.17,y+.52,w-.34,.42,value,value_size,True)
+        self.text(x+.17,y+1.06,w-.34,h-1.16,detail,11.2)
 
     def finish(self):
         self.prs.core_properties.title='Радиосеть первого этажа ТРК «Эльбрус»'
@@ -220,7 +225,7 @@ def main():
     deck.new('')
     deck.text(.25,1.78,6.65,1.1,'Радиосеть первого этажа\nТРК «Эльбрус»',29,True)
     deck.rect(.25,3.06,4.55,.46,line=RED)
-    deck.text(.4,3.15,4.25,.3,profile['name'],18,True,color=RED)
+    deck.text(.4,3.06,4.25,.46,profile['name'],18,True,color=RED,valign=MSO_ANCHOR.MIDDLE)
     deck.text(.25,3.77,6.35,.85,'УрТИСИ · III курс · 11.03.02\nИнфокоммуникационные технологии\nи системы связи',14)
     deck.text(.25,4.72,6.3,.63,profile['profile_facts']+'\nАрхитектура, задачи и коммуникация\nИнтересы: product management и управление проектами',11.2)
     deck.rect(7.05,1.65,2.6,3.45)
@@ -241,8 +246,8 @@ def main():
     deck.text(.38,4.45,4.8,.57,'Секторы: 25 → 2 (k=1,10) → 1 (k(1)=1)\nη=3,1505922; u=0,8.',11.8)
     deck.text(5.7,3.89,3.9,.24,'Полезная ёмкость трёх несущих',11,color=MUTED)
     for i,(band,bw,c,ue) in enumerate([('B3',20,50.4094752,6),('B1',15,37.8071064,4),('B7',10,25.2047376,3)]):
-        deck.text(5.7,4.24+i*.25,3.9,.23,f'{band} · {bw} МГц · {n(c)} Мбит/с · {ue} UE',11.4)
-    deck.text(.25,5.33,8.5,.18,'Без CA резерв для 14-го UE отсутствует; прежнее правило k=1,10 даёт два сектора.',9.1,color=MUTED)
+        deck.text(5.7,4.24+i*.28,3.9,.23,f'{band} · {bw} МГц · {n(c)} Мбит/с · {ue} UE',11.4)
+    deck.text(.2,5.33,8.5,.18,'Без CA резерв для 14-го UE отсутствует; прежнее правило k=1,10 даёт два сектора.',9.1,color=MUTED)
     deck.new('Один LTE-пул — четыре группы\nи два независимых RF-дерева')
     deck.rect(.2,1.99,3.45,3.24);deck.rect(3.8,1.99,6.0,3.24)
     deck.image(ROOT/'design/final/verification/final-layout.png',.32,2.08,3.21,2.87)
@@ -257,12 +262,12 @@ def main():
                   align=PP_ALIGN.CENTER,valign=MSO_ANCHOR.MIDDLE)
     deck.text(4.0,3.98,5.6,.33,'В группе: 2 напрямую + 2 через PC250 + 4 через PC252',12.8)
     deck.text(4.0,4.59,5.6,.36,'Доли мощности: 1/4 · 1/8 · 1/16\nM1 и M2 подключены к разным портам антенн.',11)
-    deck.text(.25,5.33,8.5,.18,'Головной узел — проектная зона 104.2. Высоты антенны / UE: 7 / 1,5 м.',9.1,color=MUTED)
+    deck.text(.2,5.33,8.5,.18,'Головной узел — проектная зона 104.2. Высоты антенны / UE: 7 / 1,5 м.',9.1,color=MUTED)
     deck.new('RSRP и качество DL:\nрезультаты условных сценариев')
     deck.rect(.2,1.99,3.45,3.24);deck.rect(3.8,1.99,6.0,3.24)
     deck.image(ROOT/'design/final/coverage/rsrp-2600-n3.png',.33,2.09,3.19,2.92)
     deck.text(.4,5.01,3.05,.18,'B7 · n=3 · карта с шагом 0,25 м',9.5,color=MUTED,align=PP_ALIGN.CENTER)
-    deck.text(4.0,2.13,5.6,.25,'RSRP > −90 дБм · доля от 2100 м²',14,True)
+    deck.text(4.0,2.13,5.6,.3,'RSRP > −90 дБм · доля от 2100 м²',14,True)
     xs=[4.0,6.55,7.55,8.6]
     for x,w,label in zip(xs,[2.4,.8,.8,.9],['Расчётный режим','B3','B1','B7']):deck.text(x,2.67,w,.23,label,11,color=MUTED)
     scenarios=[('P1_n3','n=3'),('P1_n3_closed_gaps','n=3, закрытые проёмы'),('P2_carrier23','P2: 23 дБм на несущую')]
@@ -272,7 +277,7 @@ def main():
         for x,f in zip(xs[1:],(1800,2100,2600)):deck.text(x,y,.95,.24,n(values[key,f])+'%',11,color=color)
     deck.text(4.0,4.05,5.55,.42,f'L2 / B7: SINR ≥17 — {n(lte["sinr_ge17_percent"])}%\nRSRQ >−12 — {n(lte["rsrq_gt_minus12_percent"])}%',11.5)
     deck.text(4.0,4.68,5.55,.25,f'DCS: C/I >20 — {n(dcs["ci_gt20_percent"])}% при I=−70 дБм',10.5)
-    deck.text(.25,5.33,8.5,.18,'L2: P1, n=2,5; NF=7 дБ, β=0,5, ρ=0,8; I=−115 дБм/15 кГц. DCS: I в полосе 200 кГц.',8.8,color=MUTED)
+    deck.text(.2,5.33,8.5,.18,'L2: P1, n=2,5; NF=7 дБ, β=0,5, ρ=0,8; I=−115 дБм/15 кГц. DCS: I в полосе 200 кГц.',9.1,color=MUTED)
     deck.new('Оборудование и трассы\nследуют одной схеме')
     cards=[('АНТЕННЫ','32 In06','Два RF-порта на антенну\n64 антенных порта'),
            ('ГОЛОВНОЙ УЗЕЛ','6 PC221 · 8 PC211','Объединение операторов\nи диапазонов B3 / B1 / B7'),
@@ -280,8 +285,8 @@ def main():
            ('КОАКСИАЛ',f'{n(total,0)} м',f'С резервом: {buy78} м 7/8\nи {buy12} м 1/2'),
            ('СОЕДИНЕНИЯ','168 разъёмов','7/8 — 100 шт.; 1/2 — 68 шт.\nИсполнения male / female'),
            ('ДЖАМПЕРЫ','113 × 3 м','101 рабочий + 12 резервных\nВключая четыре местных')]
-    for i,(label,value,detail) in enumerate(cards):deck.card(.2+(i%3)*3.23,1.99+(i//3)*1.65,3.14,1.53,label,value,detail)
-    deck.text(.25,5.33,8.5,.18,'Условия комплектации: нагрузки 50 Ом, интерфейсы RF-портов и пожарное исполнение кабелей.',9.1,color=MUTED)
+    for i,(label,value,detail) in enumerate(cards):deck.card(.2+(i%3)*3.23,1.99+(i//3)*1.65,3.14,1.53,label,value,detail,value_size=17.2)
+    deck.text(.2,5.33,8.5,.18,'Условия комплектации: нагрузки 50 Ом, интерфейсы RF-портов и пожарное исполнение кабелей.',9.1,color=MUTED)
     deck.new('Три решения, которые\nопределяют результат')
     for i,(label,value,detail) in enumerate([('МОДЕЛЬ СПРОСА','1 LTE-сектор','13 пользователей с данными\n104 Мбит/с полезного DL'),
                                           ('РАЗМЕЩЕНИЕ','32 антенны',f'B7 при n=3: {n(n3)}%\nДве независимые MIMO-ветви'),
