@@ -35,14 +35,14 @@
     },
     {
       "name": "05-defense.pptx",
-      "bytes": 6513095,
-      "sha256": "49751faafc8822bdb46ac164cb021c12e57fff3da44e9d9f4170adb63c1ea4de"
+      "bytes": 6556779,
+      "sha256": "81a7f8766bf4a022ba3d6d6f44356bb2294b9e41101c8f1fd3d1f18712712236"
     }
   ],
   "archive": {
     "name": "mts-radio-final.zip",
-    "bytes": 10242648,
-    "sha256": "ad9c82d9912b468c0dd49a3f7d3c0105a70a5eae5efcc15bdbb808fdaf631b85"
+    "bytes": 10286157,
+    "sha256": "6427736239d42bfee4158fb3c90168348f4bc5e7620931aa7d9dfbeea992e444"
   },
   "design_fingerprint": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
   "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69",
@@ -53,7 +53,7 @@
   "required_artifact_count": 5,
   "pending_profile_fields": [],
   "official_template_available": true,
-  "presentation_photo_available": false,
+  "presentation_photo_available": true,
   "personal_rehearsal_done": false,
   "selected_revision": "n3",
   "n3_goal_verified": true
