@@ -152,6 +152,51 @@ def main():
         assert control['area_model_sha256']==coverage['area_model_sha256']
         assert control['area_join_max_m']==.15 and control['step_m']==.5
         assert all(control['scores'][s]>=95 for s in ('n3','reserve3','closed_reserve3'))
+    quality_path=ROOT/'design/final/quality/quality-report.json'
+    if quality_path.exists():
+        quality=json.loads(quality_path.read_text())
+        assert quality['design_fingerprint']==coverage['design_fingerprint']
+        assert quality['area_model_sha256']==coverage['area_model_sha256']
+        assert not quality['full_kpi_compliance']
+        for key,path in [('lte_fields_sha256','design/final/coverage/validated-fields.npz'),
+                         ('dcs_fields_sha256','design/final/verification/dcs-field.npz')]:
+            assert quality[key]==hashlib.sha256((ROOT/path).read_bytes()).hexdigest()
+        params={s['id']:s for s in quality['scenarios']}
+        assert len(quality['lte_results'])==33 and len(quality['dcs_results'])==12
+        with np.load(ROOT/'design/final/coverage/validated-fields.npz') as field, np.load(ROOT/'design/final/quality/quality-fields.npz') as saved:
+            weights=field['weights']
+            assert np.array_equal(saved['points'],field['points']) and np.array_equal(saved['weights'],weights)
+            for result in quality['lte_results']:
+                p=params[result['scenario']];f=result['frequency_mhz'];prb={1800:100,2100:75,2600:50}[f]
+                level=field[f'rsrp_n3_{f}'] if p['field']=='P1_n3' else field[f'rsrp_{f}']
+                if p['field']=='P2':level=level-10*math.log10(6)
+                signal=10**(level/10)
+                thermal=10**((-174+10*math.log10(15000)+p['nf_db'])/10)
+                interference=0 if p['interference_dbm'] is None else 10**(p['interference_dbm']/10)
+                j=thermal+interference
+                predicted_sinr=10*np.log10(p['beta']*signal/j)
+                rssi=prb*(4*signal+8*2*p['rho']*p['beta']*signal+12*j)
+                predicted_rsrq=10*np.log10(prb*signal/rssi)
+                for name,t in [('sinr_ge17_percent',17),('sinr_ge7_percent',7),('sinr_ge1_percent',1)]:
+                    assert math.isclose(result[name],float(weights[predicted_sinr>=t].sum()/21),abs_tol=1e-8)
+                assert math.isclose(result['rsrq_gt_minus12_percent'],float(weights[predicted_rsrq>-12].sum()/21),abs_tol=1e-8)
+                assert math.isclose(result['rsrp_gt_minus90_percent'],float(weights[level>-90].sum()/21),abs_tol=1e-8)
+                if result['scenario']=='L4':assert result['rsrq_gt_minus12_percent']==0
+                if result['scenario']==quality['base_scenario']:
+                    assert np.allclose(saved[f'sinr_{f}'],predicted_sinr) and np.allclose(saved[f'rsrq_{f}'],predicted_rsrq)
+            with np.load(ROOT/'design/final/verification/dcs-field.npz') as dcs:
+                for result in quality['dcs_results']:
+                    c=dcs['rx_dbm']+result['bcch_dbm']-40
+                    ci=c-result['interference_dbm_200khz']
+                    assert math.isclose(result['ci_gt20_percent'],float(weights[ci>20].sum()/21),abs_tol=1e-8)
+                    assert math.isclose(result['rx_gt_minus85_percent'],float(weights[c>-85].sum()/21),abs_tol=1e-8)
+                assert np.allclose(saved['dcs_ci'],dcs['rx_dbm']+70)
+        assert wb['LTE качество'].max_row==34 and wb['Бюджет помех'].max_row==10 and wb['DCS C-I'].max_row==13
+        for row,result in zip(list(wb['LTE качество'].values)[1:],quality['lte_results']):
+            assert row[0].startswith(result['scenario']+' — ') and row[1]==result['frequency_mhz']
+            assert math.isclose(row[9],result['rsrq_gt_minus12_percent'],abs_tol=1e-8)
+            assert row[11]==result['including_rsrp_met']
+        print('PASS: 33 conditional LTE quality scenarios; 12 DCS C/I scenarios; independent RSSI/SINR arithmetic')
     review_file=ROOT/'design/final/verification/engineering-review.json'
     if review_file.exists():
         review=json.loads(review_file.read_text())
@@ -196,6 +241,10 @@ def main():
             status=json.loads((ROOT/'presentation/presentation-status.json').read_text())
             assert status['template_sha256']==template_hash and status['official_template_available']
             assert status['rendered_from_pptx']
+            if quality_path.exists():
+                assert status['quality_report_sha256']==hashlib.sha256(quality_path.read_bytes()).hexdigest()
+                assert re.search(r'25\s*→\s*2\s*\(k=1,10\)\s*→\s*1',rendered_text)
+                assert 'SINR' in rendered_text and 'RSRQ' in rendered_text
         for slide in final_prs.slides:
             assert slide.has_notes_slide
             for shape in slide.shapes:
@@ -206,6 +255,9 @@ def main():
     if manifest_file.exists():
         manifest=json.loads(manifest_file.read_text())
         assert manifest['design_fingerprint']==coverage['design_fingerprint']
+        if quality_path.exists():
+            assert manifest['quality_report_sha256']==hashlib.sha256(quality_path.read_bytes()).hexdigest()
+            assert manifest['conditional_quality_calculated']
         assert len(manifest['files']) in (4,5) and not manifest['full_kpi_compliance']
         assert manifest['presentation_included']==(len(manifest['files'])==5)
         expected_files={'01-capacity.pdf','02-floor-design.pdf','03-rsrp.pdf','04-equipment.xlsx'}

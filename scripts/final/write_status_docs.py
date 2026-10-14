@@ -34,6 +34,15 @@ def main():
       'Худшая ветвь 20 м без стен':f'| Худшая ветвь 20 м без стен | Ниже −90 отдельным путём | {number(min(r["rsrp_dbm"] for r in d["rf_points"] if r["frequency_mhz"]==2600 and r["d_horizontal_m"]==20))} дБм B7; площадь оценивается по всем антеннам |',
       'XLSX спецификация':f'| XLSX спецификация | Обновлена по принятому варианту | {e["total_jumper_count"]} джамперов, {sum(genders["1/2"].values())}/{sum(genders["7/8"].values())} разъёма; закупочно {math.ceil(d["cable78_installed"]*1.1)} м 7/8 и {math.ceil(d["cable12_installed"]*1.1)} м 1/2; {len(c["scenarios"])} сценариев |',
       'DCS RxLev >−85 на 95%':f'| DCS RxLev >−85 на 95% | Условная карта рассчитана | {number(e["dcs_scenarios"][0]["reference_percent_2100"])}% при 40 дБм BCCH/TRX, n=2,5; рабочая мощность и измерения не заданы |'}
+    quality=json.loads((ROOT/'design/final/quality/quality-report.json').read_text())
+    assert quality['design_fingerprint']==fp and quality['area_model_sha256']==c['area_model_sha256']
+    base=[r for r in quality['lte_results'] if r['scenario']=='L2']
+    rq='/'.join(number(r['rsrq_gt_minus12_percent']) for r in base)
+    snr=lambda key:'/'.join(number(r[key]) for r in base)
+    dc=next(r for r in quality['dcs_results'] if r['bcch_dbm']==40 and r['interference_dbm_200khz']==-70)
+    rows['RSRQ >−12 на 80%']=f'| RSRQ >−12 на 80% | Проверено сценарно | L2: {rq}% B3/B1/B7; два TX-порта, β=0,5, ρ=0,8, NF=7 дБ, I=−115 дБм/15 кГц; при β=1 критерий не проходит |'
+    rows['SINR ≥17/7/1 на 40/80/95%']=f'| SINR ≥17/7/1 на 40/80/95% | Проверено сценарно | L2: ≥17 — {snr("sinr_ge17_percent")}; ≥7 — {snr("sinr_ge7_percent")}; ≥1 — {snr("sinr_ge1_percent")}; идеальное разделение потоков |'
+    rows['DCS C/I >20 на 95%']=f'| DCS C/I >20 на 95% | Проверено сценарно | {number(dc["ci_gt20_percent"])}% при BCCH 40 дБм и I=−70 дБм/200 кГц; для 95% требуется I<−65,94 дБм; ARFCN не задан |'
     presentation=json.loads((ROOT/'presentation/presentation-status.json').read_text())
     rows['Презентация']=(f'| Презентация | Техническая и личная части заполнены | '
                           f'6 слайдов, {presentation["word_count"]} слов, план 240 секунд; '
@@ -41,8 +50,8 @@ def main():
     if presentation['pending_profile_fields']:
         rows['Презентация']='| Презентация | Требуются личные сведения | Заполнить profile-input.json и пересобрать пакет |'
     def kpi(text):
-        return '\n'.join(rows.get(line.split('|')[1].strip(),line) if line.startswith('|') and len(line.split('|'))>2 else line
-                         for line in text.splitlines())+'\n'
+        return ('\n'.join(rows.get(line.split('|')[1].strip(),line) if line.startswith('|') and len(line.split('|'))>2 else line
+                         for line in text.splitlines())+'\n').replace('Статус на 13.10.2026','Статус на 14.10.2026').replace('фактические KPI и полное соответствие ТЗ не установлены', 'качество SINR/RSRQ/C/I также проверено сценарно; полное соответствие ТЗ не установлено')
     update('docs/final/kpi-checklist.md',kpi)
     update('docs/final/assumptions.md',lambda t:re.sub(r'^\| A19 \|.*$',
         f'| A19 | Местные связи {local}: джампер 3 м, 0,2 дБ на путь; {d["local_jumper_count"]} физических связи | Собственное решение принятого варианта n=3 | Нулевые фидеры не закупаются; потери джампера оценочные |',t,flags=re.M)
@@ -62,7 +71,7 @@ def main():
            f'n=3 с закрытыми проёмами — {number(shares["P1_n3_closed_gaps",2600])}%, +3 дБ — {number(shares["P1_extra_RF_3dB",2600])}%. '
            f'Совместный сценарий при n=2,5: закрытые проёмы, 114.2 как непрошедшее и +3 дБ — {number(shares["P1_closed_gaps_geometry_uncertain_fail_RF3",2600])}%. '
            'n=3 и +3 дБ проверены отдельно; их одновременное сочетание не проверялось. '
-           f'P2 — {number(shares["P2_carrier23",2600])}%, ниже 95%. Нормировка пилота, калибровка и остальные KPI не подтверждены.')
+           f'P2 — {number(shares["P2_carrier23",2600])}%, ниже 95%. Нормировка пилота остаётся условной; SINR/RSRQ/C/I рассчитаны для явных сценариев. Фактические параметры помех и приёмника не заданы.')
     answer('Почему виртуальные стыки не стали стенами?',
            'Короткие стыки ≤0,25 м соединяют чертёжные границы A-AREA и стеновые контуры для восстановления площади. '
            'Они не доказывают материал на луче, поэтому дополнительные 15 дБ не добавляются. '

@@ -1,14 +1,17 @@
 {
   "slides": 6,
   "planned_seconds": 240,
-  "word_count": 491,
+  "word_count": 515,
   "pending_profile_fields": [],
   "official_template_available": true,
   "photo_available": true,
   "template_sha256": "83f1fd8e22427bed6954db9cccb7145e5662e14aa89208947e42e5fab1598a28",
   "rendered_from_pptx": true,
+  "quality_report_sha256": "403a403eccbfc5464c3df6777fbcd348a7376cb22eda06643ecadff001084e39",
   "rendered_fonts": [
+    "ABAAAA+MTSText-Regular",
     "BAAAAA+MTSText-Regular",
+    "BBAAAA+MTSWide-Medium",
     "CAAAAA+MTSWide-Medium",
     "DAAAAA+NotoSans-Regular",
     "EAAAAA+MTSWide-Medium",
@@ -31,7 +34,8 @@
     "VAAAAA+MTSWide-Medium",
     "WAAAAA+MTSText-Regular",
     "XAAAAA+MTSText-Regular",
-    "YAAAAA+MTSWide-Medium"
+    "YAAAAA+DejaVuSans",
+    "ZAAAAA+MTSText-Regular"
   ],
   "personal_rehearsal_done": false
 }

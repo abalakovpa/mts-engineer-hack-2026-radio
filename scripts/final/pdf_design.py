@@ -99,6 +99,16 @@ def number(value, places=2):
     return f'{value:.{places}f}'.replace('.', ',')
 
 
+for frequency,band in ((1800,'B3'),(2100,'B1'),(2600,'B7')):
+    for metric in ('SINR','RSRQ'):
+        FIGURES.append((f'{metric} {band} / сценарий L2',f'design/final/quality/{metric.lower()}-{frequency}.png',False,
+            'P1, n=2,5. NF UE=7 дБ, β=0,5, ρ=0,8; внешняя помеха −115 дБм на 15 кГц. '
+            'Два TX-порта, идеальное разделение потоков MIMO. Параметры сценарные.'))
+FIGURES.append(('DCS C/I / сценарный бюджет помех','design/final/quality/dcs-ci.png',False,
+    'BCCH 40 дБм перед PC250; суммарная соканальная помеха −70 дБм на 200 кГц. '
+    'Критерий C/I >20 дБ на 95% от 2100 м². ARFCN и внешние источники не заданы.'))
+
+
 def display_equations(text):
     """Typeset existing dependencies without changing their definitions."""
     replacements = {
@@ -143,7 +153,7 @@ def introduction(name, design, coverage):
         title='Расчёт RSRP';subtitle='Мощность опорного сигнала · RF-бюджет · уровни на 5–20 м'
         metrics=('384','расчётных значения','32 антенны × 3 диапазона × 4 расстояния','23 дБм','пилот на выходе БС','нормировка P1','5–20 м','расстояния по горизонтали','высоты антенны / UE: 7 / 1,5 м')
         notes=(('ReportAccent','РАСЧЁТНАЯ МОДЕЛЬ','Мощность одного CRS RE определяется из суммарного пилота. Потери RF-тракта включают кабели, делители, объединители и соединения.'),
-               ('ReportAccent','СОСТАВ РЕЗУЛЬТАТОВ','Показаны последовательность расчёта, пример полного тракта, таблицы всех антенных путей и чувствительность карты покрытия.'))
+               ('ReportAccent','СОСТАВ РЕЗУЛЬТАТОВ','Приведены RF-бюджеты, контрольные уровни, SINR, RSRQ, C/I и допустимые бюджеты внешних помех.'))
     text = f'\\ReportTitle{{{name[:2]}}}{{{title}}}{{{subtitle}}}\n\n'
     text += '\\ReportMetrics' + ''.join('{' + value + '}' for value in metrics) + '\n\n'
     for color, label, content in notes:

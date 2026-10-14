@@ -1,0 +1,782 @@
+{
+  "design_fingerprint": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
+  "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69",
+  "lte_fields_sha256": "9f3b76c8b4a02791d68f07f85bb6e57cb103162dd153b93a07f8f54a296a0265",
+  "dcs_fields_sha256": "a49f2943d318e2ba58cb40dbd1d3ba8987d2aac32ca16b66e986f6a2d1973402",
+  "denominator_m2": 2100,
+  "located_m2": 2051.5600000000004,
+  "unknown_m2": 48.4399999999996,
+  "base_scenario": "L2",
+  "scenarios": [
+    {
+      "id": "L0",
+      "label": "Только тепловой шум",
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7,
+      "interference_dbm": null,
+      "field": "P1"
+    },
+    {
+      "id": "L1",
+      "label": "Помехи −125 дБм/RE",
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7,
+      "interference_dbm": -125,
+      "field": "P1"
+    },
+    {
+      "id": "L2",
+      "label": "Помехи −115 дБм/RE",
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7,
+      "interference_dbm": -115,
+      "field": "P1"
+    },
+    {
+      "id": "L3",
+      "label": "Помехи −105 дБм/RE",
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7,
+      "interference_dbm": -105,
+      "field": "P1"
+    },
+    {
+      "id": "L4",
+      "label": "Равная EPRE данных и CRS",
+      "beta": 1,
+      "rho": 0.8,
+      "nf_db": 7,
+      "interference_dbm": -115,
+      "field": "P1"
+    },
+    {
+      "id": "L5",
+      "label": "Полная загрузка",
+      "beta": 0.5,
+      "rho": 1,
+      "nf_db": 7,
+      "interference_dbm": -115,
+      "field": "P1"
+    },
+    {
+      "id": "L6",
+      "label": "n=3",
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7,
+      "interference_dbm": -115,
+      "field": "P1_n3"
+    },
+    {
+      "id": "L7",
+      "label": "Пилот P2",
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7,
+      "interference_dbm": -115,
+      "field": "P2"
+    },
+    {
+      "id": "L8",
+      "label": "NF=9 дБ",
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 9,
+      "interference_dbm": -115,
+      "field": "P1"
+    },
+    {
+      "id": "L9",
+      "label": "Помехи −95 дБм/RE",
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7,
+      "interference_dbm": -95,
+      "field": "P1"
+    },
+    {
+      "id": "L10",
+      "label": "Помехи −85 дБм/RE",
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7,
+      "interference_dbm": -85,
+      "field": "P1"
+    }
+  ],
+  "lte_results": [
+    {
+      "scenario": "L0",
+      "frequency_mhz": 1800,
+      "sinr_ge17_percent": 97.29312181070115,
+      "sinr_ge7_percent": 97.62797507227215,
+      "sinr_ge1_percent": 97.6596979825995,
+      "rsrq_gt_minus12_percent": 97.6596979825995,
+      "rsrp_gt_minus90_percent": 96.58558303759173,
+      "disturbance_dbm_per_re": -125.23908740944319,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L1",
+      "frequency_mhz": 1800,
+      "sinr_ge17_percent": 97.2453619648536,
+      "sinr_ge7_percent": 97.61899943885449,
+      "sinr_ge1_percent": 97.65558306260813,
+      "rsrq_gt_minus12_percent": 97.65558306260813,
+      "rsrp_gt_minus90_percent": 96.58558303759173,
+      "disturbance_dbm_per_re": -122.10759867847193,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L2",
+      "frequency_mhz": 1800,
+      "sinr_ge17_percent": 96.83829011862764,
+      "sinr_ge7_percent": 97.2838110093962,
+      "sinr_ge1_percent": 97.6016940086499,
+      "rsrq_gt_minus12_percent": 97.61618785557125,
+      "rsrp_gt_minus90_percent": 96.58558303759173,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L3",
+      "frequency_mhz": 1800,
+      "sinr_ge17_percent": 96.48098303202424,
+      "sinr_ge7_percent": 96.86324523929012,
+      "sinr_ge1_percent": 97.20244747735704,
+      "rsrq_gt_minus12_percent": 97.22727287005726,
+      "rsrp_gt_minus90_percent": 96.58558303759173,
+      "disturbance_dbm_per_re": -104.95909009514746,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L4",
+      "frequency_mhz": 1800,
+      "sinr_ge17_percent": 97.18115620910267,
+      "sinr_ge7_percent": 97.39553026569796,
+      "sinr_ge1_percent": 97.62797507227215,
+      "rsrq_gt_minus12_percent": 0.0,
+      "rsrp_gt_minus90_percent": 96.58558303759173,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": false,
+      "including_rsrp_met": false
+    },
+    {
+      "scenario": "L5",
+      "frequency_mhz": 1800,
+      "sinr_ge17_percent": 96.83829011862764,
+      "sinr_ge7_percent": 97.2838110093962,
+      "sinr_ge1_percent": 97.6016940086499,
+      "rsrq_gt_minus12_percent": 97.56254170347117,
+      "rsrp_gt_minus90_percent": 96.58558303759173,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L6",
+      "frequency_mhz": 1800,
+      "sinr_ge17_percent": 96.5848873242371,
+      "sinr_ge7_percent": 97.19590003980055,
+      "sinr_ge1_percent": 97.29561983056342,
+      "rsrq_gt_minus12_percent": 97.31632145002476,
+      "rsrp_gt_minus90_percent": 96.48008553440121,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L7",
+      "frequency_mhz": 1800,
+      "sinr_ge17_percent": 96.53813080945964,
+      "sinr_ge7_percent": 97.12639709887755,
+      "sinr_ge1_percent": 97.25654171620842,
+      "rsrq_gt_minus12_percent": 97.26677905578957,
+      "rsrp_gt_minus90_percent": 94.48982614645337,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": true,
+      "including_rsrp_met": false
+    },
+    {
+      "scenario": "L8",
+      "frequency_mhz": 1800,
+      "sinr_ge17_percent": 96.82265835162781,
+      "sinr_ge7_percent": 97.28040461867488,
+      "sinr_ge1_percent": 97.6016940086499,
+      "rsrq_gt_minus12_percent": 97.60999174155553,
+      "rsrp_gt_minus90_percent": 96.58558303759173,
+      "disturbance_dbm_per_re": -114.39302159646388,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L9",
+      "frequency_mhz": 1800,
+      "sinr_ge17_percent": 27.43255113970781,
+      "sinr_ge7_percent": 96.48128384479722,
+      "sinr_ge1_percent": 96.5929501019443,
+      "rsrq_gt_minus12_percent": 96.64973581483454,
+      "rsrp_gt_minus90_percent": 96.58558303759173,
+      "disturbance_dbm_per_re": -94.9958916244554,
+      "quality_targets_met": false,
+      "including_rsrp_met": false
+    },
+    {
+      "scenario": "L10",
+      "frequency_mhz": 1800,
+      "sinr_ge17_percent": 0.0,
+      "sinr_ge7_percent": 27.472219110184813,
+      "sinr_ge1_percent": 89.45349332677146,
+      "rsrq_gt_minus12_percent": 92.31498943061669,
+      "rsrp_gt_minus90_percent": 96.58558303759173,
+      "disturbance_dbm_per_re": -84.99958898751001,
+      "quality_targets_met": false,
+      "including_rsrp_met": false
+    },
+    {
+      "scenario": "L0",
+      "frequency_mhz": 2100,
+      "sinr_ge17_percent": 97.28971541997983,
+      "sinr_ge7_percent": 97.62797507227215,
+      "sinr_ge1_percent": 97.6596979825995,
+      "rsrq_gt_minus12_percent": 97.6596979825995,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -125.23908740944319,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L1",
+      "frequency_mhz": 2100,
+      "sinr_ge17_percent": 97.23840996426092,
+      "sinr_ge7_percent": 97.61693538753259,
+      "sinr_ge1_percent": 97.65558306260813,
+      "rsrq_gt_minus12_percent": 97.65558306260813,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -122.10759867847193,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L2",
+      "frequency_mhz": 2100,
+      "sinr_ge17_percent": 96.80305015480218,
+      "sinr_ge7_percent": 97.28040461867488,
+      "sinr_ge1_percent": 97.59251340467976,
+      "rsrq_gt_minus12_percent": 97.6016940086499,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L3",
+      "frequency_mhz": 2100,
+      "sinr_ge17_percent": 96.47907310965617,
+      "sinr_ge7_percent": 96.83829011862764,
+      "sinr_ge1_percent": 97.1991737585788,
+      "rsrq_gt_minus12_percent": 97.21249207397757,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -104.95909009514746,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L4",
+      "frequency_mhz": 2100,
+      "sinr_ge17_percent": 97.16314420174537,
+      "sinr_ge7_percent": 97.33404486851155,
+      "sinr_ge1_percent": 97.62705843101422,
+      "rsrq_gt_minus12_percent": 0.0,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": false,
+      "including_rsrp_met": false
+    },
+    {
+      "scenario": "L5",
+      "frequency_mhz": 2100,
+      "sinr_ge17_percent": 96.80305015480218,
+      "sinr_ge7_percent": 97.28040461867488,
+      "sinr_ge1_percent": 97.59251340467976,
+      "rsrq_gt_minus12_percent": 97.53667689399175,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L6",
+      "frequency_mhz": 2100,
+      "sinr_ge17_percent": 96.5847678932012,
+      "sinr_ge7_percent": 97.18935260224406,
+      "sinr_ge1_percent": 97.29312181070115,
+      "rsrq_gt_minus12_percent": 97.29811785042577,
+      "rsrp_gt_minus90_percent": 96.4501530203333,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L7",
+      "frequency_mhz": 2100,
+      "sinr_ge17_percent": 96.52916226120917,
+      "sinr_ge7_percent": 97.09616854610125,
+      "sinr_ge1_percent": 97.25313532548708,
+      "rsrq_gt_minus12_percent": 97.26244612679206,
+      "rsrp_gt_minus90_percent": 93.51631857653675,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": true,
+      "including_rsrp_met": false
+    },
+    {
+      "scenario": "L8",
+      "frequency_mhz": 2100,
+      "sinr_ge17_percent": 96.79146476570341,
+      "sinr_ge7_percent": 97.27699822795354,
+      "sinr_ge1_percent": 97.58793019839021,
+      "rsrq_gt_minus12_percent": 97.6016940086499,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -114.39302159646388,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L9",
+      "frequency_mhz": 2100,
+      "sinr_ge17_percent": 24.91187883111951,
+      "sinr_ge7_percent": 96.47907310965617,
+      "sinr_ge1_percent": 96.59271123987249,
+      "rsrq_gt_minus12_percent": 96.59317869585587,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -94.9958916244554,
+      "quality_targets_met": false,
+      "including_rsrp_met": false
+    },
+    {
+      "scenario": "L10",
+      "frequency_mhz": 2100,
+      "sinr_ge17_percent": 0.0,
+      "sinr_ge7_percent": 24.951310050912873,
+      "sinr_ge1_percent": 87.33758005291857,
+      "rsrq_gt_minus12_percent": 90.84764382526971,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -84.99958898751001,
+      "quality_targets_met": false,
+      "including_rsrp_met": false
+    },
+    {
+      "scenario": "L0",
+      "frequency_mhz": 2600,
+      "sinr_ge17_percent": 97.2838110093962,
+      "sinr_ge7_percent": 97.62797507227215,
+      "sinr_ge1_percent": 97.6596979825995,
+      "rsrq_gt_minus12_percent": 97.6596979825995,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -125.23908740944319,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L1",
+      "frequency_mhz": 2600,
+      "sinr_ge17_percent": 97.220078959144,
+      "sinr_ge7_percent": 97.61162287792472,
+      "sinr_ge1_percent": 97.65558306260813,
+      "rsrq_gt_minus12_percent": 97.65558306260813,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -122.10759867847193,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L2",
+      "frequency_mhz": 2600,
+      "sinr_ge17_percent": 96.75124311418091,
+      "sinr_ge7_percent": 97.27359183723222,
+      "sinr_ge1_percent": 97.55153605617859,
+      "rsrq_gt_minus12_percent": 97.59251340467976,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L3",
+      "frequency_mhz": 2600,
+      "sinr_ge17_percent": 96.46707455081234,
+      "sinr_ge7_percent": 96.78838756137019,
+      "sinr_ge1_percent": 97.1991737585788,
+      "rsrq_gt_minus12_percent": 97.1991737585788,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -104.95909009514746,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L4",
+      "frequency_mhz": 2600,
+      "sinr_ge17_percent": 97.11898840878322,
+      "sinr_ge7_percent": 97.31174341331105,
+      "sinr_ge1_percent": 97.62244133534746,
+      "rsrq_gt_minus12_percent": 0.0,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": false,
+      "including_rsrp_met": false
+    },
+    {
+      "scenario": "L5",
+      "frequency_mhz": 2600,
+      "sinr_ge17_percent": 96.75124311418091,
+      "sinr_ge7_percent": 97.27359183723222,
+      "sinr_ge1_percent": 97.55153605617859,
+      "rsrq_gt_minus12_percent": 97.48364264978413,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L6",
+      "frequency_mhz": 2600,
+      "sinr_ge17_percent": 96.58440960009351,
+      "sinr_ge7_percent": 97.18619411836681,
+      "sinr_ge1_percent": 97.29312181070115,
+      "rsrq_gt_minus12_percent": 97.29561983056342,
+      "rsrp_gt_minus90_percent": 96.3651292003699,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L7",
+      "frequency_mhz": 2600,
+      "sinr_ge17_percent": 96.50267710652001,
+      "sinr_ge7_percent": 96.9865583087316,
+      "sinr_ge1_percent": 97.24632254404445,
+      "rsrq_gt_minus12_percent": 97.25654171620842,
+      "rsrp_gt_minus90_percent": 91.67927045131245,
+      "disturbance_dbm_per_re": -114.60727257099386,
+      "quality_targets_met": true,
+      "including_rsrp_met": false
+    },
+    {
+      "scenario": "L8",
+      "frequency_mhz": 2600,
+      "sinr_ge17_percent": 96.74281205510262,
+      "sinr_ge7_percent": 97.27018544651091,
+      "sinr_ge1_percent": 97.54417673636507,
+      "rsrq_gt_minus12_percent": 97.5835645113394,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -114.39302159646388,
+      "quality_targets_met": true,
+      "including_rsrp_met": true
+    },
+    {
+      "scenario": "L9",
+      "frequency_mhz": 2600,
+      "sinr_ge17_percent": 21.80760357332997,
+      "sinr_ge7_percent": 96.47007858457664,
+      "sinr_ge1_percent": 96.58467117143678,
+      "rsrq_gt_minus12_percent": 96.5928306709084,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -94.9958916244554,
+      "quality_targets_met": false,
+      "including_rsrp_met": false
+    },
+    {
+      "scenario": "L10",
+      "frequency_mhz": 2600,
+      "sinr_ge17_percent": 0.0,
+      "sinr_ge7_percent": 21.831650920702746,
+      "sinr_ge1_percent": 83.91668877636957,
+      "rsrq_gt_minus12_percent": 88.29912773569202,
+      "rsrp_gt_minus90_percent": 96.58431287832906,
+      "disturbance_dbm_per_re": -84.99958898751001,
+      "quality_targets_met": false,
+      "including_rsrp_met": false
+    }
+  ],
+  "lte_budgets": [
+    {
+      "feasible_rsrq": true,
+      "rsrq_ceiling_db": -10.170333392987803,
+      "constraints_dbm": {
+        "SINR_17_40": -96.22727539636651,
+        "SINR_7_80": -89.82407075546374,
+        "SINR_1_95": -86.4536717909863,
+        "RSRQ_-12_80": -83.24246943783005
+      },
+      "max_disturbance_dbm": -96.22727539636651,
+      "max_external_interference_dbm": -96.23273141547145,
+      "thermal_floor_dbm": -125.23908740944319,
+      "field": "P1",
+      "frequency_mhz": 1800,
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7
+    },
+    {
+      "feasible_rsrq": true,
+      "rsrq_ceiling_db": -10.170333392987803,
+      "constraints_dbm": {
+        "SINR_17_40": -100.61606054470347,
+        "SINR_7_80": -94.71114830979722,
+        "SINR_1_95": -92.07375244694806,
+        "RSRQ_-12_80": -88.12954699216354
+      },
+      "max_disturbance_dbm": -100.61606054470347,
+      "max_external_interference_dbm": -100.63106539446392,
+      "thermal_floor_dbm": -125.23908740944319,
+      "field": "P1_n3",
+      "frequency_mhz": 1800,
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7
+    },
+    {
+      "feasible_rsrq": true,
+      "rsrq_ceiling_db": -10.170333392987803,
+      "constraints_dbm": {
+        "SINR_17_40": -104.00878790020295,
+        "SINR_7_80": -97.60558325930018,
+        "SINR_1_95": -94.23518429482274,
+        "RSRQ_-12_80": -91.02398194166649
+      },
+      "max_disturbance_dbm": -104.00878790020295,
+      "max_external_interference_dbm": -104.04162730643327,
+      "thermal_floor_dbm": -125.23908740944319,
+      "field": "P2",
+      "frequency_mhz": 1800,
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7
+    },
+    {
+      "feasible_rsrq": true,
+      "rsrq_ceiling_db": -10.170333392987803,
+      "constraints_dbm": {
+        "SINR_17_40": -96.50712434874109,
+        "SINR_7_80": -90.1226066079137,
+        "SINR_1_95": -86.76575129323244,
+        "RSRQ_-12_80": -83.54100529028001
+      },
+      "max_disturbance_dbm": -96.50712434874109,
+      "max_external_interference_dbm": -96.51294375856997,
+      "thermal_floor_dbm": -125.23908740944319,
+      "field": "P1",
+      "frequency_mhz": 2100,
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7
+    },
+    {
+      "feasible_rsrq": true,
+      "rsrq_ceiling_db": -10.170333392987803,
+      "constraints_dbm": {
+        "SINR_17_40": -100.8815203534115,
+        "SINR_7_80": -95.01853762637,
+        "SINR_1_95": -92.32607038496339,
+        "RSRQ_-12_80": -88.43693630873632
+      },
+      "max_disturbance_dbm": -100.8815203534115,
+      "max_external_interference_dbm": -100.89747271479746,
+      "thermal_floor_dbm": -125.23908740944319,
+      "field": "P1_n3",
+      "frequency_mhz": 2100,
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7
+    },
+    {
+      "feasible_rsrq": true,
+      "rsrq_ceiling_db": -10.170333392987803,
+      "constraints_dbm": {
+        "SINR_17_40": -104.28863685257753,
+        "SINR_7_80": -97.90411911175013,
+        "SINR_1_95": -94.54726379706888,
+        "RSRQ_-12_80": -91.32251779411645
+      },
+      "max_disturbance_dbm": -104.28863685257753,
+      "max_external_interference_dbm": -104.32367085682307,
+      "thermal_floor_dbm": -125.23908740944319,
+      "field": "P2",
+      "frequency_mhz": 2100,
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7
+    },
+    {
+      "feasible_rsrq": true,
+      "rsrq_ceiling_db": -10.170333392987803,
+      "constraints_dbm": {
+        "SINR_17_40": -96.88209649054859,
+        "SINR_7_80": -90.52467239628463,
+        "SINR_1_95": -87.22992685344389,
+        "RSRQ_-12_80": -83.94307107865095
+      },
+      "max_disturbance_dbm": -96.88209649054859,
+      "max_external_interference_dbm": -96.88844106370568,
+      "thermal_floor_dbm": -125.23908740944319,
+      "field": "P1",
+      "frequency_mhz": 2600,
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7
+    },
+    {
+      "feasible_rsrq": true,
+      "rsrq_ceiling_db": -10.170333392987803,
+      "constraints_dbm": {
+        "SINR_17_40": -101.26249189201786,
+        "SINR_7_80": -95.47040512719124,
+        "SINR_1_95": -92.68372669873592,
+        "RSRQ_-12_80": -88.88880380955756
+      },
+      "max_disturbance_dbm": -101.26249189201786,
+      "max_external_interference_dbm": -101.27990977476357,
+      "thermal_floor_dbm": -125.23908740944319,
+      "field": "P1_n3",
+      "frequency_mhz": 2600,
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7
+    },
+    {
+      "feasible_rsrq": true,
+      "rsrq_ceiling_db": -10.170333392987803,
+      "constraints_dbm": {
+        "SINR_17_40": -104.66360899438503,
+        "SINR_7_80": -98.30618490012107,
+        "SINR_1_95": -95.01143935728032,
+        "RSRQ_-12_80": -91.72458358248738
+      },
+      "max_disturbance_dbm": -104.66360899438503,
+      "max_external_interference_dbm": -104.70181621360476,
+      "thermal_floor_dbm": -125.23908740944319,
+      "field": "P2",
+      "frequency_mhz": 2600,
+      "beta": 0.5,
+      "rho": 0.8,
+      "nf_db": 7
+    }
+  ],
+  "dcs_results": [
+    {
+      "bcch_dbm": 40.0,
+      "interference_dbm_200khz": -90.0,
+      "ci_gt20_percent": 97.3049306318684,
+      "rx_gt_minus85_percent": 97.6596979825995,
+      "both_targets_met": true
+    },
+    {
+      "bcch_dbm": 40.0,
+      "interference_dbm_200khz": -80.0,
+      "ci_gt20_percent": 97.09959039368134,
+      "rx_gt_minus85_percent": 97.6596979825995,
+      "both_targets_met": true
+    },
+    {
+      "bcch_dbm": 40.0,
+      "interference_dbm_200khz": -70.0,
+      "ci_gt20_percent": 96.52605632396099,
+      "rx_gt_minus85_percent": 97.6596979825995,
+      "both_targets_met": true
+    },
+    {
+      "bcch_dbm": 40.0,
+      "interference_dbm_200khz": -60.0,
+      "ci_gt20_percent": 43.665463278281194,
+      "rx_gt_minus85_percent": 97.6596979825995,
+      "both_targets_met": false
+    },
+    {
+      "bcch_dbm": 36.98970004336019,
+      "interference_dbm_200khz": -90.0,
+      "ci_gt20_percent": 97.26677905578957,
+      "rx_gt_minus85_percent": 97.65558306260813,
+      "both_targets_met": true
+    },
+    {
+      "bcch_dbm": 36.98970004336019,
+      "interference_dbm_200khz": -80.0,
+      "ci_gt20_percent": 96.75100425210908,
+      "rx_gt_minus85_percent": 97.65558306260813,
+      "both_targets_met": true
+    },
+    {
+      "bcch_dbm": 36.98970004336019,
+      "interference_dbm_200khz": -70.0,
+      "ci_gt20_percent": 96.22953395973002,
+      "rx_gt_minus85_percent": 97.65558306260813,
+      "both_targets_met": true
+    },
+    {
+      "bcch_dbm": 36.98970004336019,
+      "interference_dbm_200khz": -60.0,
+      "ci_gt20_percent": 15.149786947647998,
+      "rx_gt_minus85_percent": 97.65558306260813,
+      "both_targets_met": false
+    },
+    {
+      "bcch_dbm": 30.0,
+      "interference_dbm_200khz": -90.0,
+      "ci_gt20_percent": 97.09959039368134,
+      "rx_gt_minus85_percent": 97.61633602937316,
+      "both_targets_met": true
+    },
+    {
+      "bcch_dbm": 30.0,
+      "interference_dbm_200khz": -80.0,
+      "ci_gt20_percent": 96.52605632396099,
+      "rx_gt_minus85_percent": 97.61633602937316,
+      "both_targets_met": true
+    },
+    {
+      "bcch_dbm": 30.0,
+      "interference_dbm_200khz": -70.0,
+      "ci_gt20_percent": 43.665463278281194,
+      "rx_gt_minus85_percent": 97.61633602937316,
+      "both_targets_met": false
+    },
+    {
+      "bcch_dbm": 30.0,
+      "interference_dbm_200khz": -60.0,
+      "ci_gt20_percent": 0.0,
+      "rx_gt_minus85_percent": 97.61633602937316,
+      "both_targets_met": false
+    }
+  ],
+  "dcs_budgets": [
+    {
+      "bcch_dbm": 40.0,
+      "c95_dbm": -45.94337183434649,
+      "max_interference_dbm": -65.9433718343465
+    },
+    {
+      "bcch_dbm": 36.98970004336019,
+      "c95_dbm": -48.953671790986306,
+      "max_interference_dbm": -68.9536717909863
+    },
+    {
+      "bcch_dbm": 30.0,
+      "c95_dbm": -55.94337183434649,
+      "max_interference_dbm": -75.9433718343465
+    }
+  ],
+  "full_kpi_compliance": false,
+  "interpretation": "Сценарный DL, идеальное разделение потоков MIMO, сильнейший антенный путь; помехи заданы суммарным уровнем на входе UE, частотный план не синтезируется",
+  "measurement_basis": "RSRQ: CRS-содержащие символы, два TX-порта, 4 CRS RE/RB и 8 потенциальных PDSCH RE/RB",
+  "noise_psd_dbm_hz": -174,
+  "noise_re_hz": 15000,
+  "rsrq_ceiling_equal_epre_load08_db": -12.25309281725863
+}

@@ -28,6 +28,7 @@ python scripts/final/build_project.py
 python scripts/final/evaluate_coverage.py --step 0.25
 python scripts/final/evaluate_coverage.py --step 0.5 --resolution-only
 python scripts/final/final_engineering.py
+python scripts/final/quality_analysis.py
 python scripts/final/check_geometry.py
 python scripts/final/write_design_docs.py
 python scripts/final/final_presentation.py
@@ -76,7 +77,7 @@ python scripts/final/validate.py
 ## Что проверяется
 
 Неизменность исходников; арифметика S/S−1 и Erlang B; доли мощности,
-пути, длины и количества; 384 RF-значения; 39 LTE-сценариев и монотонность;
+пути, длины и количества; 384 RF-значения; 39 RSRP-сценариев, 33 сценария качества LTE, 12 сценариев DCS C/I и монотонность;
 контроль геометрии; портовый план и DCS; XLSX/PPTX; поля, навигация,
 векторные схемы и значения экспортированных PDF; содержимое ZIP и SHA-256.
 Проверки согласованности не подтверждают фактические KPI.
@@ -84,3 +85,7 @@ python scripts/final/validate.py
 Оформление PDF — docs/final/deliverables/pdf-header.tex, pdf-design.lua,
 pdf_design.py. XLSX использует общую style() из build_project.py; экспорт
 автоматически вызывает format_equipment.py для всех листов. Загрузка архива на конкурсную платформу выполняется участником.
+
+## Сценарное качество DL
+
+quality_analysis.py использует существующие поля RSRP и BCCH. Внешние помехи представлены суммарными уровнями на входе UE; частотный план не создаётся. Модель RSRQ включает оба TX-порта и EPRE данных. Формируются карты, обратные бюджеты помех и три технических листа XLSX. После изменения сценариев выполнить quality_analysis.py, final_presentation.py, package_submission.py --include-presentation и validate.py. --reuse-technical допускается только при неизменном отчёте качества.

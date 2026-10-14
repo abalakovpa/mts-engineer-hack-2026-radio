@@ -3,50 +3,52 @@
   "files": [
     {
       "name": "01-capacity.pdf",
-      "bytes": 80651,
-      "sha256": "53cfa944a78ed9465fcf5a286efd1cf157b91a796cb8b808940ade559b279adf",
+      "bytes": 83200,
+      "sha256": "ff5e2afc70c8aab15354374b36dbfd1c1cda36749bbd5b7cc4709de171338214",
       "layout_checked": true,
       "a3_sheets": 0,
       "navigation_checked": true,
-      "pages": 3
+      "pages": 4
     },
     {
       "name": "02-floor-design.pdf",
-      "bytes": 3923111,
-      "sha256": "a865b9a879ed6b9217b9f3d36a56be90c2ce261f24b46a93e991010dc1637887",
+      "bytes": 5261999,
+      "sha256": "4576dd0202cad0c3712f1e8f357c337abac2e15d9c6ae4917be1ee7d36b84848",
       "layout_checked": true,
-      "a3_sheets": 14,
+      "a3_sheets": 21,
       "navigation_checked": true,
-      "pages": 21
+      "pages": 29
     },
     {
       "name": "03-rsrp.pdf",
-      "bytes": 95968,
-      "sha256": "2c2afc2a4a7bdfb72a89bc6e7146ef78cda26e0a3fcd73d47a12335afc11ca2c",
+      "bytes": 117589,
+      "sha256": "79a6a34d06f867fae0c938e89783a9d14db122d8fa88b3b36faf9400afc2ff28",
       "layout_checked": true,
       "a3_sheets": 0,
       "navigation_checked": true,
-      "pages": 8
+      "pages": 12
     },
     {
       "name": "04-equipment.xlsx",
-      "bytes": 48664,
-      "sha256": "c0d616ab2f70bc9762400f8eb56bb4747cb0fbc16e12f52ae9ddb1b3103aaf2f"
+      "bytes": 56113,
+      "sha256": "9c6766eea01c5a0a6655f86b009e46a927e38c31290acc0c45a391931294138c"
     },
     {
       "name": "05-defense.pptx",
-      "bytes": 6556779,
-      "sha256": "81a7f8766bf4a022ba3d6d6f44356bb2294b9e41101c8f1fd3d1f18712712236"
+      "bytes": 6556543,
+      "sha256": "6fe4ffcc8babf764ac89d87ed9a71678676b114bac544cc0b320dac79df464e6"
     }
   ],
   "archive": {
     "name": "mts-radio-final.zip",
-    "bytes": 10286157,
-    "sha256": "6427736239d42bfee4158fb3c90168348f4bc5e7620931aa7d9dfbeea992e444"
+    "bytes": 11467464,
+    "sha256": "e0776cd1fb6cf47afd358c507771f8928897cd1b354a25842148485e2f8051a3"
   },
   "design_fingerprint": "f1fafde2e1854028d2ceb842e8ca3ed3af6239142e88e2f63c6aac41f56db37b",
   "area_model_sha256": "d7f3929af43c40512277e0d6d1f069c6b2b1c6ebbb671c4ba91859fccc294c69",
   "technical_export_checked": true,
+  "quality_report_sha256": "403a403eccbfc5464c3df6777fbcd348a7376cb22eda06643ecadff001084e39",
+  "conditional_quality_calculated": true,
   "full_kpi_compliance": false,
   "uploaded_to_competition": false,
   "presentation_included": true,

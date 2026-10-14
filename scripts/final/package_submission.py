@@ -16,6 +16,7 @@ from final_engineering import table
 from pdf_design import FIGURES, introduction, finish_pdf, display_equations, inspect_pdf, preview_reports
 from format_equipment import format_equipment
 from solution_documents import capacity_document, project_document, radio_document, coverage_table, n
+from quality_documents import radio_quality, quality_report
 
 ROOT=Path(__file__).resolve().parents[2]
 FINAL=ROOT/'docs/final'
@@ -78,10 +79,16 @@ def main():
     cov=json.loads((ROOT/'design/final/coverage/coverage-report.json').read_text())
     audit=json.loads((ROOT/'design/final/verification/engineering-review.json').read_text())
     status=json.loads((ROOT/'presentation/presentation-status.json').read_text())
+    quality=quality_report()
+    quality_sha=hashlib.sha256((ROOT/'design/final/quality/quality-report.json').read_bytes()).hexdigest()
+    assert quality['design_fingerprint']==cov['design_fingerprint']
+    assert quality['area_model_sha256']==cov['area_model_sha256']
+    if args.include_presentation:assert status['quality_report_sha256']==quality_sha
     assert audit['design_fingerprint']==cov['design_fingerprint']==hashlib.sha256((ROOT/'design/final/candidate.json').read_bytes()).hexdigest()
     if args.reuse_technical:
         assert previous_manifest['design_fingerprint']==cov['design_fingerprint'], 'Technical files refer to an earlier design'
         assert previous_manifest['area_model_sha256']==cov['area_model_sha256'], 'Technical files refer to an earlier area model'
+        assert previous_manifest.get('quality_report_sha256')==quality_sha, 'Technical files refer to an earlier quality model'
     if not args.reuse_technical:
         (EDITABLE/'01-capacity.md').write_text(introduction('01-capacity',d,cov)+capacity_document().rstrip()+'\n')
         project=introduction('02-floor-design',d,cov)+project_document(d,cov,audit)
@@ -144,7 +151,8 @@ def main():
             radio+=table(['ID','L_RF, дБ','5 м','10 м','15 м','20 м'],rows)+'\n\n'
         radio+='\n\\clearpage\n\n# Проверка покрытия и чувствительности\n\n'+coverage_table(cov)
         radio+='\n\nДоли относятся к RSRP>−90 дБм и площади 2100 м². Основной расчёт использует P1. n=3 и дополнительные 3 дБ проверены отдельно. Карты учитывают препятствия и неизвестную площадь как непокрытую; уровни отдельных путей на 5–20 м не определяют долю покрытия этажа.\n'
-        (EDITABLE/'03-rsrp.md').write_text(radio)
+        radio+='\n\\clearpage\n\n'+radio_quality()
+        (EDITABLE/'03-rsrp.md').write_text(radio.rstrip()+'\n')
         jobs=[('01-capacity','Скорректированный расчёт количества секторов'),
               ('02-floor-design','Проектное решение первого этажа'),('03-rsrp','Расчёт RSRP: исходные данные и результаты')]
         with ThreadPoolExecutor(max_workers=3) as pool:list(pool.map(export_pdf,jobs))
@@ -183,6 +191,7 @@ def main():
     manifest=dict(date='2026-10-14',files=files,archive=dict(name=ARCHIVE.name,bytes=ARCHIVE.stat().st_size,
                   sha256=hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()),
                   design_fingerprint=cov['design_fingerprint'],area_model_sha256=cov['area_model_sha256'],technical_export_checked=True,
+                  quality_report_sha256=quality_sha,conditional_quality_calculated=True,
                   full_kpi_compliance=False,uploaded_to_competition=False,
                   presentation_included=args.include_presentation,required_artifact_count=5,
                   pending_profile_fields=status['pending_profile_fields'],official_template_available=status['official_template_available'],
