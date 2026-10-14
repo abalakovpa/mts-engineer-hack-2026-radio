@@ -221,7 +221,7 @@ def main():
     deck.rect(.25,3.06,4.55,.46,line=RED)
     deck.text(.4,3.15,4.25,.3,profile['name'],18,True,color=RED)
     deck.text(.25,3.77,6.35,.85,'УрТИСИ · III курс · 11.03.02\nИнфокоммуникационные технологии\nи системы связи',14)
-    deck.text(.25,4.72,6.3,.63,profile['profile_facts']+'\nАрхитектура (Payment OCR), задачи и коммуникация\nИнтересы: product management и управление проектами',11.2)
+    deck.text(.25,4.72,6.3,.63,profile['profile_facts']+'\nАрхитектура, задачи и коммуникация\nИнтересы: product management и управление проектами',11.2)
     deck.rect(7.05,1.65,2.6,3.45)
     photos=[path for path in (OUT/'assets/portrait.jpg',OUT/'assets/portrait.png') if path.exists()]
     assert len(photos)<=1, 'Keep a single portrait asset'
