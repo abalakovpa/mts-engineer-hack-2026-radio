@@ -12,6 +12,7 @@ import tempfile
 import fitz
 from PIL import Image, ImageDraw
 from pptx import Presentation
+from pptx.opc.constants import RELATIONSHIP_TYPE as RT
 from pptx.util import Inches, Pt
 from pptx.oxml.xmlchemy import OxmlElement
 from pptx.dml.color import RGBColor
@@ -62,6 +63,9 @@ class Deck:
         for item in list(self.prs.slides._sldIdLst)[6:]:
             self.prs.part.drop_rel(item.rId);self.prs.slides._sldIdLst.remove(item)
         for index,slide in enumerate(self.prs.slides):
+            for rel in list(slide.part.rels.values()):
+                if rel.reltype==RT.NOTES_SLIDE:
+                    slide.part.drop_rel(rel.rId)
             if index==1:
                 old=slide._element.cSld.bg
                 if old is not None:slide._element.cSld.remove(old)
@@ -108,9 +112,8 @@ class Deck:
         shape=self.slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT,Inches(x1),Inches(y1),Inches(x2),Inches(y2))
         shape.line.color.rgb=RGBColor.from_string(color);shape.line.width=Pt(1.3)
 
-    def new(self,title,notes):
+    def new(self,title):
         self.slide=self.prs.slides[self.index];self.index+=1
-        self.slide.notes_slide.notes_text_frame.text=notes
         if self.index>1:
             for i,label in enumerate(NAV):
                 x=.2+i*1.43;active=i==self.index-1
@@ -213,12 +216,12 @@ def main():
          'Отдельной проверки требуют UL и параметры поставочных исполнений. Архитектура пассивная: управляемые удалённые модули в её состав не входят.')]
     assert sum(row[1] for row in scripts)==240
     deck=Deck()
-    deck.new('',scripts[0][2])
+    deck.new('')
     deck.text(.25,1.78,6.65,1.1,'Радиосеть первого этажа\nТРК «Эльбрус»',29,True)
     deck.rect(.25,3.06,4.55,.46,line=RED)
     deck.text(.4,3.15,4.25,.3,profile['name'],18,True,color=RED)
     deck.text(.25,3.77,6.35,.85,'УрТИСИ · III курс · 11.03.02\nИнфокоммуникационные технологии\nи системы связи',14)
-    deck.text(.25,4.72,6.3,.63,'Product manager в Payment OCR и Magistral Dispatcher MAX\nАрхитектура (Payment OCR), задачи и коммуникация\nИнтересы: product management и управление проектами',11.2)
+    deck.text(.25,4.72,6.3,.63,profile['profile_facts']+'\nАрхитектура (Payment OCR), задачи и коммуникация\nИнтересы: product management и управление проектами',11.2)
     deck.rect(7.05,1.65,2.6,3.45)
     photos=[path for path in (OUT/'assets/portrait.jpg',OUT/'assets/portrait.png') if path.exists()]
     assert len(photos)<=1, 'Keep a single portrait asset'
@@ -227,7 +230,7 @@ def main():
     else:
         deck.text(7.25,2.62,2.2,.85,'ПА',46,True,color=RED,align=PP_ALIGN.CENTER)
         deck.text(7.2,3.64,2.3,.6,'Павел\nАбалаков',17,True,align=PP_ALIGN.CENTER)
-    deck.new('Новые доли RRC и buffer:\n13 пользователей вместо 288',scripts[1][2])
+    deck.new('Новые доли RRC и buffer:\n13 пользователей вместо 288')
     for x,label,value,detail in [(.2,'ОДНОВРЕМЕННАЯ НАГРУЗКА','13 UE','6 + 4 + 3 по несущим'),
                                 (3.43,'ПОЛЕЗНЫЙ DOWNLINK','104 Мбит/с','13 устройств по 8 Мбит/с'),
                                 (6.66,'ОБЩАЯ ЁМКОСТЬ','1 LTE-сектор','Три несущие B3 / B1 / B7')]:
@@ -239,7 +242,7 @@ def main():
     for i,(band,bw,c,ue) in enumerate([('B3',20,50.4094752,6),('B1',15,37.8071064,4),('B7',10,25.2047376,3)]):
         deck.text(5.7,4.24+i*.25,3.9,.23,f'{band} · {bw} МГц · {n(c)} Мбит/с · {ue} UE',11.4)
     deck.text(.25,5.33,8.5,.18,'Без CA резерв для 14-го UE отсутствует; прежнее правило k=1,10 даёт два сектора.',9.1,color=MUTED)
-    deck.new('Один LTE-пул — четыре группы\nи два независимых RF-дерева',scripts[2][2])
+    deck.new('Один LTE-пул — четыре группы\nи два независимых RF-дерева')
     deck.rect(.2,1.99,3.45,3.24);deck.rect(3.8,1.99,6.0,3.24)
     deck.image(ROOT/'design/final/verification/final-layout.png',.32,2.08,3.21,2.87)
     deck.text(.42,5.0,3.0,.19,'План первого этажа · 32 In06',10,color=MUTED,align=PP_ALIGN.CENTER)
@@ -251,7 +254,7 @@ def main():
     deck.text(4.0,3.98,5.6,.33,'В группе: 2 напрямую + 2 через PC250 + 4 через PC252',12.8)
     deck.text(4.0,4.59,5.6,.36,'Доли мощности: 1/4 · 1/8 · 1/16\nM1 и M2 подключены к разным портам антенн.',11)
     deck.text(.25,5.33,8.5,.18,'Головной узел — проектная зона 104.2. Высоты антенны / UE: 7 / 1,5 м.',9.1,color=MUTED)
-    deck.new('RSRP и качество DL:\nрезультаты условных сценариев',scripts[3][2])
+    deck.new('RSRP и качество DL:\nрезультаты условных сценариев')
     deck.rect(.2,1.99,3.45,3.24);deck.rect(3.8,1.99,6.0,3.24)
     deck.image(ROOT/'design/final/coverage/rsrp-2600-n3.png',.33,2.09,3.19,2.92)
     deck.text(.4,5.01,3.05,.18,'B7 · n=3 · карта с шагом 0,25 м',9.5,color=MUTED,align=PP_ALIGN.CENTER)
@@ -266,7 +269,7 @@ def main():
     deck.text(4.0,4.05,5.55,.42,f'L2 / B7: SINR ≥17 — {n(lte["sinr_ge17_percent"])}%\nRSRQ >−12 — {n(lte["rsrq_gt_minus12_percent"])}%',11.5)
     deck.text(4.0,4.68,5.55,.25,f'DCS: C/I >20 — {n(dcs["ci_gt20_percent"])}% при I=−70 дБм',10.5)
     deck.text(.25,5.33,8.5,.18,'L2: P1, n=2,5; NF=7 дБ, β=0,5, ρ=0,8; I=−115 дБм/15 кГц. DCS: I в полосе 200 кГц.',8.8,color=MUTED)
-    deck.new('Оборудование и трассы\nследуют одной схеме',scripts[4][2])
+    deck.new('Оборудование и трассы\nследуют одной схеме')
     cards=[('АНТЕННЫ','32 In06','Два RF-порта на антенну\n64 антенных порта'),
            ('ГОЛОВНОЙ УЗЕЛ','6 PC221 · 8 PC211','Объединение операторов\nи диапазонов B3 / B1 / B7'),
            ('РАСПРЕДЕЛИТЕЛИ','9 PC250 · 16 PC252','Парные и четверные группы\nСхема распределения 2+2+4'),
@@ -275,7 +278,7 @@ def main():
            ('ДЖАМПЕРЫ','113 × 3 м','101 рабочий + 12 резервных\nВключая четыре местных')]
     for i,(label,value,detail) in enumerate(cards):deck.card(.2+(i%3)*3.23,1.99+(i//3)*1.65,3.14,1.53,label,value,detail)
     deck.text(.25,5.33,8.5,.18,'Условия комплектации: нагрузки 50 Ом, интерфейсы RF-портов и пожарное исполнение кабелей.',9.1,color=MUTED)
-    deck.new('Три решения, которые\nопределяют результат',scripts[5][2])
+    deck.new('Три решения, которые\nопределяют результат')
     for i,(label,value,detail) in enumerate([('МОДЕЛЬ СПРОСА','1 LTE-сектор','13 пользователей с данными\n104 Мбит/с полезного DL'),
                                           ('РАЗМЕЩЕНИЕ','32 антенны',f'B7 при n=3: {n(n3)}%\nДве независимые MIMO-ветви'),
                                           ('ДЕЛЕНИЕ МОЩНОСТИ','2 + 2 + 4','Доли 1/4, 1/8 и 1/16\nв каждой группе')]):
@@ -298,7 +301,7 @@ def main():
             pending_profile_fields=pending,official_template_available=True,photo_available=photo.exists(),
             template_sha256=hashlib.sha256(TEMPLATE.read_bytes()).hexdigest(),rendered_from_pptx=True,
             quality_report_sha256=hashlib.sha256((ROOT/'design/final/quality/quality-report.json').read_bytes()).hexdigest(),
-            rendered_fonts=fonts,personal_rehearsal_done=False),ensure_ascii=False,indent=2)+'\n')
+            rendered_fonts=fonts,speaker_notes_included=False,personal_rehearsal_done=False),ensure_ascii=False,indent=2)+'\n')
     print(f'Presentation: six slides, {word_count} words, official template, actual PPTX render checked; photo={photo.exists()}')
 
 if __name__=='__main__':main()

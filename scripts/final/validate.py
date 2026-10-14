@@ -230,8 +230,9 @@ def main():
             with zipfile.ZipFile(template) as original, zipfile.ZipFile(ROOT/'presentation/defense.pptx') as result:
                 fonts={name:original.read(name) for name in original.namelist() if name.startswith('ppt/fonts/')}
                 assert fonts and all(result.read(name)==content for name,content in fonts.items())
-            notes='\n'.join(s.notes_slide.notes_text_frame.text for s in final_prs.slides)
-            assert 'github' not in notes.lower() and '[заполнить]' not in notes
+            for path in (ROOT/'presentation/defense.pptx',ROOT/'submission/final/05-defense.pptx'):
+                with zipfile.ZipFile(path) as result:
+                    assert not any(name.startswith('ppt/notesSlides/') for name in result.namelist()),path
             import fitz
             with fitz.open(ROOT/'presentation/defense-preview.pdf') as rendered:
                 assert len(rendered)==6
@@ -246,7 +247,7 @@ def main():
                 assert re.search(r'25\s*→\s*2\s*\(k=1,10\)\s*→\s*1',rendered_text)
                 assert 'SINR' in rendered_text and 'RSRQ' in rendered_text
         for slide in final_prs.slides:
-            assert slide.has_notes_slide
+            assert not slide.has_notes_slide
             for shape in slide.shapes:
                 assert shape.left>=0 and shape.top>=0
                 assert shape.left+shape.width<=final_prs.slide_width+1 and shape.top+shape.height<=final_prs.slide_height+1

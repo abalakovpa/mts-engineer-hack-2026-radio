@@ -18,7 +18,7 @@ LTE B3/B1/B7, MIMO 2×2, площадь 2100 м². Подготовлены пя
 | [02-floor-design.pdf](submission/final/02-floor-design.pdf) | План, схемы подключения, карты покрытия и ведомости |
 | [03-rsrp.pdf](submission/final/03-rsrp.pdf) | RSRP, 384 контрольных значения, SINR/RSRQ/C/I и бюджеты помех |
 | [04-equipment.xlsx](submission/final/04-equipment.xlsx) | Спецификация, трассы, RF, качество, бюджеты помех и порты |
-| [05-defense.pptx](submission/final/05-defense.pptx) | Шесть слайдов с заметками для четырёхминутного выступления |
+| [05-defense.pptx](submission/final/05-defense.pptx) | Шесть слайдов для защиты, без заметок докладчика |
 
 Размер и контрольные суммы — в [манифесте](submission/manifest.json).
 Сдача: **14.10.2026, 23:59 МСК**. Загрузку выполняет участник;
