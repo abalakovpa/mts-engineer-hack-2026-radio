@@ -17,7 +17,7 @@ from pptx.util import Inches, Pt
 from pptx.oxml.xmlchemy import OxmlElement
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE, MSO_CONNECTOR
-from pptx.enum.text import MSO_AUTO_SIZE, PP_ALIGN
+from pptx.enum.text import MSO_ANCHOR, MSO_AUTO_SIZE, PP_ALIGN
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
@@ -87,13 +87,14 @@ class Deck:
         shape._element.spPr.append(OxmlElement('a:effectLst'))
         return shape
 
-    def text(self,x,y,w,h,value,size=14,heading=False,color=INK,align=PP_ALIGN.LEFT):
+    def text(self,x,y,w,h,value,size=14,heading=False,color=INK,align=PP_ALIGN.LEFT,valign=MSO_ANCHOR.TOP):
         lines=wrap(value,size,w-.04)
         leading=size*1.18
         assert len(lines)*leading<=h*72+.5,(self.index,value,len(lines)*leading,h*72)
         shape=self.slide.shapes.add_textbox(Inches(x),Inches(y),Inches(w),Inches(h))
         frame=shape.text_frame
         frame.margin_left=frame.margin_right=frame.margin_top=frame.margin_bottom=0
+        frame.vertical_anchor=valign
         frame.word_wrap=False;frame.auto_size=MSO_AUTO_SIZE.NONE
         for i,line in enumerate(lines):
             p=frame.paragraphs[0] if i==0 else frame.add_paragraph()
@@ -248,9 +249,12 @@ def main():
     deck.text(.42,5.0,3.0,.19,'План первого этажа · 32 In06',10,color=MUTED,align=PP_ALIGN.CENTER)
     deck.text(4.0,2.14,5.6,.33,'На каждой MIMO-ветви',17,True)
     deck.text(4.0,2.64,5.6,.35,'PC221 ×3 → PC211 ×4 → группы Z1–Z4',15)
+    group_width=(5.6-3*.16)/4
     for i in range(4):
-        x=4.0+i*1.42;deck.rect(x,3.16,1.28,.57,'FFF1F5',line=RED)
-        deck.text(x,3.28,1.28,.26,f'Z{i+1}: 8 In06',12,align=PP_ALIGN.CENTER)
+        x=4.0+i*(group_width+.16)
+        deck.rect(x,3.16,group_width,.57,'FFF1F5',line=RED)
+        deck.text(x,3.16,group_width,.57,f'Z{i+1}: 8 In06',12,
+                  align=PP_ALIGN.CENTER,valign=MSO_ANCHOR.MIDDLE)
     deck.text(4.0,3.98,5.6,.33,'В группе: 2 напрямую + 2 через PC250 + 4 через PC252',12.8)
     deck.text(4.0,4.59,5.6,.36,'Доли мощности: 1/4 · 1/8 · 1/16\nM1 и M2 подключены к разным портам антенн.',11)
     deck.text(.25,5.33,8.5,.18,'Головной узел — проектная зона 104.2. Высоты антенны / UE: 7 / 1,5 м.',9.1,color=MUTED)
