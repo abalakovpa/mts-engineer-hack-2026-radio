@@ -12,6 +12,9 @@ LTE B3/B1/B7, MIMO 2×2, площадь 2100 м². Подготовлены пя
 [Архив пяти файлов](submission/mts-radio-final.zip) — технические документы
 и презентация на официальном шаблоне.
 
+Версия для сдачи: [`submission-2026-10-14`](https://github.com/abalakovpa/mts-engineer-hack-2026-radio/tree/submission-2026-10-14).
+[Итоговая сверка с ТЗ и проверка файлов](submission/REVIEW.md).
+
 | Файл | Содержание |
 | --- | --- |
 | [01-capacity.pdf](submission/final/01-capacity.pdf) | Изменение ёмкостного расчёта относительно онлайн-этапа |

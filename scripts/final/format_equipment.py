@@ -67,10 +67,20 @@ def format_equipment():
         cell=sheet.cell(row,6)
         if cell.value=='Проектная аппроксимация CAD-лотков; без запаса':cell.value='По проектной трассе лотков; без закупочного резерва'
     for sheet in workbook:
+        for row in sheet.iter_rows(min_row=2):
+            for cell in row:
+                if isinstance(cell.value,float):
+                    cell.number_format='0.00'
+        precise_columns={'Трассы':('D','E'),'Размещение':('C','D')}.get(sheet.title,())
+        for column in precise_columns:
+            for cell in sheet[column][1:]:
+                if isinstance(cell.value,(int,float)) and not isinstance(cell.value,bool):
+                    cell.number_format='0.0000' if sheet.title=='Трассы' else '0.000'
         widths={sheet.cell(1,i).column_letter:
                 sheet.column_dimensions[sheet.cell(1,i).column_letter].width
                 for i in range(1,sheet.max_column+1)}
         style(sheet,widths)
+        sheet.print_options.horizontalCentered=True
     workbook.save(path)
     print(f'Technical equipment workbook: {len(workbook.sheetnames)} sheets.')
 
