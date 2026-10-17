@@ -5,6 +5,8 @@ import re
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Paragraph
 from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.enums import TA_JUSTIFY
 
 from build_learning_manual import (
     W, MARGIN, CONTENT, RED, INK, GRAY, LINE, rich,
@@ -101,5 +103,86 @@ def build():
           f'{total_words} speech words; {OUTPUT.stat().st_size:,} bytes')
 
 
+def build_a4():
+    """A conventional A4 handout, two consecutive slides on each page."""
+    output = ROOT / 'presentation/speech-cards-a4.pdf'
+    width, height = A4
+    margin = 50
+    available = width - 2 * margin
+    speech = ParagraphStyle('a4-speech', fontName='Guide', fontSize=12.5,
+                            leading=17, alignment=TA_JUSTIFY, textColor=INK)
+    title = ParagraphStyle('a4-title', parent=speech, fontName='GuideBold',
+                           fontSize=16, leading=20, alignment=0)
+    note = ParagraphStyle('a4-note', parent=speech, fontSize=9.5,
+                          leading=12.5, textColor=GRAY, alignment=0)
+    anchor = ParagraphStyle('a4-anchor', parent=speech, fontSize=10.3,
+                            leading=13.5, alignment=0)
+    c = canvas.Canvas(str(output), pagesize=A4, pageCompression=1,
+                      initialFontName='Guide', initialFontSize=12.5)
+    c.setTitle('Текст выступления — шесть слайдов, A4')
+    c.setAuthor('Павел Абалаков')
+    cards = parse()
+    elapsed = 0
+    y = 0
+
+    def draw(text, style, gap=6):
+        nonlocal y
+        paragraph = Paragraph(rich(text), style)
+        _, required = paragraph.wrap(available, height)
+        if y-required < 44:
+            raise RuntimeError(f'A4 page overflow: {text[:60]}')
+        paragraph.drawOn(c, margin, y-required)
+        y -= required + gap
+
+    for index, (header, seconds, paragraphs, anchors) in enumerate(cards):
+        if index % 2 == 0:
+            c.setFillColor(INK)
+            c.setFont('GuideBold', 14)
+            c.drawString(margin, height-34, 'Текст выступления')
+            c.setFillColor(GRAY)
+            c.setFont('Guide', 9)
+            c.drawRightString(width-margin, height-34, 'МТС Engineer Hack · 4 минуты')
+            c.setStrokeColor(RED)
+            c.setLineWidth(1)
+            c.line(margin, height-45, width-margin, height-45)
+            y = height-61
+        else:
+            y -= 5
+            c.setStrokeColor(LINE)
+            c.setLineWidth(.5)
+            c.line(margin, y, width-margin, y)
+            y -= 19
+        c.bookmarkPage(f'slide{index+1}')
+        c.addOutlineEntry(f'Слайд {header}', f'slide{index+1}', 0)
+        draw(header, title, 3)
+        start = f'{elapsed//60}:{elapsed%60:02d}'
+        elapsed += seconds
+        end = f'{elapsed//60}:{elapsed%60:02d}'
+        draw(f'Ориентир: {seconds} с · общий план {start}–{end}', note, 9)
+        for paragraph in paragraphs:
+            draw(paragraph, speech, 6)
+        draw('ОПОРЫ ДЛЯ ПОВТОРЕНИЯ — НЕ ВХОДЯТ В ТЕКСТ ДОКЛАДА',
+             ParagraphStyle('a4-label', parent=note, fontName='GuideBold',
+                            fontSize=9, textColor=RED), 4)
+        for item in anchors:
+            draw('• '+item, anchor, 2)
+        if index % 2 == 1:
+            c.setStrokeColor(LINE)
+            c.setLineWidth(.5)
+            c.line(margin, 32, width-margin, 32)
+            c.setFillColor(GRAY)
+            c.setFont('Guide', 8.5)
+            c.drawString(margin, 19, 'Тайминг плановый. Перед защитой проверить с таймером.')
+            c.drawRightString(width-margin, 19, f'{index//2+1} / 3')
+            print(f'A4 page {index//2+1}: last content y={y:.1f}')
+            c.showPage()
+    c.save()
+    print(f'Built {output.relative_to(ROOT)}: 3 A4 pages; {output.stat().st_size:,} bytes')
+
+
 if __name__ == '__main__':
-    build()
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--a4', action='store_true', help='Build the A4 laptop/print edition')
+    arguments = parser.parse_args()
+    build_a4() if arguments.a4 else build()
